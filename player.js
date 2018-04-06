@@ -1,12 +1,8 @@
-// http://tonejs.github.io/MidiConvert/
-
-// https://www.jellynote.com/en/sheet-music/mew/comforting-sounds#tabs:A
-
 $(document).ready(function() {
 //==============================================================================
 // Global Variables
 //==============================================================================
-	var instsFolder = './insts/'
+	var instsFolder = './insts/';
 
 	var playToggleSelector = '#playToggle'; // Seperated for StartAudioContext()
 	var startedPlaying = false;
@@ -28,12 +24,9 @@ $(document).ready(function() {
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
-	// Tone.Transport.bpm.value = 120;
-	// Set in loadJson;
-
 	StartAudioContext(Tone.context, playToggleSelector).then(function(){
-		loadJson('songs/cs.json');
-	})
+		loadJson('songs/csHB.json');
+	});
 
 //==============================================================================
 // Song Decoding Functions
