@@ -203,7 +203,7 @@ function loadJson(fileName) {
 
 	function drawVisualizer() {
 		$.each(insts, function(i, inst) {
-			$visualizer.append(songMeta.instrumentFamilies[i]);
+			$visualizer.append(songMeta.instrumentFamilies[i] + '<br>');
 
 			$.each(notes, function(j, note) {
 
