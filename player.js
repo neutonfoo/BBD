@@ -95,6 +95,15 @@ function loadJson(fileName) {
 				'baseUrl' : './drums/fixed/',
 				'volume' : -15
 			}).connect(newMeter).toMaster();
+		} else if(track.instrumentFamily == 'strings') {
+			newInstr = new Tone.Sampler({
+				'C5' : 'C5.mp3',
+				'F4' : 'F4.mp3'
+			}, {
+				'release' : 1,
+				'baseUrl' : './violin/',
+				'volume' : -5
+			}).connect(newMeter).toMaster();
 		} else if(track.instrumentFamily == 'guitar') {
 			// Export 1 notes from NoteFlight
 			// Amplify by max
