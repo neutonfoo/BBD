@@ -25,7 +25,7 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, playToggleSelector).then(function(){
-		loadJson('songs/ss.json');
+		loadJson('songs/shst.json');
 	});
 
 //==============================================================================
