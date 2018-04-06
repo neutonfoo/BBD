@@ -21,12 +21,20 @@ body {
 }
 
 @media all and (max-width : 685px) {
+	#mainContainer {
+		margin-bottom: 150px;
+	}
+
 	#footerContainer {
 		height: 100px;
 	}
 }
 
 @media all and (max-width : 468px) {
+	#mainContainer {
+		margin-bottom: 200px;
+	}
+
 	#footerContainer {
 		height: 150px;
 	}
