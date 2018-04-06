@@ -27,15 +27,13 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, playToggleSelector).then(function() {
-		loadJson('songs/shst.json');
+		loadJson('songs/csHB.json');
 	});
 
 //==============================================================================
 // Song Decoding Functions
 //==============================================================================
 function loadJson(fileName) {
-
-	Tone.context = new Tone.Context();
 
 	// Reset if new file is loaded
 	insts = [];
@@ -321,11 +319,11 @@ function loadJson(fileName) {
 	$changeSongButtons.on('click', function() {
 		pause();
 
-		// Have to manually dispose() all instruments
+		// Have to manually disconnect all instruments
 		// If not, sounds will still be queued
-		// $.each(insts, function(i, inst) {
-		// 	inst.dispose();
-		// });
+		$.each(insts, function(i, inst) {
+			inst.disconnect();
+		});
 
 		Tone.Transport.seconds = 0;
 
