@@ -32,6 +32,16 @@ body {
 	}
 }
 
+.note {
+	width:10px;
+	height:10px;
+	display: inline-block;
+}
+
+.noteSharp {
+	width:5px;
+}
+
 .footerItem {
 	border-radius: 25px;
 
