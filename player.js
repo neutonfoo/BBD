@@ -25,7 +25,7 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, playToggleSelector).then(function(){
-		loadJson('songs/csHB.json');
+		loadJson('songs/ss.json');
 	});
 
 //==============================================================================
@@ -73,6 +73,15 @@ function loadJson(fileName) {
 				'baseUrl' : './flute/',
 				'volume' : -5
 			}).connect(newMeter).toMaster();
+		} else if(track.instrumentFamily == 'brass') {
+			newInstr = new Tone.Sampler({
+				'F4' : 'F4.mp3',
+				'F5' : 'F5.mp3'
+			}, {
+				'release' : 2,
+				'baseUrl' : instsFolder + 'brass/',
+				'volume' : -10
+			}).connect(newMeter).toMaster();
 		} else if(track.instrumentFamily == 'bass') {
 			newInstr = new Tone.Sampler({
 				'A1' : 'A1.mp3',
@@ -96,7 +105,8 @@ function loadJson(fileName) {
 				'G2' : 'G2.mp3',
 				'D2' : 'D2.mp3',
 				'C#3' : 'Cs3.mp3',
-				'D#3' : 'Ds3.mp3'
+				'D#3' : 'Ds3.mp3',
+				'F2' : 'F2.mp3'
 			}, {
 				'release' : 1,
 				'baseUrl' : './drums/fixed/',
