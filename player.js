@@ -303,12 +303,23 @@ function loadJson(fileName) {
 // Toggle Button
 //==============================================================================
 	$playToggle.on('click', function() {
+		togglePlay()
+	});
+
+	$(document).on("keydown", function(e){
+    if(e.keyCode == 32){
+			togglePlay()
+      return false;//to fix the scrolling down on space bar key press
+    }
+	});
+
+	function togglePlay() {
 		if(!isPlaying) {
 			resume();
 		} else {
 			pause();
 		}
-	});
+	}
 
 	function resume() {
 		isPlaying = true;
