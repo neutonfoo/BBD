@@ -33,10 +33,7 @@ $(document).ready(function() {
 
 				var uploadedFile = e.originalEvent.dataTransfer.files[0];
 				if(uploadedFile.type == 'audio/midi') {
-					console.log('Is a midi');
-					convertMidiToOriginalJson(uploadedFile);
-				} else {
-					console.log('Not a midi');
+					convertMidiToOriginalJson(uploadedFile);					
 				}
 			}
 		}
