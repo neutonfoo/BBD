@@ -33,13 +33,13 @@ body {
 }
 
 .note {
-	width:10px;
-	height:10px;
 	display: inline-block;
+	font-size: 8pt;
+	color:#FFF;
+	opacity: 0;
 }
 
 .noteSharp {
-	width:5px;
 }
 
 .footerItem {
