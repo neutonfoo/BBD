@@ -102,7 +102,7 @@ function loadJson(fileName) {
 			}, {
 				'release' : 1,
 				'baseUrl' : './violin/',
-				'volume' : -5
+				'volume' : -7
 			}).connect(newMeter).toMaster();
 		} else if(track.instrumentFamily == 'guitar') {
 			// Export 1 notes from NoteFlight
