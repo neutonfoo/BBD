@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<title>BBD</title>
+	<link rel="stylesheet" href="main.css">
+	<!-- jQuery -->
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<!-- leanModal -->
+	<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+	<script type="text/javascript" src="modal.js"></script>
+	<!-- Tonejs -->
+	<script type="text/javascript" src="js/Tone.min.js"></script>
+	<script type="text/javascript" src="js/StartAudioContext.js"></script>
+	<!-- MidiConvert -->
+	<script type="text/javascript" src="js/MidiConvert.js"></script>
+	<!-- Converter and Player -->
+	<script type="text/javascript" src="converter.js"></script>
+	<script type="text/javascript" src="player.js"></script>
+</head>
+<body>
+	<div id="mainContainer">
+		<div id="visualizer"></div>
+
+		<hr>
+
+		<span id="track0noteC4" style="opacity: 0;">C4</span>
+		<span id="track0noteCs4" style="opacity: 0;">C#4</span>
+		<span id="track0noteD4" style="opacity: 0;">D4</span>
+		<span id="track0noteDs4" style="opacity: 0;">D#4</span>
+		<span id="track0noteE4" style="opacity: 0;">E4</span>
+		<span id="track0noteF4" style="opacity: 0;">F4</span>
+		<span id="track0noteFs4" style="opacity: 0;">F#4</span>
+		<span id="track0noteG4" style="opacity: 0;">G4</span>
+		<span id="track0noteGs4" style="opacity: 0;">G#4</span>
+		<span id="track0noteA4" style="opacity: 0;">A4</span>
+		<span id="track0noteAs4" style="opacity: 0;">A#4</span>
+		<span id="track0noteB4" style="opacity: 0;">B4</span>
+
+		<span id="track0noteC5" style="opacity: 0;">C5</span>
+		<span id="track0noteCs5" style="opacity: 0;">C#5</span>
+		<span id="track0noteD5" style="opacity: 0;">D5</span>
+		<span id="track0noteDs5" style="opacity: 0;">D#5</span>
+		<span id="track0noteE5" style="opacity: 0;">E5</span>
+		<span id="track0noteF5" style="opacity: 0;">F5</span>
+		<span id="track0noteFs5" style="opacity: 0;">F#5</span>
+		<span id="track0noteG5" style="opacity: 0;">G5</span>
+		<span id="track0noteGs5" style="opacity: 0;">G#5</span>
+		<span id="track0noteA5" style="opacity: 0;">A5</span>
+		<span id="track0noteAs5" style="opacity: 0;">A#5</span>
+		<span id="track0noteB5" style="opacity: 0;">B5</span>
+
+		<span id="track0noteC6" style="opacity: 0;">C6</span>
+		<span id="track0noteCs6" style="opacity: 0;">C#6</span>
+		<span id="track0noteD6" style="opacity: 0;">D6</span>
+		<span id="track0noteDs6" style="opacity: 0;">D#6</span>
+		<span id="track0noteE6" style="opacity: 0;">E6</span>
+		<span id="track0noteF6" style="opacity: 0;">F6</span>
+		<span id="track0noteFs6" style="opacity: 0;">F#6</span>
+		<span id="track0noteG6" style="opacity: 0;">G6</span>
+		<span id="track0noteGs6" style="opacity: 0;">G#6</span>
+		<span id="track0noteA6" style="opacity: 0;">A6</span>
+		<span id="track0noteAs6" style="opacity: 0;">A#6</span>
+		<span id="track0noteB6" style="opacity: 0;">B6</span>
+
+		<hr>
+
+		<span id="track1noteC4" style="opacity: 0;">C4</span>
+		<span id="track1noteCs4" style="opacity: 0;">C#4</span>
+		<span id="track1noteD4" style="opacity: 0;">D4</span>
+		<span id="track1noteDs4" style="opacity: 0;">D#4</span>
+		<span id="track1noteE4" style="opacity: 0;">E4</span>
+		<span id="track1noteF4" style="opacity: 0;">F4</span>
+		<span id="track1noteFs4" style="opacity: 0;">F#4</span>
+		<span id="track1noteG4" style="opacity: 0;">G4</span>
+		<span id="track1noteGs4" style="opacity: 0;">G#4</span>
+		<span id="track1noteA4" style="opacity: 0;">A4</span>
+		<span id="track1noteAs4" style="opacity: 0;">A#4</span>
+		<span id="track1noteB4" style="opacity: 0;">B4</span>
+
+		<span id="track1noteC5" style="opacity: 0;">C5</span>
+		<span id="track1noteCs5" style="opacity: 0;">C#5</span>
+		<span id="track1noteD5" style="opacity: 0;">D5</span>
+		<span id="track1noteDs5" style="opacity: 0;">D#5</span>
+		<span id="track1noteE5" style="opacity: 0;">E5</span>
+		<span id="track1noteF5" style="opacity: 0;">F5</span>
+		<span id="track1noteFs5" style="opacity: 0;">F#5</span>
+		<span id="track1noteG5" style="opacity: 0;">G5</span>
+		<span id="track1noteGs5" style="opacity: 0;">G#5</span>
+		<span id="track1noteA5" style="opacity: 0;">A5</span>
+		<span id="track1noteAs5" style="opacity: 0;">A#5</span>
+		<span id="track1noteB5" style="opacity: 0;">B5</span>
+
+		<span id="track1noteC6" style="opacity: 0;">C6</span>
+		<span id="track1noteCs6" style="opacity: 0;">C#6</span>
+		<span id="track1noteD6" style="opacity: 0;">D6</span>
+		<span id="track1noteDs6" style="opacity: 0;">D#6</span>
+		<span id="track1noteE6" style="opacity: 0;">E6</span>
+		<span id="track1noteF6" style="opacity: 0;">F6</span>
+		<span id="track1noteFs6" style="opacity: 0;">F#6</span>
+		<span id="track1noteG6" style="opacity: 0;">G6</span>
+		<span id="track1noteGs6" style="opacity: 0;">G#6</span>
+		<span id="track1noteA6" style="opacity: 0;">A6</span>
+		<span id="track1noteAs6" style="opacity: 0;">A#6</span>
+		<span id="track1noteB6" style="opacity: 0;">B6</span>
+
+		<hr>
+
+		<span id="track2noteC4" style="opacity: 0;">C4</span>
+		<span id="track2noteCs4" style="opacity: 0;">C#4</span>
+		<span id="track2noteD4" style="opacity: 0;">D4</span>
+		<span id="track2noteDs4" style="opacity: 0;">D#4</span>
+		<span id="track2noteE4" style="opacity: 0;">E4</span>
+		<span id="track2noteF4" style="opacity: 0;">F4</span>
+		<span id="track2noteFs4" style="opacity: 0;">F#4</span>
+		<span id="track2noteG4" style="opacity: 0;">G4</span>
+		<span id="track2noteGs4" style="opacity: 0;">G#4</span>
+		<span id="track2noteA4" style="opacity: 0;">A4</span>
+		<span id="track2noteAs4" style="opacity: 0;">A#4</span>
+		<span id="track2noteB4" style="opacity: 0;">B4</span>
+
+		<span id="track2noteC5" style="opacity: 0;">C5</span>
+		<span id="track2noteCs5" style="opacity: 0;">C#5</span>
+		<span id="track2noteD5" style="opacity: 0;">D5</span>
+		<span id="track2noteDs5" style="opacity: 0;">D#5</span>
+		<span id="track2noteE5" style="opacity: 0;">E5</span>
+		<span id="track2noteF5" style="opacity: 0;">F5</span>
+		<span id="track2noteFs5" style="opacity: 0;">F#5</span>
+		<span id="track2noteG5" style="opacity: 0;">G5</span>
+		<span id="track2noteGs5" style="opacity: 0;">G#5</span>
+		<span id="track2noteA5" style="opacity: 0;">A5</span>
+		<span id="track2noteAs5" style="opacity: 0;">A#5</span>
+		<span id="track2noteB5" style="opacity: 0;">B5</span>
+
+		<span id="track2noteC6" style="opacity: 0;">C6</span>
+		<span id="track2noteCs6" style="opacity: 0;">C#6</span>
+		<span id="track2noteD6" style="opacity: 0;">D6</span>
+		<span id="track2noteDs6" style="opacity: 0;">D#6</span>
+		<span id="track2noteE6" style="opacity: 0;">E6</span>
+		<span id="track2noteF6" style="opacity: 0;">F6</span>
+		<span id="track2noteFs6" style="opacity: 0;">F#6</span>
+		<span id="track2noteG6" style="opacity: 0;">G6</span>
+		<span id="track2noteGs6" style="opacity: 0;">G#6</span>
+		<span id="track2noteA6" style="opacity: 0;">A6</span>
+		<span id="track2noteAs6" style="opacity: 0;">A#6</span>
+		<span id="track2noteB6" style="opacity: 0;">B6</span>
+
+		<hr>
+
+		<span id="track3noteC4" style="opacity: 0;">C4</span>
+		<span id="track3noteCs4" style="opacity: 0;">C#4</span>
+		<span id="track3noteD4" style="opacity: 0;">D4</span>
+		<span id="track3noteDs4" style="opacity: 0;">D#4</span>
+		<span id="track3noteE4" style="opacity: 0;">E4</span>
+		<span id="track3noteF4" style="opacity: 0;">F4</span>
+		<span id="track3noteFs4" style="opacity: 0;">F#4</span>
+		<span id="track3noteG4" style="opacity: 0;">G4</span>
+		<span id="track3noteGs4" style="opacity: 0;">G#4</span>
+		<span id="track3noteA4" style="opacity: 0;">A4</span>
+		<span id="track3noteAs4" style="opacity: 0;">A#4</span>
+		<span id="track3noteB4" style="opacity: 0;">B4</span>
+
+		<span id="track3noteC5" style="opacity: 0;">C5</span>
+		<span id="track3noteCs5" style="opacity: 0;">C#5</span>
+		<span id="track3noteD5" style="opacity: 0;">D5</span>
+		<span id="track3noteDs5" style="opacity: 0;">D#5</span>
+		<span id="track3noteE5" style="opacity: 0;">E5</span>
+		<span id="track3noteF5" style="opacity: 0;">F5</span>
+		<span id="track3noteFs5" style="opacity: 0;">F#5</span>
+		<span id="track3noteG5" style="opacity: 0;">G5</span>
+		<span id="track3noteGs5" style="opacity: 0;">G#5</span>
+		<span id="track3noteA5" style="opacity: 0;">A5</span>
+		<span id="track3noteAs5" style="opacity: 0;">A#5</span>
+		<span id="track3noteB5" style="opacity: 0;">B5</span>
+
+		<span id="track3noteC6" style="opacity: 0;">C6</span>
+		<span id="track3noteCs6" style="opacity: 0;">C#6</span>
+		<span id="track3noteD6" style="opacity: 0;">D6</span>
+		<span id="track3noteDs6" style="opacity: 0;">D#6</span>
+		<span id="track3noteE6" style="opacity: 0;">E6</span>
+		<span id="track3noteF6" style="opacity: 0;">F6</span>
+		<span id="track3noteFs6" style="opacity: 0;">F#6</span>
+		<span id="track3noteG6" style="opacity: 0;">G6</span>
+		<span id="track3noteGs6" style="opacity: 0;">G#6</span>
+		<span id="track3noteA6" style="opacity: 0;">A6</span>
+		<span id="track3noteAs6" style="opacity: 0;">A#6</span>
+		<span id="track3noteB6" style="opacity: 0;">B6</span>
+
+		<hr>
+
+		<span id="track4noteC4" style="opacity: 0;">C4</span>
+		<span id="track4noteCs4" style="opacity: 0;">C#4</span>
+		<span id="track4noteD4" style="opacity: 0;">D4</span>
+		<span id="track4noteDs4" style="opacity: 0;">D#4</span>
+		<span id="track4noteE4" style="opacity: 0;">E4</span>
+		<span id="track4noteF4" style="opacity: 0;">F4</span>
+		<span id="track4noteFs4" style="opacity: 0;">F#4</span>
+		<span id="track4noteG4" style="opacity: 0;">G4</span>
+		<span id="track4noteGs4" style="opacity: 0;">G#4</span>
+		<span id="track4noteA4" style="opacity: 0;">A4</span>
+		<span id="track4noteAs4" style="opacity: 0;">A#4</span>
+		<span id="track4noteB4" style="opacity: 0;">B4</span>
+
+		<span id="track4noteC5" style="opacity: 0;">C5</span>
+		<span id="track4noteCs5" style="opacity: 0;">C#5</span>
+		<span id="track4noteD5" style="opacity: 0;">D5</span>
+		<span id="track4noteDs5" style="opacity: 0;">D#5</span>
+		<span id="track4noteE5" style="opacity: 0;">E5</span>
+		<span id="track4noteF5" style="opacity: 0;">F5</span>
+		<span id="track4noteFs5" style="opacity: 0;">F#5</span>
+		<span id="track4noteG5" style="opacity: 0;">G5</span>
+		<span id="track4noteGs5" style="opacity: 0;">G#5</span>
+		<span id="track4noteA5" style="opacity: 0;">A5</span>
+		<span id="track4noteAs5" style="opacity: 0;">A#5</span>
+		<span id="track4noteB5" style="opacity: 0;">B5</span>
+
+		<span id="track4noteC6" style="opacity: 0;">C6</span>
+		<span id="track4noteCs6" style="opacity: 0;">C#6</span>
+		<span id="track4noteD6" style="opacity: 0;">D6</span>
+		<span id="track4noteDs6" style="opacity: 0;">D#6</span>
+		<span id="track4noteE6" style="opacity: 0;">E6</span>
+		<span id="track4noteF6" style="opacity: 0;">F6</span>
+		<span id="track4noteFs6" style="opacity: 0;">F#6</span>
+		<span id="track4noteG6" style="opacity: 0;">G6</span>
+		<span id="track4noteGs6" style="opacity: 0;">G#6</span>
+		<span id="track4noteA6" style="opacity: 0;">A6</span>
+		<span id="track4noteAs6" style="opacity: 0;">A#6</span>
+		<span id="track4noteB6" style="opacity: 0;">B6</span>
+
+		<hr>
+
+		<span id="track5noteC4" style="opacity: 0;">C4</span>
+		<span id="track5noteCs4" style="opacity: 0;">C#4</span>
+		<span id="track5noteD4" style="opacity: 0;">D4</span>
+		<span id="track5noteDs4" style="opacity: 0;">D#4</span>
+		<span id="track5noteE4" style="opacity: 0;">E4</span>
+		<span id="track5noteF4" style="opacity: 0;">F4</span>
+		<span id="track5noteFs4" style="opacity: 0;">F#4</span>
+		<span id="track5noteG4" style="opacity: 0;">G4</span>
+		<span id="track5noteGs4" style="opacity: 0;">G#4</span>
+		<span id="track5noteA4" style="opacity: 0;">A4</span>
+		<span id="track5noteAs4" style="opacity: 0;">A#4</span>
+		<span id="track5noteB4" style="opacity: 0;">B4</span>
+
+		<span id="track5noteC5" style="opacity: 0;">C5</span>
+		<span id="track5noteCs5" style="opacity: 0;">C#5</span>
+		<span id="track5noteD5" style="opacity: 0;">D5</span>
+		<span id="track5noteDs5" style="opacity: 0;">D#5</span>
+		<span id="track5noteE5" style="opacity: 0;">E5</span>
+		<span id="track5noteF5" style="opacity: 0;">F5</span>
+		<span id="track5noteFs5" style="opacity: 0;">F#5</span>
+		<span id="track5noteG5" style="opacity: 0;">G5</span>
+		<span id="track5noteGs5" style="opacity: 0;">G#5</span>
+		<span id="track5noteA5" style="opacity: 0;">A5</span>
+		<span id="track5noteAs5" style="opacity: 0;">A#5</span>
+		<span id="track5noteB5" style="opacity: 0;">B5</span>
+
+		<span id="track5noteC6" style="opacity: 0;">C6</span>
+		<span id="track5noteCs6" style="opacity: 0;">C#6</span>
+		<span id="track5noteD6" style="opacity: 0;">D6</span>
+		<span id="track5noteDs6" style="opacity: 0;">D#6</span>
+		<span id="track5noteE6" style="opacity: 0;">E6</span>
+		<span id="track5noteF6" style="opacity: 0;">F6</span>
+		<span id="track5noteFs6" style="opacity: 0;">F#6</span>
+		<span id="track5noteG6" style="opacity: 0;">G6</span>
+		<span id="track5noteGs6" style="opacity: 0;">G#6</span>
+		<span id="track5noteA6" style="opacity: 0;">A6</span>
+		<span id="track5noteAs6" style="opacity: 0;">A#6</span>
+		<span id="track5noteB6" style="opacity: 0;">B6</span>
+
+	</div>
+	<div id="footerContainer">
+		<a href="#"><span id="rewindTimeline" class="footerItem"><img src="open-iconic/media-step-backward.svg"></span></a>
+		<a href="#"><span id="playToggle" class="footerItem"><img src="open-iconic/media-play.svg"></span></a>
+		<span id="timeline" class="footerItem timeline">
+			<div class="slidecontainer">
+			  <input id="timelineSlider" type="range" min="0" max="100" value="0" class="slider">
+			</div>
+		</span>
+		<a id="converterListener" href="#converterModal"><span id="converter" class="footerItem"><img src="open-iconic/project.svg"></span></a>
+		<a id="aboutListener" href="#aboutModal"><span id="about" class="footerItem"><img src="open-iconic/info.svg"></span></a>
+		<!-- <a id="extraListener" href="#extraModal"><span id="extra" class="footerItem"><img src="open-iconic/moon.svg"></span></a> -->
+		<a id="thanksListener" href="#thanksModal"><span id="thanks" class="footerItem"><img src="open-iconic/heart.svg"></span></a>
+		<a href="#"><span id="github" class="footerItem"><img src="open-iconic/code.svg"></span></a>
+	</div>
+	<!-- Modals -->
+	<div id="converterModal" class="modal">
+		<h1>Converter</h1>
+		<div class="modalBody">
+			<div id="midiDropZone">
+				Drop *.midi file here
+			</div>
+			Original Json
+			<br>
+			<textarea id="originalJson" class="converterTextarea" rows="8"></textarea>
+			<br>
+			Adjusted Json
+			<br>
+			<textarea id="adjustedJson" class="converterTextarea" rows="8"></textarea>
+			<br>
+			<input id="convert" type="button" value="Convert">
+		</div>
+	</div>
+	<div id="aboutModal" class="modal">
+		<h1>To do</h1>
+		<div class="modalBody">
+			<ul>
+				<li>Fix converter - More instrument compatibility</li>
+				<li>Come up with a better visualizer
+					<a href="https://github.com/Tonejs/Tone.js/blob/master/examples/animationSync.html">https://github.com/Tonejs/Tone.js/blob/master/examples/animationSync.html</a>
+				</li>
+				<li>Fix CSS</li>
+			</ul>
+		</div>
+		<h1>Libraries</h1>
+		<div class="modalBody">
+			<ul>
+				<li>Powered by <a href="https://tonejs.github.io/">tonejs</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">Web Audio API</a>.</li>
+				<li>Icons by <a href="https://useiconic.com/open">Open Iconic</a>.</li>
+				<li>Modal by <a href="http://leanmodal.finelysliced.com.au/">Lean Modal</a>.</li>
+			</ul>
+		</div>
+	</div>
+	<div id="thanksModal" class="modal">
+		<h1>For</h1>
+		<div class="modalBody">
+			<img src="3-quinuclidinyl-benzilate.png" alt="">
+		</div>
+		<h1>Special Thanks</h1>
+		<div class="modalBody">
+		</div>
+	</div>
+</body>
+</html>
