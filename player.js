@@ -73,14 +73,21 @@ function loadJson(fileName) {
 				'baseUrl' : './flute/',
 				'volume' : -5
 			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'bass' || track.instrumentFamily == 'emsemble') {
+		} else if(track.instrumentFamily == 'bass') {
 			newInstr = new Tone.Sampler({
+				'A1' : 'A1.mp3',
+				'C2' : 'C2.mp3',
+				'A2' : 'A2.mp3',
+				'A3' : 'A3.mp3',
 				'C4' : 'C4.mp3',
-				'C6' : 'C6.mp3'
+				'A4' : 'A4.mp3',
+				'C5' : 'C5.mp3',
+				'F5' : 'F5.mp3',
+				'A5' : 'A5.mp3'
 			}, {
 				'release' : 2,
-				'baseUrl' : './doublebass/',
-				'volume' : -15
+				'baseUrl' : instsFolder + 'doublebass/',
+				'volume' : -10
 			}).connect(newMeter).toMaster();
 		} else if(track.instrumentFamily == 'drums') {
 			newInstr = new Tone.Sampler({
@@ -98,18 +105,14 @@ function loadJson(fileName) {
 		} else if(track.instrumentFamily == 'strings') {
 			newInstr = new Tone.Sampler({
 				'C5' : 'C5.mp3',
-				'F4' : 'F4.mp3'
+				'F5' : 'F5.mp3',
+				'A5' : 'A5.mp3'
 			}, {
 				'release' : 1,
-				'baseUrl' : './violin/',
+				'baseUrl' : instsFolder + 'violin/',
 				'volume' : -7
 			}).connect(newMeter).toMaster();
 		} else if(track.instrumentFamily == 'guitar') {
-			// Export 1 notes from NoteFlight
-			// Amplify by max
-			// Trim from 0.440 to end
-			// Export as mp3
-
 			newInstr = new Tone.Sampler({
 				'C4' : 'C4.mp3',
 				'D4' : 'D4.mp3'
@@ -171,8 +174,9 @@ function loadJson(fileName) {
 			var noteCSS = '#track' + i + 'note' + note.name.replace('#', 's');
 
 			newInstr.triggerAttackRelease(note.name, note.duration, time, note.velocity);
+
 			Tone.Draw.schedule(function() {
-				$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, 300)
+				$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note.duration * 1000)
 			}, time);
 
 
