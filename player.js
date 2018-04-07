@@ -2,8 +2,6 @@ $(document).ready(function() {
 //==============================================================================
 // Global Variables
 //==============================================================================
-	var instsFolder = './insts/';
-
 	var playToggleSelector = '#playToggle'; // Seperated for StartAudioContext()
 	var startedPlaying = false;
 	var isPlaying = false;
@@ -30,35 +28,15 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, playToggleSelector).then(function() {
-		loadBuffers()
-		loadJson('songs/csHB.json');
+		setTimeout(function() {
+			loadJson('songs/csHB.json');
+		}, 2000)
 	});
 
 //==============================================================================
 // Song Decoding Functions
 //==============================================================================
-
-var stringSamples;
-
-	function loadBuffers() {
-		stringSamples = new Tone.Buffers({
-			'C5' : 'C5.mp3',
-			'F5' : 'F5.mp3',
-			'A5' : 'A5.mp3'
-		}, {
-			'baseUrl': instsFolder + 'violin/',
-			'onload': function() {
-				console.log('Loaded')
-			}
-		});
-
-	}
-
-//==============================================================================
-// Song Decoding Functions
-//==============================================================================
 function loadJson(fileName) {
-
 	// Reset if new file is loaded
 	insts = [];
 	meters = [];
@@ -71,7 +49,7 @@ function loadJson(fileName) {
 	$.ajax({
 		dataType: 'json',
 		url: fileName,
-		async: false
+		async: false // Need to fix
 	})
 	.done(function(data) {
 		songJson = data;
@@ -107,121 +85,55 @@ function getInstrumentMetaFromInstrumentFamily(instrumentFamily) {
 	var newMeter = new Tone.Meter();
 	var newInstr;
 
-	if(instrumentFamily == 'reed') {
-		newInstr = new Tone.Sampler({
-			'C4' : 'C4.mp3'
-		}, {
-			'release' : 2,
-			'baseUrl' : './flute/',
-			'volume' : -5
-		}).connect(newMeter).toMaster();
-	} else if(instrumentFamily == 'brass') {
-		newInstr = new Tone.Sampler({
-			'F4' : 'F4.mp3',
-			'F5' : 'F5.mp3'
-		}, {
-			'release' : 2,
-			'baseUrl' : instsFolder + 'brass/',
-			'volume' : -10
-		}).connect(newMeter).toMaster();
-	} else if(instrumentFamily == 'bass') {
-		newInstr = new Tone.Sampler({
-			'A1' : 'A1.mp3',
-			'C2' : 'C2.mp3',
-			'A2' : 'A2.mp3',
-			'A3' : 'A3.mp3',
-			'C4' : 'C4.mp3',
-			'A4' : 'A4.mp3',
-			'C5' : 'C5.mp3',
-			'F5' : 'F5.mp3',
-			'A5' : 'A5.mp3'
-		}, {
-			'release' : 2,
-			'baseUrl' : instsFolder + 'doublebass/',
-			'volume' : -10
-		}).connect(newMeter).toMaster();
-	} else if(instrumentFamily == 'drums') {
-		newInstr = new Tone.Sampler({
-			'G#2' : 'Gs2.mp3',
-			'B1' : 'B1.mp3',
-			'G2' : 'G2.mp3',
-			'D2' : 'D2.mp3',
-			'C#3' : 'Cs3.mp3',
-			'D#3' : 'Ds3.mp3',
-			'F2' : 'F2.mp3'
-		}, {
+	if(instrumentFamily == 'bass') {
+		newInstr = new Tone.Sampler({}, {
 			'release' : 1,
-			'baseUrl' : './drums/fixed/',
 			'volume' : -15
-		}).connect(newMeter).toMaster();
+		});
+		$.each(samplesNotes.bass, function(i, sampleNote) {
+			newInstr.add(i, buffers.bass.get(i));
+		});
+		newInstr.connect(newMeter).toMaster();
+
+	} else if(instrumentFamily == 'drums') {
+		newInstr = new Tone.Sampler({}, {
+			'release' : 1,
+			'volume' : -15
+		});
+		$.each(samplesNotes.drums, function(i, sampleNote) {
+			newInstr.add(i, buffers.drums.get(i));
+		});
+		newInstr.connect(newMeter).toMaster();
+
 	} else if(instrumentFamily == 'strings') {
-		console.log('created strings')
-		// newInstr = new Tone.Sampler({
-		// 	'C5' : 'C5.mp3',
-		// 	'F5' : 'F5.mp3',
-		// 	'A5' : 'A5.mp3'
-		// }, {
-		// 	'release' : 1,
-		// 	'baseUrl' : instsFolder + 'violin/',
-		// 	'volume' : -7
-		// }).connect(newMeter).toMaster();
-
-		newInstr = new Tone.Sampler();
-
-		newInstr.add('C5', stringSamples.get('C5'));
-		newInstr.add('F5', stringSamples.get('F5'));
-		newInstr.add('A5', stringSamples.get('A5'));
-
-		newInstr.release = 1;
-		newInstr.volume = -7;
-
+		newInstr = new Tone.Sampler({}, {
+			'release' : 1,
+			'volume' : -15
+		});
+		$.each(samplesNotes.strings, function(i, sampleNote) {
+			newInstr.add(i, buffers.strings.get(i));
+		});
 		newInstr.connect(newMeter).toMaster();
 
 	} else if(instrumentFamily == 'guitar') {
-		newInstr = new Tone.Sampler({
-			'C4' : 'C4.mp3',
-			'D4' : 'D4.mp3'
-		}, {
+		newInstr = new Tone.Sampler({}, {
 			'release' : 1,
-			'baseUrl' : './guitar/',
 			'volume' : -8
-		}).connect(newMeter).toMaster();
+		});
+		$.each(samplesNotes.guitar, function(i, sampleNote) {
+			newInstr.add(i, buffers.guitar.get(i));
+		});
+		newInstr.connect(newMeter).toMaster();
+
 	} else if(instrumentFamily == 'piano') {
-		newInstr = new Tone.Sampler({
-			'A0' : 'A0.[mp3|ogg]',
-			'C1' : 'C1.[mp3|ogg]',
-			'D#1' : 'Ds1.[mp3|ogg]',
-			'F#1' : 'Fs1.[mp3|ogg]',
-			'A1' : 'A1.[mp3|ogg]',
-			'C2' : 'C2.[mp3|ogg]',
-			'D#2' : 'Ds2.[mp3|ogg]',
-			'F#2' : 'Fs2.[mp3|ogg]',
-			'A2' : 'A2.[mp3|ogg]',
-			'C3' : 'C3.[mp3|ogg]',
-			'D#3' : 'Ds3.[mp3|ogg]',
-			'F#3' : 'Fs3.[mp3|ogg]',
-			'A3' : 'A3.[mp3|ogg]',
-			'C4' : 'C4.[mp3|ogg]',
-			'D#4' : 'Ds4.[mp3|ogg]',
-			'F#4' : 'Fs4.[mp3|ogg]',
-			'A4' : 'A4.[mp3|ogg]',
-			'C5' : 'C5.[mp3|ogg]',
-			'D#5' : 'Ds5.[mp3|ogg]',
-			'F#5' : 'Fs5.[mp3|ogg]',
-			'A5' : 'A5.[mp3|ogg]',
-			'C6' : 'C6.[mp3|ogg]',
-			'D#6' : 'Ds6.[mp3|ogg]',
-			'F#6' : 'Fs6.[mp3|ogg]',
-			'A6' : 'A6.[mp3|ogg]',
-			'C7' : 'C7.[mp3|ogg]',
-			'D#7' : 'Ds7.[mp3|ogg]',
-			'F#7' : 'Fs7.[mp3|ogg]',
-			'A7' : 'A7.[mp3|ogg]',
-			'C8' : 'C8.[mp3|ogg]'
-		}, {
-			'release' : 1,
-			'baseUrl' : './piano/'
-		}).connect(newMeter).toMaster();
+		newInstr = new Tone.Sampler({}, {
+			'release' : 1
+		});
+		$.each(samplesNotes.piano, function(i, sampleNote) {
+			newInstr.add(i, buffers.piano.get(i));
+		});
+		newInstr.connect(newMeter).toMaster();
+
 	} else {
 		newInstr = new Tone.PolySynth(4).connect(newMeter).toMaster();
 	}
