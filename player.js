@@ -25,7 +25,7 @@ $(document).ready(function() {
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
-	StartAudioContext(Tone.context, playToggleSelector).then(function() {
+	StartAudioContext(Tone.context, '.changeSong').then(function() {
 		loadJson('songs/csOp.json');
 	});
 
@@ -150,9 +150,7 @@ function assignNotesToInst(trackId, inst, notes) {
 			$visualizer.append(selectBoxHtml);
 
 			$.each(notes, function(k, note) {
-
 				var className = 'note'
-
 				if(note.includes('#')) {
 					className += ' noteSharp'
 				}
@@ -174,7 +172,6 @@ function assignNotesToInst(trackId, inst, notes) {
 // Instrument Switcher
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
-
 	pause();
 
 	var trackId = $(this).attr('id').replace('track', '');

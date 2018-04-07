@@ -11,6 +11,14 @@
 	var samplesInsts = {}
 
 //==============================================================================
+// Voice Sampling for lulz
+//==============================================================================
+	// samplesInsts.bass = { name: 'Piano', baseUrl: './customSamples/rio/', volume: 10 }
+	// samplesInsts.bass.notes = {
+	// 	'C4' : 'C4.mp3'
+	// }
+
+//==============================================================================
 // Piano
 //==============================================================================
 	samplesInsts.piano = { name: 'Piano', baseUrl: 'piano/', volume: 0 }
@@ -69,7 +77,7 @@
 //==============================================================================
 // Bass
 //==============================================================================
-	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doublebass/', volume: -15 }
+	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doublebass/', volume: -13 }
 	samplesInsts.bass.notes = {
 		'A1' : 'A1.mp3',
 		'C2' : 'C2.mp3',
