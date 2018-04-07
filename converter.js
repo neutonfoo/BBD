@@ -3,6 +3,7 @@ $(document).ready(function() {
 // Global Variables
 //==============================================================================
 	var $midiDropZone = $('#midiDropZone');
+	var $optimizeCheckbox = $('#optimizeCheckbox');
 	var $originalJson = $('#originalJson');
 	var $adjustedJson = $('#adjustedJson');
 
@@ -33,7 +34,7 @@ $(document).ready(function() {
 
 				var uploadedFile = e.originalEvent.dataTransfer.files[0];
 				if(uploadedFile.type == 'audio/midi') {
-					convertMidiToOriginalJson(uploadedFile);					
+					convertMidiToOriginalJson(uploadedFile);
 				}
 			}
 		}
@@ -84,12 +85,18 @@ $(document).ready(function() {
 					trackMeta.notes = track.notes;
 
 					$.each(trackMeta.notes, function(j, note) {
-						// note.duration = note.duration.toFixed(2);
-						// note.time = note.time.toFixed(2);
-						// note.velocity = note.velocity.toFixed(3);
-						note.duration = note.duration
-						note.time = note.time
-						note.velocity = note.velocity
+
+						delete note.midi;
+
+						if($optimizeCheckbox.is(':checked')) {
+							note.duration = parseFloat(note.duration.toFixed(4));
+							note.time = parseFloat(note.time.toFixed(3));
+							note.velocity = parseFloat(note.velocity.toFixed(3));
+						} else {
+							note.duration = note.duration
+							note.time = note.time
+							note.velocity = note.velocity
+						}
 					})
 
 					song.tracks.push(trackMeta);
