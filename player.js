@@ -21,7 +21,10 @@ $(document).ready(function() {
 //==============================================================================
 	var insts = [];
 	var meters = [];
+	var parts = [];
 	var songMeta = {}
+
+	var instFamilies = ['piano', 'guitar', 'strings', 'bass', 'drums'];
 
 //==============================================================================
 // Tone Transport Settings
@@ -38,6 +41,7 @@ function loadJson(fileName) {
 	// Reset if new file is loaded
 	insts = [];
 	meters = [];
+	parts = [];
 	songMeta = {}
 
 	// Will hold JSON data
@@ -58,138 +62,17 @@ function loadJson(fileName) {
 	Tone.Transport.bpm.value = songJson.bpm;
 	songMeta.duration = songJson.duration;
 	songMeta.instrumentFamilies = [];
+	songMeta.tracks = songJson.tracks;
 
 	console.log('Detected ' + songJson.tracks.length + ' tracks')
 
-	$.each(songJson.tracks, function(i, track) {
-		var newMeter = new Tone.Meter();
-		var newInstr;
+	$.each(songMeta.tracks, function(i, track) {
+		var instMeta = getInstrumentMetaFromInstrumentFamily(track.instrumentFamily)
 
-		console.log(track.instrumentFamily)
+		var newMeter = instMeta.meter;
+		var newInstr = instMeta.inst;
 
-		if(track.instrumentFamily == 'reed') {
-			newInstr = new Tone.Sampler({
-				'C4' : 'C4.mp3'
-			}, {
-				'release' : 2,
-				'baseUrl' : './flute/',
-				'volume' : -5
-			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'brass') {
-			newInstr = new Tone.Sampler({
-				'F4' : 'F4.mp3',
-				'F5' : 'F5.mp3'
-			}, {
-				'release' : 2,
-				'baseUrl' : instsFolder + 'brass/',
-				'volume' : -10
-			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'bass') {
-			newInstr = new Tone.Sampler({
-				'A1' : 'A1.mp3',
-				'C2' : 'C2.mp3',
-				'A2' : 'A2.mp3',
-				'A3' : 'A3.mp3',
-				'C4' : 'C4.mp3',
-				'A4' : 'A4.mp3',
-				'C5' : 'C5.mp3',
-				'F5' : 'F5.mp3',
-				'A5' : 'A5.mp3'
-			}, {
-				'release' : 2,
-				'baseUrl' : instsFolder + 'doublebass/',
-				'volume' : -10
-			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'drums') {
-			newInstr = new Tone.Sampler({
-				'G#2' : 'Gs2.mp3',
-				'B1' : 'B1.mp3',
-				'G2' : 'G2.mp3',
-				'D2' : 'D2.mp3',
-				'C#3' : 'Cs3.mp3',
-				'D#3' : 'Ds3.mp3',
-				'F2' : 'F2.mp3'
-			}, {
-				'release' : 1,
-				'baseUrl' : './drums/fixed/',
-				'volume' : -15
-			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'strings') {
-			newInstr = new Tone.Sampler({
-				'C5' : 'C5.mp3',
-				'F5' : 'F5.mp3',
-				'A5' : 'A5.mp3'
-			}, {
-				'release' : 1,
-				'baseUrl' : instsFolder + 'violin/',
-				'volume' : -7
-			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'guitar') {
-			newInstr = new Tone.Sampler({
-				'C4' : 'C4.mp3',
-				'D4' : 'D4.mp3'
-			}, {
-				'release' : 1,
-				'baseUrl' : './guitar/',
-				'volume' : -8
-			}).connect(newMeter).toMaster();
-		} else if(track.instrumentFamily == 'piano') {
-			newInstr = new Tone.Sampler({
-				'A0' : 'A0.[mp3|ogg]',
-				'C1' : 'C1.[mp3|ogg]',
-				'D#1' : 'Ds1.[mp3|ogg]',
-				'F#1' : 'Fs1.[mp3|ogg]',
-				'A1' : 'A1.[mp3|ogg]',
-				'C2' : 'C2.[mp3|ogg]',
-				'D#2' : 'Ds2.[mp3|ogg]',
-				'F#2' : 'Fs2.[mp3|ogg]',
-				'A2' : 'A2.[mp3|ogg]',
-				'C3' : 'C3.[mp3|ogg]',
-				'D#3' : 'Ds3.[mp3|ogg]',
-				'F#3' : 'Fs3.[mp3|ogg]',
-				'A3' : 'A3.[mp3|ogg]',
-				'C4' : 'C4.[mp3|ogg]',
-				'D#4' : 'Ds4.[mp3|ogg]',
-				'F#4' : 'Fs4.[mp3|ogg]',
-				'A4' : 'A4.[mp3|ogg]',
-				'C5' : 'C5.[mp3|ogg]',
-				'D#5' : 'Ds5.[mp3|ogg]',
-				'F#5' : 'Fs5.[mp3|ogg]',
-				'A5' : 'A5.[mp3|ogg]',
-				'C6' : 'C6.[mp3|ogg]',
-				'D#6' : 'Ds6.[mp3|ogg]',
-				'F#6' : 'Fs6.[mp3|ogg]',
-				'A6' : 'A6.[mp3|ogg]',
-				'C7' : 'C7.[mp3|ogg]',
-				'D#7' : 'Ds7.[mp3|ogg]',
-				'F#7' : 'Fs7.[mp3|ogg]',
-				'A7' : 'A7.[mp3|ogg]',
-				'C8' : 'C8.[mp3|ogg]'
-			}, {
-				'release' : 1,
-				'baseUrl' : './piano/'
-			}).connect(newMeter).toMaster();
-		} else {
-			newInstr = new Tone.PolySynth(4).connect(newMeter).toMaster();
-		}
-
-		var tonePart = new Tone.Part(function(time, note) {
-			var noteCSS = '#track' + i + 'note' + note.name.replace('#', 's');
-
-			newInstr.triggerAttackRelease(note.name, note.duration, time, note.velocity);
-
-			Tone.Draw.schedule(function() {
-				var level = Tone.dbToGain(meters[i].getLevel());
-				var color = setColor(level);
-
-				$(noteCSS).css('background-color', color);
-				$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note.duration * 1000);
-			}, time);
-
-
-		}, track.notes);
-
-		tonePart.start(0)
+		parts.push(assignNotesToInst(i, newInstr, track.notes));
 
 		meters.push(newMeter);
 		insts.push(newInstr);
@@ -197,6 +80,139 @@ function loadJson(fileName) {
 		songMeta.instrumentFamilies.push(track.instrumentFamily)
 	});
 	drawVisualizer();
+}
+
+function getInstrumentMetaFromInstrumentFamily(instrumentFamily) {
+	var newMeter = new Tone.Meter();
+	var newInstr;
+
+	if(instrumentFamily == 'reed') {
+		newInstr = new Tone.Sampler({
+			'C4' : 'C4.mp3'
+		}, {
+			'release' : 2,
+			'baseUrl' : './flute/',
+			'volume' : -5
+		}).connect(newMeter).toMaster();
+	} else if(instrumentFamily == 'brass') {
+		newInstr = new Tone.Sampler({
+			'F4' : 'F4.mp3',
+			'F5' : 'F5.mp3'
+		}, {
+			'release' : 2,
+			'baseUrl' : instsFolder + 'brass/',
+			'volume' : -10
+		}).connect(newMeter).toMaster();
+	} else if(instrumentFamily == 'bass') {
+		newInstr = new Tone.Sampler({
+			'A1' : 'A1.mp3',
+			'C2' : 'C2.mp3',
+			'A2' : 'A2.mp3',
+			'A3' : 'A3.mp3',
+			'C4' : 'C4.mp3',
+			'A4' : 'A4.mp3',
+			'C5' : 'C5.mp3',
+			'F5' : 'F5.mp3',
+			'A5' : 'A5.mp3'
+		}, {
+			'release' : 2,
+			'baseUrl' : instsFolder + 'doublebass/',
+			'volume' : -10
+		}).connect(newMeter).toMaster();
+	} else if(instrumentFamily == 'drums') {
+		newInstr = new Tone.Sampler({
+			'G#2' : 'Gs2.mp3',
+			'B1' : 'B1.mp3',
+			'G2' : 'G2.mp3',
+			'D2' : 'D2.mp3',
+			'C#3' : 'Cs3.mp3',
+			'D#3' : 'Ds3.mp3',
+			'F2' : 'F2.mp3'
+		}, {
+			'release' : 1,
+			'baseUrl' : './drums/fixed/',
+			'volume' : -15
+		}).connect(newMeter).toMaster();
+	} else if(instrumentFamily == 'strings') {
+		console.log('created strings')
+		newInstr = new Tone.Sampler({
+			'C5' : 'C5.mp3',
+			'F5' : 'F5.mp3',
+			'A5' : 'A5.mp3'
+		}, {
+			'release' : 1,
+			'baseUrl' : instsFolder + 'violin/',
+			'volume' : -7
+		}).connect(newMeter).toMaster();
+	} else if(instrumentFamily == 'guitar') {
+		newInstr = new Tone.Sampler({
+			'C4' : 'C4.mp3',
+			'D4' : 'D4.mp3'
+		}, {
+			'release' : 1,
+			'baseUrl' : './guitar/',
+			'volume' : -8
+		}).connect(newMeter).toMaster();
+	} else if(instrumentFamily == 'piano') {
+		newInstr = new Tone.Sampler({
+			'A0' : 'A0.[mp3|ogg]',
+			'C1' : 'C1.[mp3|ogg]',
+			'D#1' : 'Ds1.[mp3|ogg]',
+			'F#1' : 'Fs1.[mp3|ogg]',
+			'A1' : 'A1.[mp3|ogg]',
+			'C2' : 'C2.[mp3|ogg]',
+			'D#2' : 'Ds2.[mp3|ogg]',
+			'F#2' : 'Fs2.[mp3|ogg]',
+			'A2' : 'A2.[mp3|ogg]',
+			'C3' : 'C3.[mp3|ogg]',
+			'D#3' : 'Ds3.[mp3|ogg]',
+			'F#3' : 'Fs3.[mp3|ogg]',
+			'A3' : 'A3.[mp3|ogg]',
+			'C4' : 'C4.[mp3|ogg]',
+			'D#4' : 'Ds4.[mp3|ogg]',
+			'F#4' : 'Fs4.[mp3|ogg]',
+			'A4' : 'A4.[mp3|ogg]',
+			'C5' : 'C5.[mp3|ogg]',
+			'D#5' : 'Ds5.[mp3|ogg]',
+			'F#5' : 'Fs5.[mp3|ogg]',
+			'A5' : 'A5.[mp3|ogg]',
+			'C6' : 'C6.[mp3|ogg]',
+			'D#6' : 'Ds6.[mp3|ogg]',
+			'F#6' : 'Fs6.[mp3|ogg]',
+			'A6' : 'A6.[mp3|ogg]',
+			'C7' : 'C7.[mp3|ogg]',
+			'D#7' : 'Ds7.[mp3|ogg]',
+			'F#7' : 'Fs7.[mp3|ogg]',
+			'A7' : 'A7.[mp3|ogg]',
+			'C8' : 'C8.[mp3|ogg]'
+		}, {
+			'release' : 1,
+			'baseUrl' : './piano/'
+		}).connect(newMeter).toMaster();
+	} else {
+		newInstr = new Tone.PolySynth(4).connect(newMeter).toMaster();
+	}
+
+	return { inst : newInstr, meter : newMeter }
+}
+
+function assignNotesToInst(trackId, inst, notes) {
+	var tonePart = new Tone.Part(function(time, note) {
+		var noteCSS = '#track' + trackId + 'note' + note.name.replace('#', 's');
+
+		inst.triggerAttackRelease(note.name, note.duration, time, note.velocity);
+		Tone.Draw.schedule(function() {
+			var level = Tone.dbToGain(meters[trackId].getLevel());
+			var hue = getHue(level);
+			$(noteCSS).css('background-color', 'hsl(' + hue + ', 100%, 50%)');
+			$(noteCSS).css('color', '#000');
+			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note.duration * 1000);
+		}, time);
+	}, notes);
+
+	tonePart.start(0);
+
+	return tonePart;
 }
 
 //==============================================================================
@@ -210,9 +226,24 @@ function loadJson(fileName) {
 		$visualizer.html(''); // Clear visualizer
 
 		$.each(insts, function(i, inst) {
-			$visualizer.append(songMeta.instrumentFamilies[i] + '<br>');
+			var selectBoxHtml = '<select id="track' + i + '" class="instSelector">';
 
-			$.each(notes, function(j, note) {
+			$.each(instFamilies, function(j, instFamily) {
+				selectBoxHtml += '<option value="' + instFamily + '"';
+
+				if(songMeta.instrumentFamilies[i] == instFamily) {
+					selectBoxHtml += ' selected="true"';
+				}
+
+				selectBoxHtml += '>'
+
+				selectBoxHtml += instFamily + '</option>';
+			});
+			selectBoxHtml += '</select>';
+
+			$visualizer.append(selectBoxHtml);
+
+			$.each(notes, function(k, note) {
 
 				var className = 'note'
 
@@ -225,15 +256,31 @@ function loadJson(fileName) {
 		});
 	}
 
-	function setColor(p) {
-		if(p == 00) {
-			return 'rgb(0,0,0)'
+	function getHue(p) {
+		if(p == 0) {
+			return 0;
 		}
-
-	  var h = 200 * p;
-	  return "hsl(" + h + ", 100%, 50%)";
+	  return 360 * p;
 	}
 
+
+//==============================================================================
+// Instrument Switcher
+//==============================================================================
+$visualizer.on('change', '.instSelector' , function() {
+	var trackId = $(this).attr('id').replace('track', '');
+	var newInst = getInstrumentMetaFromInstrumentFamily('bass');
+
+	parts[trackId].removeAll();
+
+	console.log(songMeta.tracks[trackId])
+
+	meters[trackId] = newInst.meter;
+	insts[trackId] = newInst.inst;
+
+	assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes);
+
+});
 
 //==============================================================================
 // Timeline Slider
@@ -277,7 +324,7 @@ function loadJson(fileName) {
 	$(document).on("keydown", function(e){
     if(e.keyCode == 32){
 			togglePlay()
-      return false;//to fix the scrolling down on space bar key press
+      return false;
     }
 	});
 
@@ -313,18 +360,13 @@ function loadJson(fileName) {
 		Tone.Transport.pause();
 	}
 
-	//==============================================================================
-	// Change Song
-	//==============================================================================
+//==============================================================================
+// Change Song
+//==============================================================================
 	$changeSongButtons.on('click', function() {
 		pause();
 
-		// Have to manually disconnect all instruments
-		// If not, sounds will still be queued
-		$.each(insts, function(i, inst) {
-			inst.disconnect();
-		});
-
+		Tone.Transport.cancel(0);
 		Tone.Transport.seconds = 0;
 
 		var newSong = $(this).val();
