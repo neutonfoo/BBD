@@ -45,6 +45,13 @@ body {
 	display: inline-block;
 	font-size: 8pt;
 	opacity: 0;
+
+	width:20px;
+	border-radius: 10px;
+
+	padding-top: 1px;
+
+	text-align: center;
 }
 
 .noteSharp {
