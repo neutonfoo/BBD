@@ -10,6 +10,7 @@ body {
 
 #mainContainer {
 	border:1px solid #000;
+	margin-bottom: 100px;
 }
 
 #footerContainer {
@@ -43,7 +44,6 @@ body {
 .note {
 	display: inline-block;
 	font-size: 8pt;
-	color:#FFF;
 	opacity: 0;
 }
 
