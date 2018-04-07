@@ -1,6 +1,6 @@
 $(document).ready(function() {
 //==============================================================================
-// Global Variables
+// Variables
 //==============================================================================
 	var playToggleSelector = '#playToggle'; // Seperated for StartAudioContext()
 	var startedPlaying = false;
@@ -22,15 +22,11 @@ $(document).ready(function() {
 	var parts = [];
 	var songMeta = {}
 
-	var instFamilies = ['piano', 'guitar', 'strings', 'bass', 'drums'];
-
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, playToggleSelector).then(function() {
-		setTimeout(function() {
-			loadJson('songs/csHB.json');
-		}, 2000)
+		loadJson('songs/csOp.json');
 	});
 
 //==============================================================================
@@ -81,57 +77,22 @@ function loadJson(fileName) {
 	drawVisualizer();
 }
 
-function getInstrumentMetaFromInstrumentFamily(instrumentFamily) {
+function getInstrumentMetaFromInstrumentFamily(instFamily) {
 	var newMeter = new Tone.Meter();
 	var newInstr;
 
-	if(instrumentFamily == 'bass') {
+	if(samplesInsts.hasOwnProperty(instFamily)) {
+		var samplesInst = samplesInsts[instFamily];
+
 		newInstr = new Tone.Sampler({}, {
 			'release' : 1,
-			'volume' : -15
+			'volume' : samplesInst.volume
 		});
-		$.each(samplesNotes.bass, function(i, sampleNote) {
-			newInstr.add(i, buffers.bass.get(i));
-		});
-		newInstr.connect(newMeter).toMaster();
 
-	} else if(instrumentFamily == 'drums') {
-		newInstr = new Tone.Sampler({}, {
-			'release' : 1,
-			'volume' : -15
+		$.each(samplesInst.notes, function(sampleNote) {
+			newInstr.add(sampleNote, samplesInst.buffer.get(sampleNote));
 		});
-		$.each(samplesNotes.drums, function(i, sampleNote) {
-			newInstr.add(i, buffers.drums.get(i));
-		});
-		newInstr.connect(newMeter).toMaster();
 
-	} else if(instrumentFamily == 'strings') {
-		newInstr = new Tone.Sampler({}, {
-			'release' : 1,
-			'volume' : -15
-		});
-		$.each(samplesNotes.strings, function(i, sampleNote) {
-			newInstr.add(i, buffers.strings.get(i));
-		});
-		newInstr.connect(newMeter).toMaster();
-
-	} else if(instrumentFamily == 'guitar') {
-		newInstr = new Tone.Sampler({}, {
-			'release' : 1,
-			'volume' : -8
-		});
-		$.each(samplesNotes.guitar, function(i, sampleNote) {
-			newInstr.add(i, buffers.guitar.get(i));
-		});
-		newInstr.connect(newMeter).toMaster();
-
-	} else if(instrumentFamily == 'piano') {
-		newInstr = new Tone.Sampler({}, {
-			'release' : 1
-		});
-		$.each(samplesNotes.piano, function(i, sampleNote) {
-			newInstr.add(i, buffers.piano.get(i));
-		});
 		newInstr.connect(newMeter).toMaster();
 
 	} else {
@@ -173,7 +134,7 @@ function assignNotesToInst(trackId, inst, notes) {
 		$.each(insts, function(i, inst) {
 			var selectBoxHtml = '<select id="track' + i + '" class="instSelector">';
 
-			$.each(instFamilies, function(j, instFamily) {
+			$.each(samplesInsts, function(instFamily) {
 				selectBoxHtml += '<option value="' + instFamily + '"';
 
 				if(songMeta.instrumentFamilies[i] == instFamily) {
@@ -213,6 +174,8 @@ function assignNotesToInst(trackId, inst, notes) {
 // Instrument Switcher
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
+
+	pause();
 
 	var trackId = $(this).attr('id').replace('track', '');
 
