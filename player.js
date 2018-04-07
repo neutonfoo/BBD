@@ -30,8 +30,29 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, playToggleSelector).then(function() {
+		loadBuffers()
 		loadJson('songs/csHB.json');
 	});
+
+//==============================================================================
+// Song Decoding Functions
+//==============================================================================
+
+var stringSamples;
+
+	function loadBuffers() {
+		stringSamples = new Tone.Buffers({
+			'C5' : 'C5.mp3',
+			'F5' : 'F5.mp3',
+			'A5' : 'A5.mp3'
+		}, {
+			'baseUrl': instsFolder + 'violin/',
+			'onload': function() {
+				console.log('Loaded')
+			}
+		});
+
+	}
 
 //==============================================================================
 // Song Decoding Functions
@@ -135,15 +156,27 @@ function getInstrumentMetaFromInstrumentFamily(instrumentFamily) {
 		}).connect(newMeter).toMaster();
 	} else if(instrumentFamily == 'strings') {
 		console.log('created strings')
-		newInstr = new Tone.Sampler({
-			'C5' : 'C5.mp3',
-			'F5' : 'F5.mp3',
-			'A5' : 'A5.mp3'
-		}, {
-			'release' : 1,
-			'baseUrl' : instsFolder + 'violin/',
-			'volume' : -7
-		}).connect(newMeter).toMaster();
+		// newInstr = new Tone.Sampler({
+		// 	'C5' : 'C5.mp3',
+		// 	'F5' : 'F5.mp3',
+		// 	'A5' : 'A5.mp3'
+		// }, {
+		// 	'release' : 1,
+		// 	'baseUrl' : instsFolder + 'violin/',
+		// 	'volume' : -7
+		// }).connect(newMeter).toMaster();
+
+		newInstr = new Tone.Sampler();
+
+		newInstr.add('C5', stringSamples.get('C5'));
+		newInstr.add('F5', stringSamples.get('F5'));
+		newInstr.add('A5', stringSamples.get('A5'));
+
+		newInstr.release = 1;
+		newInstr.volume = -7;
+
+		newInstr.connect(newMeter).toMaster();
+
 	} else if(instrumentFamily == 'guitar') {
 		newInstr = new Tone.Sampler({
 			'C4' : 'C4.mp3',
@@ -268,18 +301,17 @@ function assignNotesToInst(trackId, inst, notes) {
 // Instrument Switcher
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
+
 	var trackId = $(this).attr('id').replace('track', '');
-	var newInst = getInstrumentMetaFromInstrumentFamily('bass');
 
 	parts[trackId].removeAll();
 
-	console.log(songMeta.tracks[trackId])
+	var newInst = getInstrumentMetaFromInstrumentFamily($(this).val());
 
 	meters[trackId] = newInst.meter;
 	insts[trackId] = newInst.inst;
 
-	assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes);
-
+	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes);
 });
 
 //==============================================================================
@@ -342,12 +374,7 @@ $visualizer.on('change', '.instSelector' , function() {
 
 		if(!startedPlaying) {
 			startedPlaying = true;
-
-			var pianoSamples = new Tone.Buffers({
-				'C8' : 'piano/C8.mp3'
-			}, function(){
-				Tone.Transport.start('+0.1', 0);
-			});
+			Tone.Transport.start('+0.1', 0);
 
 		} else {
 			Tone.Transport.start();
