@@ -80,8 +80,14 @@ body {
 
 /* Conveter Drop Zone */
 #midiDropZone {
-	height: 50px;
+	height: 70px;
+	line-height: 70px;
+
+	text-align: center;
 	border:1px dotted #000;
+	vertical-align: middle;
+
+	color: #808080;
 }
 
 .midiDropZoneDragging {
@@ -106,18 +112,34 @@ textarea.converterTextarea {
 }
 
 .modal {
-	padding:20px;
+	max-height: 400px;
+	overflow: scroll;
 	width:300px;
 	display: none;
 	background-color:#FFF;
 }
 
 .modalBody {
-	padding:20px;
+	padding:0 20px 20px 20px;
 }
-.modalBody h1 {
+
+.modalBody > h1 {
+	border-bottom:1px solid #696969;
+
+	margin-top:10px;
+	margin-bottom:10px;
 	font-family: inherit;
-	font-weight: 500;
-	line-height: 1.2;
+	font-weight: 350;
 	color: inherit;
+}
+
+.modalBody > h2 {
+	margin-top:10px;
+	font-family: inherit;
+	font-weight: 250;
+	color: inherit;
+}
+
+.modalBody > p {
+	margin:5px;
 }

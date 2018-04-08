@@ -29,6 +29,7 @@
 		<input class="changeSong" type="button" value="csOp">
 		<input class="changeSong"  type="button" value="cs">
 		<input class="changeSong"  type="button" value="shst">
+		<input class="changeSong"  type="button" value="sl">
 		<div id="visualizer"></div>
 		<div id="footerContainer">
 			<a href="#"><span id="rewindTimeline" class="footerItem"><img src="open-iconic/media-step-backward.svg"></span></a>
@@ -46,51 +47,45 @@
 		</div>
 		<!-- Modals -->
 		<div id="converterModal" class="modal">
-			<h1>Converter</h1>
 			<div class="modalBody">
-				<div id="midiDropZone">
-					Drop *.midi file here
-				</div>
-				<input type="checkbox" id="optimizeCheckbox" checked="checked"> Optimize?
-				<br>
-				Original Json
-				<br>
-				<textarea id="originalJson" class="converterTextarea" rows="8"></textarea>
-				<br>
-				Adjusted Json
-				<br>
-				<textarea id="adjustedJson" class="converterTextarea" rows="8"></textarea>
+				<h1>Converter</h1>
+				<div id="midiDropZone">*.midi drop zone</div>
+				<p><input type="checkbox" id="optimizeCheckbox" checked="checked"> Optimize?</p>
+				<h2>Original JSON</h2>
+				<textarea id="originalJson" class="converterTextarea" rows="5"></textarea>
+				<h2>Adjusted JSON</h2>
+				<textarea id="adjustedJson" class="converterTextarea" rows="5"></textarea>
 				<br>
 				<input id="convert" type="button" value="Convert">
 			</div>
 		</div>
 	</div>
 	<div id="aboutModal" class="modal">
-		<h1>To do</h1>
 		<div class="modalBody">
-			<ul>
-				<li>More instrument compatibility</li>
-				<li>Come up with a better visualizer</li>
-				<li>Instrument Buffers</li>
-				<li>Fix CSS</li>
-			</ul>
-		</div>
-		<h1>Libraries</h1>
-		<div class="modalBody">
-			<ul>
-				<li>Powered by <a href="https://tonejs.github.io/">tonejs</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">Web Audio API</a>.</li>
-				<li>Icons by <a href="https://useiconic.com/open">Open Iconic</a>.</li>
-				<li>Modal by <a href="http://leanmodal.finelysliced.com.au/">Lean Modal</a>.</li>
-			</ul>
+			<h1>To do</h1>
+			<p>
+				<ul>
+					<li>More instrument compatibility</li>
+					<li>Come up with a better visualizer</li>
+					<li>Instrument Buffers</li>
+					<li>Fix CSS</li>
+				</ul>
+			</p>
+			<h1>Libraries</h1>
+			<p>
+				<ul>
+					<li>Powered by <a href="https://tonejs.github.io/">tonejs</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">Web Audio API</a>.</li>
+					<li>Icons by <a href="https://useiconic.com/open">Open Iconic</a>.</li>
+					<li>Modal by <a href="http://leanmodal.finelysliced.com.au/">Lean Modal</a>.</li>
+				</ul>
+			</p>
 		</div>
 	</div>
 	<div id="thanksModal" class="modal">
-		<h1>For</h1>
 		<div class="modalBody">
+			<h1>For</h1>
 			<img src="3-quinuclidinyl-benzilate.png" alt="">
-		</div>
-		<h1>Special Thanks</h1>
-		<div class="modalBody">
+			<h1>Special Thanks</h1>
 		</div>
 	</div>
 </body>
