@@ -63,7 +63,7 @@
 //==============================================================================
 // Guitar
 //==============================================================================
-	samplesInsts.guitar = { name: 'Guitar', baseUrl: instsFolder + 'guitar/', volume: -8 }
+	samplesInsts.guitar = { name: 'Guitar', baseUrl: instsFolder + 'guitar/', volume: -15 }
 	samplesInsts.guitar.notes = {
 		'C3' : 'C3.mp3',
 		'C4' : 'C4.mp3'
