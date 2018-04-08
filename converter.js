@@ -12,6 +12,7 @@ $(document).ready(function() {
 		e.stopPropagation();
 
 		$(this).addClass('midiDropZoneDragging');
+
 		return false;
 	})
 	.on('dragleave', function(e) {
@@ -19,13 +20,12 @@ $(document).ready(function() {
 		e.stopPropagation();
 
 		$(this).removeClass('midiDropZoneDragging');
+
 		return false;
 	})
 	.on('drop', function (e) {
 		e.preventDefault();
 		e.stopPropagation();
-
-		$(this).removeClass('midiDropZoneDragging');
 
 		if(e.originalEvent.dataTransfer){
 			if(e.originalEvent.dataTransfer.files.length == 1) {
@@ -38,6 +38,8 @@ $(document).ready(function() {
 				}
 			}
 		}
+		$(this).removeClass('midiDropZoneDragging');
+
     return false;
 	});
 
@@ -71,7 +73,7 @@ $(document).ready(function() {
 		}
 
 		if(isValidJson) {
-			song.bpm = originalJson.header.bpm;
+			song.bpm = originalJson.header.bpm.toFixed(0);
 			song.duration = originalJson.duration;
 			song.tracks = [];
 

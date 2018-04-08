@@ -94,7 +94,8 @@ body {
 }
 
 .midiDropZoneDragging {
-	background-color:#F00;
+	background-color:#DDD;
+	color: #000;
 }
 
 /* Conveter Textarea */
