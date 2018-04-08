@@ -119,9 +119,9 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 		inst.triggerAttackRelease(note.name, note.duration, time, note.velocity);
 		Tone.Draw.schedule(function() {
 			var level = Tone.dbToGain(meters[trackId].getLevel());
-			var hue = getHue(level);
-			$(noteCSS).css('background-color', 'hsl(' + hue + ', 100%, 50%)');
-			$(noteCSS).css('color', '#000');
+			var hslMeta = getHueAndTextColor(level);
+			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			$(noteCSS).css('color', hslMeta.textColor);
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note.duration * 1000);
 		}, time);
 	}, notes);
@@ -173,11 +173,24 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 		});
 	}
 
-	function getHue(p) {
+	function getHueAndTextColor(p) {
+		var hslMeta = {};
+
 		if(p == 0) {
-			return 0;
+			hslMeta.hue = 0;
+		} else {
+			hslMeta.hue = 360 * p;
 		}
-	  return 360 * p;
+
+		if(hslMeta.hue >= 0 && hslMeta.hue <= 27.5) {
+			hslMeta.textColor = '#FFF'
+		} else if(hslMeta.hue >= 225 && hslMeta.hue <= 360) {
+			hslMeta.textColor = '#FFF'
+		} else {
+			hslMeta.textColor = '#000'
+		}
+
+	  return hslMeta;
 	}
 
 
