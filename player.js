@@ -2,17 +2,16 @@ $(document).ready(function() {
 //==============================================================================
 // Variables
 //==============================================================================
-	var playToggleSelector = '#playToggle'; // Seperated for StartAudioContext()
 	var startedPlaying = false;
 	var isPlaying = false;
 
+	var $body = $('body');
 	var $clearPlayer = $('.clearPlayer');
 	var $changeSongButtons = $('.changeSong');
 	var $rewindTimeline = $('#rewindTimeline');
 	var $mainContainer = $('#mainContainer');
 	var $visualizer = $('#visualizer');
 	var $timelineSlider = $('#timelineSlider');
-	var $playToggle = $(playToggleSelector);
 
 //==============================================================================
 // Instruments and Meters
@@ -83,18 +82,14 @@ function getInstrumentMetaFromInstrumentFamily(instFamily) {
 
 	if(samplesInsts.hasOwnProperty(instFamily)) {
 		var samplesInst = samplesInsts[instFamily];
-
 		newInstr = new Tone.Sampler({}, {
 			'release' : 1,
 			'volume' : samplesInst.volume
 		});
-
 		$.each(samplesInst.notes, function(sampleNote) {
 			newInstr.add(sampleNote, samplesInst.buffer.get(sampleNote));
 		});
-
 		newInstr.connect(newMeter).toMaster();
-
 	} else {
 		newInstr = new Tone.PolySynth(4).connect(newMeter).toMaster();
 	}
@@ -102,7 +97,7 @@ function getInstrumentMetaFromInstrumentFamily(instFamily) {
 	return { inst : newInstr, meter : newMeter }
 }
 
-function assignNotesToInst(trackId, inst, notes) {
+function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 	var tonePart = new Tone.Part(function(time, note) {
 		var noteCSS = '#track' + trackId + 'note' + note.name.replace('#', 's');
 
@@ -134,6 +129,8 @@ function assignNotesToInst(trackId, inst, notes) {
 		$.each(insts, function(i, inst) {
 			var selectBoxHtml = '<select id="track' + i + '" class="instSelector">';
 
+			selectBoxHtml += '<option value="none">None</option>'
+
 			$.each(samplesInsts, function(instFamily) {
 				selectBoxHtml += '<option value="' + instFamily + '"';
 
@@ -145,6 +142,7 @@ function assignNotesToInst(trackId, inst, notes) {
 
 				selectBoxHtml += instFamily + '</option>';
 			});
+
 			selectBoxHtml += '</select>';
 
 			$visualizer.append(selectBoxHtml);
@@ -173,9 +171,7 @@ function assignNotesToInst(trackId, inst, notes) {
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
 	pause();
-
 	var trackId = $(this).attr('id').replace('track', '');
-
 	parts[trackId].removeAll();
 
 	var newInst = getInstrumentMetaFromInstrumentFamily($(this).val());
@@ -183,7 +179,8 @@ $visualizer.on('change', '.instSelector' , function() {
 	meters[trackId] = newInst.meter;
 	insts[trackId] = newInst.inst;
 
-	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes);
+	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes, true);
+	resume();
 });
 
 //==============================================================================
@@ -242,12 +239,11 @@ $visualizer.on('change', '.instSelector' , function() {
 
 	function resume() {
 		isPlaying = true;
-		$playToggle.html('<img src="open-iconic/media-pause.svg" class="octicon">');
+		$playToggle.html('<img src="open-iconic/media-pause.svg">');
 
 		if(!startedPlaying) {
 			startedPlaying = true;
 			Tone.Transport.start('+0.1', 0);
-
 		} else {
 			Tone.Transport.start();
 		}
@@ -255,7 +251,7 @@ $visualizer.on('change', '.instSelector' , function() {
 
 	function pause() {
 		isPlaying = false;
-		$playToggle.html('<img src="open-iconic/media-play.svg" class="octicon">');
+		$playToggle.html('<img src="open-iconic/media-play.svg">');
 		Tone.Transport.pause();
 	}
 
@@ -264,7 +260,6 @@ $visualizer.on('change', '.instSelector' , function() {
 //==============================================================================
 	$changeSongButtons.on('click', function() {
 		pause();
-
 		Tone.Transport.cancel(0);
 		Tone.Transport.seconds = 0;
 
