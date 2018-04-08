@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var isPlaying = false;
 
 	var $body = $('body');
+	var $playToggle = $('#playToggle');
 	var $clearPlayer = $('.clearPlayer');
 	var $changeSongButtons = $('.changeSong');
 	var $rewindTimeline = $('#rewindTimeline');
@@ -61,6 +62,13 @@ function loadJson(fileName) {
 	console.log('Detected ' + songJson.tracks.length + ' tracks')
 
 	$.each(songMeta.tracks, function(i, track) {
+
+		if(track.instrumentFamily.includes('synth')) {
+			track.instrumentFamily = 'synth';
+		} else if(!samplesInsts.hasOwnProperty(track.instrumentFamily)) {
+			track.instrumentFamily = 'piano'
+		}
+
 		var instMeta = getInstrumentMetaFromInstrumentFamily(track.instrumentFamily)
 
 		var newMeter = instMeta.meter;
@@ -82,17 +90,24 @@ function getInstrumentMetaFromInstrumentFamily(instFamily) {
 
 	if(samplesInsts.hasOwnProperty(instFamily)) {
 		var samplesInst = samplesInsts[instFamily];
-		newInstr = new Tone.Sampler({}, {
-			'release' : 1,
-			'volume' : samplesInst.volume
-		});
-		$.each(samplesInst.notes, function(sampleNote) {
-			newInstr.add(sampleNote, samplesInst.buffer.get(sampleNote));
-		});
-		newInstr.connect(newMeter).toMaster();
-	} else {
-		newInstr = new Tone.PolySynth(4).connect(newMeter).toMaster();
+
+		if(instFamily == 'synth') {
+			newInstr = new Tone.PolySynth({
+				'polyphony': 4,
+				'volume': samplesInst.volume
+			});
+		} else {
+			newInstr = new Tone.Sampler({}, {
+				'release' : 1,
+				'volume' : samplesInst.volume
+			});
+			$.each(samplesInst.notes, function(sampleNote) {
+				newInstr.add(sampleNote, samplesInst.buffer.get(sampleNote));
+			});
+		}
 	}
+
+	newInstr.connect(newMeter).toMaster();
 
 	return { inst : newInstr, meter : newMeter }
 }
@@ -131,8 +146,8 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 
 			selectBoxHtml += '<option value="none">None</option>'
 
-			$.each(samplesInsts, function(instFamily) {
-				selectBoxHtml += '<option value="' + instFamily + '"';
+			$.each(samplesInsts, function(instFamily, instFamilyMeta) {
+				selectBoxHtml += '<option value="' + instFamily  + '"';
 
 				if(songMeta.instrumentFamilies[i] == instFamily) {
 					selectBoxHtml += ' selected="true"';
@@ -140,7 +155,7 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 
 				selectBoxHtml += '>'
 
-				selectBoxHtml += instFamily + '</option>';
+				selectBoxHtml += instFamilyMeta.name + '</option>';
 			});
 
 			selectBoxHtml += '</select>';
@@ -171,6 +186,7 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
 	pause();
+
 	var trackId = $(this).attr('id').replace('track', '');
 	parts[trackId].removeAll();
 
@@ -180,6 +196,7 @@ $visualizer.on('change', '.instSelector' , function() {
 	insts[trackId] = newInst.inst;
 
 	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes, true);
+
 	resume();
 });
 
@@ -266,6 +283,4 @@ $visualizer.on('change', '.instSelector' , function() {
 		var newSong = $(this).val();
 		loadJson('songs/' + newSong + '.json');
 	});
-
-
 });
