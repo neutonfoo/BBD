@@ -47,7 +47,10 @@ body {
 	opacity: 0;
 
 	width:20px;
+
 	border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
 
 	padding-top: 1px;
 
@@ -114,9 +117,13 @@ textarea.converterTextarea {
 .modal {
 	max-height: 400px;
 	overflow: scroll;
-	width:300px;
+	width:400px;
 	display: none;
 	background-color:#FFF;
+
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 .modalBody {
@@ -142,4 +149,9 @@ textarea.converterTextarea {
 
 .modalBody > p {
 	margin:5px;
+}
+
+.modalBody ol, ul {
+	padding-left: 0;
+	list-style-position: inside;
 }

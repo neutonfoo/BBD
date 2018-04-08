@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#converterListener").leanModal();
-	$("#aboutListener").leanModal();
-	$("#thanksListener").leanModal();
+	$("#converterListener").leanModal({ top : 50 });
+	$("#aboutListener").leanModal({ top : 50 });
+	$("#thanksListener").leanModal({ top : 50 });
 });

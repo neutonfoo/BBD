@@ -57,9 +57,6 @@ $(document).ready(function() {
 //==============================================================================
 // Convert from Original JSON to Adjusted JSON
 //==============================================================================
-	$('#convert').on('click', function() {
-		convertOriginalJsonToAdjustedJson();
-	});
 
 	function convertOriginalJsonToAdjustedJson() {
 		var song = {};
