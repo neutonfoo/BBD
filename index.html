@@ -25,12 +25,10 @@
 </head>
 <body>
 	<div id="mainContainer">
-		<input class="changeSong" type="button" value="csHB">
+		<input class="changeSong" type="button" value="sts">
 		<input class="changeSong" type="button" value="csOp">
-		<input class="changeSong"  type="button" value="cs">
-		<input class="changeSong"  type="button" value="shst">
-		<input class="changeSong"  type="button" value="sl">
-		<input class="changeSong"  type="button" value="test">
+		<input class="changeSong" type="button" value="csSuOp">
+		<input class="changeSong"  type="button" value="testBeta">
 		<div id="visualizer"></div>
 		<div id="footerContainer">
 			<a href="#"><span id="rewindTimeline" class="footerItem"><img src="open-iconic/media-step-backward.svg"></span></a>
@@ -51,11 +49,13 @@
 			<div class="modalBody">
 				<h1>Converter</h1>
 				<div id="midiDropZone">*.midi drop zone</div>
-				<p><input type="checkbox" id="optimizeCheckbox" checked="checked"> Optimize?</p>
-				<h2>Original JSON</h2>
-				<textarea id="originalJson" class="converterTextarea" rows="5"></textarea>
+				<p>
+					<input type="radio" class="optimizeRadio" name="optimize" value="original"> Normal
+					<input type="radio" class="optimizeRadio" name="optimize" value="optimize"> Optimize
+					<input type="radio" class="optimizeRadio" name="optimize" value="superOptimize" checked="checked"> Super Optimize
+				</p>
 				<h2>Adjusted JSON</h2>
-				<textarea id="adjustedJson" class="converterTextarea" rows="5"></textarea>
+				<textarea id="adjustedJson" class="converterTextarea" rows="10"></textarea>
 			</div>
 		</div>
 	</div>

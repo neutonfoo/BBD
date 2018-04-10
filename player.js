@@ -26,7 +26,7 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, '.changeSong').then(function() {
-		loadJson('songs/test.json');
+		loadJson('songs/csSuOp.json');
 	});
 
 //==============================================================================
@@ -56,30 +56,55 @@ function loadJson(fileName) {
 
 	Tone.Transport.bpm.value = songJson.bpm;
 	songMeta.duration = songJson.duration;
+	songMeta.optimizeOption = songJson.optimizeOption;
+	songMeta.oVars = {}
+
+	if(songMeta.optimizeOption == 'sO') {
+		songMeta.oVars.instrumentFamily = 'iF';
+		songMeta.oVars.trackNotes = 'ns';
+
+		songMeta.oVars.noteName = 'n';
+		songMeta.oVars.noteTime = 't';
+		songMeta.oVars.noteDuration = 'd';
+		songMeta.oVars.noteVelocity = 'v';
+	} else {
+		songMeta.oVars.instrumentFamily = 'instrumentFamily';
+		songMeta.oVars.trackNotes = 'notes';
+
+		songMeta.oVars.noteName = 'name';
+		songMeta.oVars.noteTime = 'time';
+		songMeta.oVars.noteDuration = 'duration';
+		songMeta.oVars.noteVelocity = 'velocity';
+	}
+
 	songMeta.instrumentFamilies = [];
 	songMeta.tracks = songJson.tracks;
 
 	console.log('Detected ' + songJson.tracks.length + ' tracks')
 
-	$.each(songMeta.tracks, function(i, track) {
 
-		if(track.instrumentFamily.includes('synth')) {
-			track.instrumentFamily = 'synth';
-		} else if(!samplesInsts.hasOwnProperty(track.instrumentFamily)) {
-			track.instrumentFamily = 'piano'
+	$.each(songMeta.tracks, function(i, track) {
+		var trackInstrumentFamily = track[songMeta.oVars.instrumentFamily];
+
+		if(trackInstrumentFamily == null) {
+			trackInstrumentFamily = 'synth';
+		} else if(trackInstrumentFamily.includes('synth')) {
+			trackInstrumentFamily = 'synth';
+		} else if(!samplesInsts.hasOwnProperty(trackInstrumentFamily)) {
+			trackInstrumentFamily = 'piano'
 		}
 
-		var instMeta = getInstrumentMetaFromInstrumentFamily(track.instrumentFamily)
+		var instMeta = getInstrumentMetaFromInstrumentFamily(trackInstrumentFamily)
 
 		var newMeter = instMeta.meter;
 		var newInstr = instMeta.inst;
 
-		parts.push(assignNotesToInst(i, newInstr, track.notes));
+		parts.push(assignNotesToInst(i, newInstr, track[songMeta.oVars.trackNotes]));
 
 		meters.push(newMeter);
 		insts.push(newInstr);
 
-		songMeta.instrumentFamilies.push(track.instrumentFamily)
+		songMeta.instrumentFamilies.push(trackInstrumentFamily)
 	});
 	drawVisualizer();
 }
@@ -113,16 +138,23 @@ function getInstrumentMetaFromInstrumentFamily(instFamily) {
 }
 
 function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
-	var tonePart = new Tone.Part(function(time, note) {
-		var noteCSS = '#track' + trackId + 'note' + note.name.replace('#', 's');
 
-		inst.triggerAttackRelease(note.name, note.duration, time, note.velocity);
+	$.each(notes, function(n, note) {
+		note.time = note[songMeta.oVars.noteTime];
+	});
+
+
+	var tonePart = new Tone.Part(function(time, note) {
+		var noteCSS = '#track' + trackId + 'note' + note[songMeta.oVars.noteName].replace('#', 's');
+
+		inst.triggerAttackRelease(note[songMeta.oVars.noteName], note[songMeta.oVars.noteDuration], time, note[songMeta.oVars.noteVelocity]);
+
 		Tone.Draw.schedule(function() {
 			var level = Tone.dbToGain(meters[trackId].getLevel());
 			var hslMeta = getHueAndTextColor(level);
 			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('color', hslMeta.textColor);
-			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note.duration * 1000);
+			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 		}, time);
 	}, notes);
 
@@ -208,7 +240,7 @@ $visualizer.on('change', '.instSelector' , function() {
 	meters[trackId] = newInst.meter;
 	insts[trackId] = newInst.inst;
 
-	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId].notes, true);
+	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId][songMeta.oVars.trackNotes], true);
 
 	resume();
 });

@@ -3,8 +3,7 @@ $(document).ready(function() {
 // Global Variables
 //==============================================================================
 	var $midiDropZone = $('#midiDropZone');
-	var $optimizeCheckbox = $('#optimizeCheckbox');
-	var $originalJson = $('#originalJson');
+	var $optimizeRadio = $('.optimizeRadio:checked');
 	var $adjustedJson = $('#adjustedJson');
 
 	$midiDropZone.on('dragover', function(e) {
@@ -34,7 +33,7 @@ $(document).ready(function() {
 
 				var uploadedFile = e.originalEvent.dataTransfer.files[0];
 				if(uploadedFile.type == 'audio/midi') {
-					convertMidiToOriginalJson(uploadedFile);
+					convertMidi(uploadedFile);
 				}
 			}
 		}
@@ -46,63 +45,92 @@ $(document).ready(function() {
 //==============================================================================
 // Convert from MIDI to Original JSON
 //==============================================================================
-	function convertMidiToOriginalJson(uploadedFile) {
+	function convertMidi(uploadedFile) {
 		var reader = new FileReader();
 			reader.onload = function(e) {
-				var partsData = MidiConvert.parse(e.target.result);
-				$originalJson.val(JSON.stringify(partsData));
-				convertOriginalJsonToAdjustedJson();
-			}
+				var songJson = MidiConvert.parse(e.target.result);
 
-		reader.readAsBinaryString(uploadedFile);
-	}
-//==============================================================================
-// Convert from Original JSON to Adjusted JSON
-//==============================================================================
+				var song = {};
+				var optimizeOption = $optimizeRadio.val();
 
-	function convertOriginalJsonToAdjustedJson() {
-		var song = {};
-		var originalJsonRaw = $originalJson.val();
-		var isValidJson = true;
+				song.bpm = songJson.header.bpm.toFixed(0);
+				song.duration = songJson.duration;
+				song.tracks = [];
 
-		try {
-			originalJson = JSON.parse(originalJsonRaw);
-		} catch (e) {
-			isValidJson = false;
-				alert('Not valid Json');
-		}
+				if(optimizeOption == 'original') {
+					// .o for Optimize Option
+					song.optimizeOption = 'o'; // O for Original
 
-		if(isValidJson) {
-			song.bpm = originalJson.header.bpm.toFixed(0);
-			song.duration = originalJson.duration;
-			song.tracks = [];
+					$.each(songJson.tracks, function(i, track) {
+						if(track.notes != 0) {
 
-			$.each(originalJson.tracks, function(i, track) {
-				if(track.notes != 0) {
-					var trackMeta = {}
-					trackMeta.instrumentFamily = track.instrumentFamily;
-					trackMeta.notes = track.notes;
+							var trackMeta = {}
 
-					$.each(trackMeta.notes, function(j, note) {
+							trackMeta.instrumentFamily = track.instrumentFamily;
+							trackMeta.notes = [];
 
-						delete note.midi;
+							$.each(trackMeta.notes, function(j, note) {
+								note.duration = note.duration
+								note.time = note.time
+								note.velocity = note.velocity
+							});
 
-						if($optimizeCheckbox.is(':checked')) {
-							note.duration = parseFloat(note.duration.toFixed(4));
-							note.time = parseFloat(note.time.toFixed(3));
-							note.velocity = parseFloat(note.velocity.toFixed(3));
-						} else {
-							note.duration = note.duration
-							note.time = note.time
-							note.velocity = note.velocity
+							song.tracks.push(trackMeta);
 						}
-					})
+					});
+				} else if(optimizeOption == 'optimize') {
+					song.optimizeOption = 'op'; // Op for Optimized
 
-					song.tracks.push(trackMeta);
+					$.each(songJson.tracks, function(i, track) {
+						if(track.notes != 0) {
+
+							var trackMeta = {}
+
+							trackMeta.instrumentFamily = track.instrumentFamily;
+							trackMeta.notes = [];
+
+							$.each(trackMeta.notes, function(j, note) {
+								var note = {}
+
+								note.name = note.name;
+								note.duration = parseFloat(note.duration.toFixed(4));
+								note.time = parseFloat(note.time.toFixed(3));
+								note.velocity = parseFloat(note.velocity.toFixed(3));
+
+								trackMeta.notes.push(note)
+							});
+
+							song.tracks.push(trackMeta);
+						}
+					});
+				} else if(optimizeOption == 'superOptimize') {
+
+					song.optimizeOption = 'sO'; // sO for Super Optimized
+
+					$.each(songJson.tracks, function(i, track) {
+						if(track.notes != 0) {
+							var trackMeta = {}
+							trackMeta.iF = track.instrumentFamily;
+							trackMeta.ns = [];
+
+							$.each(track.notes, function(j, note) {
+
+								var n = {}
+
+								n.n = note.name;
+								n.d = parseFloat(note.duration.toFixed(4));
+								n.t = parseFloat(note.time.toFixed(3));
+								n.v = parseFloat(note.velocity.toFixed(3));
+
+								trackMeta.ns.push(n)
+							});
+
+							song.tracks.push(trackMeta);
+						}
+					});
 				}
-			});
-
-			$adjustedJson.val(JSON.stringify(song));
-		}
+				$adjustedJson.val(JSON.stringify(song));
+			}
+		reader.readAsBinaryString(uploadedFile);
 	}
 });

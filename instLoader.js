@@ -82,7 +82,7 @@
 //==============================================================================
 // Bass
 //==============================================================================
-	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doublebass/', volume: -13 }
+	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doublebass/', volume: -5 }
 	samplesInsts.bass.notes = {
 		'A1' : 'A1.mp3',
 		'C2' : 'C2.mp3',
