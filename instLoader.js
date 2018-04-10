@@ -69,7 +69,28 @@
 	samplesInsts.guitar = { name: 'Guitar', baseUrl: instsFolder + 'guitar/', volume: -15 }
 	samplesInsts.guitar.notes = {
 		'C3' : 'C3.mp3',
-		'C4' : 'C4.mp3'
+		'D3' : 'D3.mp3',
+		'E3' : 'E3.mp3',
+		'F3' : 'F3.mp3',
+		'G3' : 'G3.mp3',
+		'A3' : 'A3.mp3',
+		'B3' : 'B3.mp3',
+
+		'C4' : 'C4.mp3',
+		'D4' : 'D4.mp3',
+		'E4' : 'E4.mp3',
+		'F4' : 'F4.mp3',
+		'G4' : 'G4.mp3',
+		'A4' : 'A4.mp3',
+		'B4' : 'B4.mp3',
+
+		'C5' : 'C5.mp3',
+		'D5' : 'D5.mp3',
+		'E5' : 'E5.mp3',
+		'F5' : 'F5.mp3',
+		'G5' : 'G5.mp3',
+		'A5' : 'A5.mp3',
+		'B5' : 'B5.mp3'
 	}
 
 //==============================================================================
@@ -85,7 +106,7 @@
 //==============================================================================
 // Bass
 //==============================================================================
-	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doublebass/', volume: -5 }
+	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doublebass/', volume: -8 }
 	samplesInsts.bass.notes = {
 		'A1' : 'A1.mp3',
 		'C2' : 'C2.mp3',
@@ -134,7 +155,7 @@
 				samplesInstMeta.buffer = new Tone.Buffers(samplesInstMeta.notes, {
 					'baseUrl': samplesInstMeta.baseUrl,
 						'onload': function() {
-							console.log('Loaded ' + samplesInstMeta.name);
+							console.log('Loaded ' + samplesInstMeta.name + ' samples');
 						}
 				});
 			}
