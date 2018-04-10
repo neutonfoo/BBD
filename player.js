@@ -229,8 +229,6 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 // Instrument Switcher
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
-	pause();
-
 	var trackId = $(this).attr('id').replace('track', '');
 	parts[trackId].removeAll();
 
@@ -240,8 +238,6 @@ $visualizer.on('change', '.instSelector' , function() {
 	insts[trackId] = newInst.inst;
 
 	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId][songMeta.oVars.trackNotes], true);
-
-	resume();
 });
 
 //==============================================================================
