@@ -13,6 +13,7 @@ $(document).ready(function() {
 	var $mainContainer = $('#mainContainer');
 	var $visualizer = $('#visualizer');
 	var $timelineSlider = $('#timelineSlider');
+	var $timelineText = $('#timelineText');
 
 //==============================================================================
 // Instruments and Meters
@@ -55,6 +56,8 @@ function loadJson(fileName) {
 	});
 
 	Tone.Transport.bpm.value = songJson.bpm;
+
+
 	songMeta.duration = songJson.duration;
 	songMeta.optimizeOption = songJson.optimizeOption;
 	songMeta.oVars = {}
@@ -251,6 +254,8 @@ $visualizer.on('change', '.instSelector' , function() {
 		Tone.Transport.seconds = newProgress;
 	});
 
+	var ramped = false;
+
 	// # Updater
 	setInterval(function() {
 		var percent = 100 * Tone.Transport.seconds / songMeta.duration;
@@ -262,7 +267,13 @@ $visualizer.on('change', '.instSelector' , function() {
 			// pause();
 		}
 
+		if(Tone.Transport.seconds >= 540 && !ramped) {
+			ramped = true;
+			Tone.Transport.bpm.rampTo(130, 5);
+		}
+
 		$timelineSlider.val(percent);
+		$timelineText.val(Tone.Transport.seconds);
 	}, 500);
 
 //==============================================================================
