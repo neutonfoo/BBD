@@ -27,7 +27,16 @@ $(document).ready(function() {
 // Tone Transport Settings
 //==============================================================================
 	StartAudioContext(Tone.context, '.changeSong').then(function() {
-		loadJson('songs/csSuOp.json');
+		var sampleInstsLoadChecker2 = setInterval(function() {
+			if(!sampleInstsLoaded) {
+				return false;
+			} else {
+
+				clearInterval(sampleInstsLoadChecker2)
+
+				loadJson('songs/csSuOp.json');
+			}
+		}, 2000)
 	});
 
 //==============================================================================
@@ -120,26 +129,7 @@ function loadJson(fileName, fromFile = false) {
 
 function getInstrumentMetaFromInstrumentFamily(instFamily) {
 	var newMeter = new Tone.Meter();
-	var newInstr;
-
-	if(samplesInsts.hasOwnProperty(instFamily)) {
-		var samplesInst = samplesInsts[instFamily];
-
-		if(instFamily == 'synth') {
-			newInstr = new Tone.PolySynth({
-				'polyphony': 4,
-				'volume': samplesInst.volume
-			});
-		} else {
-			newInstr = new Tone.Sampler({}, {
-				'release' : 1,
-				'volume' : samplesInst.volume
-			});
-			$.each(samplesInst.notes, function(sampleNote) {
-				newInstr.add(sampleNote, samplesInst.buffer.get(sampleNote));
-			});
-		}
-	}
+	var newInstr = samplesInsts[instFamily].preloaded;
 
 	newInstr.connect(newMeter).toMaster();
 
@@ -232,7 +222,6 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 
 	  return hslMeta;
 	}
-
 
 //==============================================================================
 // Instrument Switcher

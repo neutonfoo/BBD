@@ -9,6 +9,7 @@
 	var sampleInstsLoaded = false;
 
 	var samplesInsts = {}
+	var instsPreloaded = [];
 
 //==============================================================================
 // Voice Sampling for lulz
@@ -177,9 +178,26 @@
 			}
 		})
 
-		sampleInstsLoadChecker = setTimeout(function() {
+		sampleInstsLoadChecker = setInterval(function() {
 			instsLoadCheck();
-		}, 2000);
+		}, 3000);
+	}
+
+//==============================================================================
+// Preload Instruments to Array (removes need for re-sampling)
+//==============================================================================
+	function preLoadAllInstruments() {
+		$.each(samplesInsts, function(instFamily, instFamilyMeta) {
+			var newInstr = new Tone.Sampler({}, {
+				'release' : 1,
+				'volume' : instFamilyMeta.volume
+			});
+
+			$.each(instFamilyMeta.notes, function(sampleNote) {
+				newInstr.add(sampleNote, instFamilyMeta.buffer.get(sampleNote));
+			});
+			instFamilyMeta.preloaded = newInstr;
+		});
 	}
 
 //==============================================================================
@@ -195,8 +213,11 @@
 			}
 		});
 
-		console.log('All sample instruments loaded');
-		clearTimeout(sampleInstsLoadChecker);
+		preLoadAllInstruments();
+
+		console.log('All sample instruments preloaded');
+
+		clearInterval(sampleInstsLoadChecker);
 	}
 
 	loadBuffers();
