@@ -31,8 +31,6 @@
 //==============================================================================
 	samplesInsts.piano = { name: 'Piano', baseUrl: instsFolder + 'piano/', volume: -10 }
 	samplesInsts.piano.notes = {
-		'C4' : 'C4.mp3',
-		'D4' : 'D4.mp3',
 		'E4' : 'E4.mp3',
 		'F4' : 'F4.mp3',
 		'G4' : 'G4.mp3',
@@ -44,8 +42,7 @@
 		'E5' : 'E5.mp3',
 		'F5' : 'F5.mp3',
 		'G5' : 'G5.mp3',
-		'A5' : 'A5.mp3',
-		'B5' : 'B5.mp3'
+		'A5' : 'A5.mp3'
 	}
 
 	// samplesInsts.piano = { name: 'Piano', baseUrl: 'piano/', volume: 0 }
