@@ -33,7 +33,7 @@ $(document).ready(function() {
 //==============================================================================
 // Song Decoding Functions
 //==============================================================================
-function loadJson(fileName) {
+function loadJson(fileName, fromFile = false) {
 	// Reset if new file is loaded
 	insts = [];
 	meters = [];
@@ -43,17 +43,22 @@ function loadJson(fileName) {
 	// Will hold JSON data
 	var songJson = {};
 
-	$.ajax({
-		dataType: 'json',
-		url: fileName,
-		async: false // Need to fix
-	})
-	.done(function(data) {
-		songJson = data;
-	})
-	.fail(function(error) {
-		console.log(error)
-	});
+	if(fromFile) {
+		console.log('Loading from Textarea')
+		songJson = JSON.parse(fileName);
+	} else {
+		$.ajax({
+			dataType: 'json',
+			url: fileName,
+			async: false // Need to fix
+		})
+		.done(function(data) {
+			songJson = data;
+		})
+		.fail(function(error) {
+			console.log(error)
+		});
+	}
 
 	Tone.Transport.bpm.value = songJson.bpm;
 
@@ -334,5 +339,20 @@ $visualizer.on('change', '.instSelector' , function() {
 
 		var newSong = $(this).val();
 		loadJson('songs/' + newSong + '.json');
+	});
+
+//==============================================================================
+// Play from Textarea
+//==============================================================================
+	var $adjustedJson = $('#adjustedJson');
+	var $loadAdjustedJson = $('#loadAdjustedJson')
+
+	$loadAdjustedJson.on('click', function() {
+		pause();
+		Tone.Transport.cancel(0);
+		Tone.Transport.seconds = 0;
+
+		var newSong = $(this).val();
+		loadJson($adjustedJson.val(), true);
 	});
 });
