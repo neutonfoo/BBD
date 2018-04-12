@@ -57,6 +57,7 @@ function loadJson(fileName) {
 
 	Tone.Transport.bpm.value = songJson.bpm;
 
+	// Tone.context.latencyHint = 'balanced'
 
 	songMeta.duration = songJson.duration;
 	songMeta.optimizeOption = songJson.optimizeOption;
