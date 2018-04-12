@@ -155,4 +155,5 @@ textarea.converterTextarea {
 .modalBody ol, ul {
 	padding-left: 0;
 	list-style-position: inside;
+	list-style-type: square;
 }
