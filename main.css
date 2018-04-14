@@ -9,7 +9,7 @@ body {
 }
 
 #mainContainer {
-	border:1px solid #000;
+	/* border:1px solid #000; */
 	margin-bottom: 100px;
 }
 
@@ -21,7 +21,7 @@ body {
 	line-height: 50px;
 }
 
-@media all and (max-width : 685px) {
+@media all and (max-width : 739px) {
 	#mainContainer {
 		margin-bottom: 150px;
 	}
@@ -31,7 +31,7 @@ body {
 	}
 }
 
-@media all and (max-width : 468px) {
+@media all and (max-width : 469px) {
 	#mainContainer {
 		margin-bottom: 200px;
 	}
@@ -79,6 +79,17 @@ body {
 
 .footerItem > img {
 	width:15px;
+}
+
+hr {
+	margin:0 auto 2px auto;
+
+	border: 0;
+	width: 90%;
+	color: #DDD;
+	background-color: #DDD;
+	height: 2px;
+
 }
 
 /* Conveter Drop Zone */

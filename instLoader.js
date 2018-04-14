@@ -18,7 +18,6 @@
 	// samplesInsts.ken.notes = {
 	// 	'C3' : 'C3.mp3',
 	// 	'C4' : 'C4.mp3',
-	// 	'G2' : 'G2.mp3',
 	// 	'G4' : 'G4.mp3'
 	// }
 
