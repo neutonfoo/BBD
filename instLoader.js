@@ -54,7 +54,7 @@
 //==============================================================================
 // Strings
 //==============================================================================
-	samplesInsts.strings = { name: 'Violin', baseUrl: instsFolder + 'violin/', volume: -8 }
+	samplesInsts.strings = { name: 'Violin', baseUrl: instsFolder + 'violin/', volume: -3 }
 	samplesInsts.strings.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
@@ -97,7 +97,7 @@
 //==============================================================================
 // Brass
 //==============================================================================
-	samplesInsts.brass = { name: 'Trumpet', baseUrl: instsFolder + 'trumpet/', volume: -8 }
+	samplesInsts.brass = { name: 'Trumpet', baseUrl: instsFolder + 'trumpet/', volume: -4 }
 	samplesInsts.brass.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
