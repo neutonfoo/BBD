@@ -5,7 +5,5 @@ $(document).ready(function() {
 		$adjustedJson.val('')
 	});
 
-	$("#converterListener").leanModal({ top : 50 });
-	$("#aboutListener").leanModal({ top : 50 });
-	$("#thanksListener").leanModal({ top : 50 });
+	$("#converterListener, #aboutListener, #thanksListener").leanModal({ top : 50 });
 });

@@ -26,18 +26,26 @@ $(document).ready(function() {
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
-	StartAudioContext(Tone.context, '.changeSong').then(function() {
-		var sampleInstsLoadChecker2 = setInterval(function() {
-			if(!sampleInstsLoaded) {
-				return false;
-			} else {
+	$visualizer.html('<p id="loading">Loading...</p>')
 
-				clearInterval(sampleInstsLoadChecker2)
+	var sampleInstsLoadChecker2 = setInterval(function() {
+		if(!sampleInstsLoaded) {
+			return false;
+		} else {
 
+			// Will immediately be replaced on browsers, on mobile, text will remain
+			// because Audio Context needs to be started by user.
+			
+			$visualizer.html('<p id="loading">Select a song</p>')
+
+			StartAudioContext(Tone.context, '.changeSong').then(function() {
 				loadJson('songs/csSuOp.json');
-			}
-		}, 2000)
-	});
+			});
+
+			clearInterval(sampleInstsLoadChecker2)
+
+		}
+	}, 2000)
 
 //==============================================================================
 // Song Decoding Functions
@@ -99,7 +107,6 @@ function loadJson(fileName, fromFile = false) {
 	songMeta.tracks = songJson.tracks;
 
 	console.log('Detected ' + songJson.tracks.length + ' tracks')
-
 
 	$.each(songMeta.tracks, function(i, track) {
 		var trackInstrumentFamily = track[songMeta.oVars.instrumentFamily];

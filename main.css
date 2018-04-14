@@ -13,6 +13,12 @@ body {
 	margin-bottom: 100px;
 }
 
+p#loading {
+	font-family: monospace;
+	margin-top:100px;
+	text-align: center;
+}
+
 #footerContainer {
 	padding:5px;
 	position: fixed;
@@ -128,7 +134,6 @@ textarea.converterTextarea {
 
 .modal {
 	max-height: 400px;
-	overflow: scroll;
 	width:400px;
 	display: none;
 	background-color:#FFF;
