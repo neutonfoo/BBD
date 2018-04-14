@@ -5,11 +5,10 @@
 
 body {
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-	background-color:#87CEFA;
+	/* background-color:#ddd1e7; */
 }
 
 #mainContainer {
-	/* border:1px solid #000; */
 	margin-bottom: 100px;
 }
 
@@ -17,6 +16,10 @@ p#loading {
 	font-family: monospace;
 	margin-top:100px;
 	text-align: center;
+}
+
+#visualizer {
+	margin:10px;
 }
 
 #footerContainer {
@@ -69,7 +72,9 @@ p#loading {
 .footerItem {
 	border-radius: 25px;
 
-	background-color: #FFF;
+	background-color: #EEE;
+
+	/* border:1px solid #000; */
 	width:50px;
 	text-align: center;
 	display: inline-block;
@@ -134,7 +139,7 @@ textarea.converterTextarea {
 
 .modal {
 	max-height: 400px;
-	width:400px;
+	max-width:400px;
 	display: none;
 	background-color:#FFF;
 

@@ -5,5 +5,5 @@ $(document).ready(function() {
 		$adjustedJson.val('')
 	});
 
-	$("#converterListener, #aboutListener, #thanksListener").leanModal({ top : 50 });
+	$("#songSelectorListener, #converterListener, #aboutListener, #thanksListener").leanModal({ top : 50 });
 });

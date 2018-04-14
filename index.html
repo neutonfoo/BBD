@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<title>BBD</title>
+	<title>BBD Player</title>
 	<link rel="stylesheet" href="main.css">
 	<!-- jQuery -->
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
@@ -17,19 +17,16 @@
 	<!-- leanModal -->
 	<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
 	<script type="text/javascript" src="modal.js"></script>
-	<!-- Instrument Buffers -->
+	<!-- Instrument Buffers and Song List -->
 	<script type="text/javascript" src="instLoader.js"></script>
+	<script type="text/javascript" src="songList.js"></script>
 	<!-- Player and Converter -->
 	<script type="text/javascript" src="player.js"></script>
 	<script type="text/javascript" src="converter.js"></script>
 </head>
 <body>
 	<div id="mainContainer">
-		<input class="changeSong" type="button" value="csSuOp">
-		<input class="changeSong" type="button" value="at">
-		<input class="changeSong" type="button" value="hc">
-		<input class="changeSong" type="button" value="shst">
-		<input class="changeSong"  type="button" value="yomw">
+		<h1>BBD Player</h1>
 		<div id="visualizer"></div>
 		<div id="footerContainer">
 			<a href="#"><span id="rewindTimeline" class="footerItem"><img src="open-iconic/media-step-backward.svg"></span></a>
@@ -48,19 +45,27 @@
 			<a href="https://github.com/neutonfoo/BBD"><span id="github" class="footerItem"><img src="open-iconic/code.svg"></span></a>
 		</div>
 		<!-- Modals -->
+		<div id="songSelectorModal" class="modal">
+			<div class="modalBody">
+				<h1>Songs</h1>
+				<div id="songList"></div>
+			</div>
+		</div>
 		<div id="converterModal" class="modal">
 			<div class="modalBody">
 				<h1>Converter</h1>
 				<div id="midiDropZone">*.midi drop zone</div>
 				<p>
 					<input type="radio" class="optimizeRadio" name="optimize" value="original"> Normal
+					&nbsp;
 					<input type="radio" class="optimizeRadio" name="optimize" value="optimize"> Optimize
+					&nbsp;
 					<input type="radio" class="optimizeRadio" name="optimize" value="superOptimize" checked="checked"> Super Optimize
 				</p>
 				<h2>Adjusted JSON</h2>
 				<textarea id="adjustedJson" class="converterTextarea" rows="10"></textarea>
 				<p>
-					<input type="button" id="loadAdjustedJson" value="Load">
+					<input type="button" id="loadAdjustedJson" value="Load into Player">
 				</p>
 			</div>
 		</div>
@@ -87,8 +92,8 @@
 	</div>
 	<div id="thanksModal" class="modal">
 		<div class="modalBody">
-			<h1>For</h1>
-			<img src="3-quinuclidinyl-benzilate.png" alt="">
+			<!-- <h1>For</h1>
+			<img src="3-quinuclidinyl-benzilate.png" alt=""> -->
 			<h1>Special Thanks</h1>
 			<!-- <ul>
 				<li><b>Ken Murakami</b> -  for help with <i>きのこ帝国 - You outside my window</i> transcription.</li>

@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var isPlaying = false;
 
 	var $body = $('body');
+	var $songList = $('#songList');
 	var $playToggle = $('#playToggle');
 	var $clearPlayer = $('.clearPlayer');
 	var $changeSongButtons = $('.changeSong');
@@ -35,7 +36,7 @@ $(document).ready(function() {
 
 			// Will immediately be replaced on browsers, on mobile, text will remain
 			// because Audio Context needs to be started by user.
-			
+
 			$visualizer.html('<p id="loading">Select a song</p>')
 
 			StartAudioContext(Tone.context, '.changeSong').then(function() {
@@ -328,12 +329,12 @@ $visualizer.on('change', '.instSelector' , function() {
 //==============================================================================
 // Change Song
 //==============================================================================
-	$changeSongButtons.on('click', function() {
+	$songList.on('click', '.changeSong' , function() {
 		pause();
 		Tone.Transport.cancel(0);
 		Tone.Transport.seconds = 0;
 
-		var newSong = $(this).val();
+		var newSong = $(this).data('jsonfilename');
 		loadJson('songs/' + newSong + '.json');
 	});
 
