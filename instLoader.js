@@ -86,7 +86,7 @@
 	masterInsts.strings = { name: 'Strings' }
 	masterInsts.strings.insts = []
 
-	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -3 }
+	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -4 }
 	stringsViolin.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
@@ -103,7 +103,7 @@
 	masterInsts.brass = { name: 'Brass' }
 	masterInsts.brass.insts = []
 
-	var brassTrumpet= { instCode: 'brassTrumpet',  name: 'Trumpet', default: true, volume: -4 }
+	var brassTrumpet= { instCode: 'brassTrumpet',  name: 'Trumpet', default: true, volume: -7 }
 	brassTrumpet.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
@@ -150,7 +150,7 @@
 	masterInsts.chineseInsts.insts.push(chineseInstsPipa)
 
 	// Chinese Instruments / Erhu
-	var chineseInstsErhu = { instCode: 'chineseInstsErhu',  name: 'Erhu (二胡)', volume: -10 }
+	var chineseInstsErhu = { instCode: 'chineseInstsErhu',  name: 'Erhu (二胡)', volume: -12 }
 	chineseInstsErhu.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
@@ -167,8 +167,8 @@
 	masterInsts.drums = { name: 'Drums' }
 	masterInsts.drums.insts = []
 
-	// Drums / Standard
-	var drumsBluebird = { instCode: 'drumsBluebird', name: 'Bluebird Drum Kit', default: true, volume: -7 }
+	// Drums / Bluebird
+	var drumsBluebird = { instCode: 'drumsBluebird', name: 'Bluebird Drum Kit', volume: -7 }
 	drumsBluebird.notes = {
 		'B1' : 'B0.mp3',
 		'D2' : 'D1.mp3',
@@ -179,6 +179,19 @@
 		'D#3' : 'Ds2.mp3'
 	}
 	masterInsts.drums.insts.push(drumsBluebird)
+
+	// Drums / SoCal
+	var drumsSoCal = { instCode: 'drumsSoCal', name: 'SoCal Drum Kit', default: true, volume: -5 }
+	drumsSoCal.notes = {
+		'B1' : 'B0.mp3',
+		'D2' : 'D1.mp3',
+		'F2' : 'F1.mp3',
+		'G2' : 'G1.mp3',
+		'G#2' : 'Gs1.mp3',
+		'C#3' : 'Cs2.mp3',
+		'D#3' : 'Ds2.mp3'
+	}
+	masterInsts.drums.insts.push(drumsSoCal)
 
 //==============================================================================
 // Preload Samples / Buffers on page load

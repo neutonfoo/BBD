@@ -41,8 +41,27 @@ songList.push({
 $(document).ready(function() {
 	$songList = $('#songList');
 
+	var songListHTML = '<table>'
+	songListHTML += '<thead>'
+	songListHTML += '<tr>'
+	songListHTML += '<th>Title</th>'
+	songListHTML += '<th>Artist</th>'
+	songListHTML += '<th></th>'
+	songListHTML += '</tr>'
+	songListHTML += '</thead>'
+	songListHTML += '<tbody>'
+
 	$.each(songList, function(songIndex, song) {
-		var songHtml = '<input type="button" class="changeSong" value="' + song.name + ' by ' + song.artist + '" data-jsonfilename="' + song.jsonFilename + '">';
-		$songList.append(songHtml + '<br>');
+
+		songListHTML += '<tr>'
+		songListHTML += '<td>' + song.name + '</td>'
+		songListHTML += '<td>' + song.artist + '</td>'
+		songListHTML += '<td><input type="button" class="changeSong" value="Play"  data-jsonfilename="' + song.jsonFilename + '"></td>'
+		songListHTML += '</tr>'
 	});
+	
+	songListHTML += '</tbody>'
+	songListHTML += '</table>'
+
+	$songList.html(songListHTML);
 });

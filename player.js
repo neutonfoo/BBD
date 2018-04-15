@@ -207,33 +207,34 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		$visualizer.html(''); // Clear visualizer
 
 		$.each(insts, function(trackId, track) {
-			var selectBoxHtml = '<select data-trackid="' + trackId + '" class="instSelector">';
+			var selectBoxHTML = '<select data-trackid="' + trackId + '" class="instSelector">';
 
-			selectBoxHtml += '<option data-instfamily="none">None</option>'
+			selectBoxHTML += '<option data-instfamily="none">None</option>'
 
 			$.each(masterInsts, function(instFamily, instFamilyMeta) {
 
-				selectBoxHtml += '<optgroup label="' + instFamilyMeta.name + '">';
+				selectBoxHTML += '<optgroup label="' + instFamilyMeta.name + '">';
 
 				$.each(instFamilyMeta.insts, function(instId, instMeta) {
-					selectBoxHtml += '<option data-instfamily="' + instFamily  + '" data-instcode="' + instMeta.instCode  + '"';
+					selectBoxHTML += '<option data-instfamily="' + instFamily  + '" data-instcode="' + instMeta.instCode  + '"';
 
 					if(songMeta.instCodes[trackId] == instMeta.instCode) {
-						selectBoxHtml += ' selected="true"';
+						selectBoxHTML += ' selected="true"';
 					}
 
-					selectBoxHtml += '>'
+					selectBoxHTML += '>'
 
-					selectBoxHtml += instMeta.name + '</option>';
+					selectBoxHTML += instMeta.name + '</option>';
 				});
 
-				selectBoxHtml += '</optgroup>';
+				selectBoxHTML += '</optgroup>';
 
 			});
 
-			selectBoxHtml += '</select>';
+			selectBoxHTML += '</select>';
 
-			$visualizer.append(selectBoxHtml);
+			$visualizer.append(selectBoxHTML);
+			
 			$.each(visualizerNotes, function(k, note) {
 				var className = 'note'
 				if(note.includes('#')) {
