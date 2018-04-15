@@ -12,6 +12,12 @@ songList.push({
 });
 
 songList.push({
+	'name': '鳥の詩',
+	'artist': 'Lia',
+	'jsonFilename': 'ToriNoUta'
+});
+
+songList.push({
 	'name': '残酷な天使のテーゼ',
 	'artist': '高橋 洋子',
 	'jsonFilename': 'ACruelAngelsThesis'
@@ -21,6 +27,12 @@ songList.push({
 	'name': 'You outside my window',
 	'artist': 'きのこ帝国',
 	'jsonFilename': 'YouOutsideMyWindow'
+});
+
+songList.push({
+	'name': 'あの夏へ',
+	'artist': '久石 譲',
+	'jsonFilename': 'OneSummersDay'
 });
 
 //==============================================================================

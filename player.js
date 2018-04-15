@@ -38,7 +38,7 @@ $(document).ready(function() {
 			$visualizer.html('<p id="completedLoadingMessage">Tap to Start</p>')
 
 			StartAudioContext(Tone.context, '#completedLoadingMessage').then(function() {
-				loadSong('ACruelAngelsThesis');
+				loadSong('OneSummersDay');
 				activatePlayerButtons();
 			});
 
@@ -76,7 +76,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 			songJSON = data;
 
 			var songMetaFromSongList = songList.filter(song => song.jsonFilename == JSONOrFileName)[0];
-			songMeta.name = songMetaFromSongList.name + ' by ' + songMetaFromSongList.artist;
+			songMeta.name = songMetaFromSongList.artist + '&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;' + songMetaFromSongList.name;
 		})
 		.fail(function(error) {
 			console.log(error)

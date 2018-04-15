@@ -139,7 +139,7 @@
 	masterInsts.chineseInsts.insts = []
 
 	// Chinese Instruments / Pipa
-	var chineseInstsPipa = { instCode: 'chineseInstsPipa', name: 'Pipa (琵琶)', volume: -10 }
+	var chineseInstsPipa = { instCode: 'chineseInstsPipa', name: 'Pipa (琵琶)', default: true, volume: -10 }
 	chineseInstsPipa.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
