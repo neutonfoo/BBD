@@ -28,14 +28,14 @@ $(document).ready(function() {
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
-	$visualizer.html('<p id="loading">Loading...</p>')
+	$visualizer.html('<p id="loadingMessage">Loading...</p>')
 
 	var masterInstsLoadCheckerForPlayer = setInterval(function() {
 		if(masterInstsHavePreloaded) {
 			// Will immediately be replaced on browsers, on mobile, text will remain because Audio Context needs to be started by user.
-			$visualizer.html('<input id="completedLoading" type="button" value="Start">')
+			$visualizer.html('<p id="completedLoadingMessage">Start</p>')
 
-			StartAudioContext(Tone.context, '#completedLoading').then(function() {
+			StartAudioContext(Tone.context, '#completedLoadingMessage').then(function() {
 				loadSong('songs/hc.json');
 				activatePlayerButtons();
 			});
