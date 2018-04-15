@@ -19,74 +19,72 @@ $(document).ready(function() {
 //==============================================================================
 // Instruments and Meters
 //==============================================================================
+	var songMeta = {}
+
 	var insts = [];
 	var meters = [];
 	var parts = [];
-	var songMeta = {}
 
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
 	$visualizer.html('<p id="loading">Loading...</p>')
 
-	var sampleInstsLoadChecker2 = setInterval(function() {
-		if(!sampleInstsLoaded) {
-			return false;
-		} else {
+	var masterInstsLoadCheckerForPlayer = setInterval(function() {
+		if(masterInstsHavePreloaded) {
+			clearInterval(masterInstsLoadCheckerForPlayer)
 
-			// Will immediately be replaced on browsers, on mobile, text will remain
-			// because Audio Context needs to be started by user.
+			// Will immediately be replaced on browsers, on mobile, text will remain because Audio Context needs to be started by user.
+			$visualizer.html('<input id="completedLoading" type="button" value="Start">')
 
-			$visualizer.html('<p id="loading">Select a song</p>')
-
-			StartAudioContext(Tone.context, '.changeSong').then(function() {
-				loadJson('songs/csSuOp.json');
+			StartAudioContext(Tone.context, '#completedLoading').then(function() {
+				loadSong('songs/hc.json');
+				activatePlayerButtons();
 			});
-
-			clearInterval(sampleInstsLoadChecker2)
-
 		}
-	}, 2000)
+	}, 1000)
 
 //==============================================================================
 // Song Decoding Functions
 //==============================================================================
-function loadJson(fileName, fromFile = false) {
+function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	// Reset if new file is loaded
+	songMeta = {}
+
 	insts = [];
 	meters = [];
 	parts = [];
-	songMeta = {}
 
-	// Will hold JSON data
-	var songJson = {};
+	// Will hold song JSON data
+	var songJSON = {};
 
-	if(fromFile) {
-		console.log('Loading from Textarea')
-		songJson = JSON.parse(fileName);
+	if(fromJSONTextarea) {
+		console.log('Loading from textarea');
+		songJSON = JSON.parse(JSONOrFileName);
 	} else {
 		$.ajax({
 			dataType: 'json',
-			url: fileName,
+			url: JSONOrFileName,
 			async: false // Need to fix
 		})
 		.done(function(data) {
-			songJson = data;
+			songJSON = data;
 		})
 		.fail(function(error) {
 			console.log(error)
 		});
 	}
 
-	Tone.Transport.bpm.value = songJson.bpm;
-
+	Tone.Transport.bpm.value = songJSON.bpm;
 	// Tone.context.latencyHint = 'balanced'
 
-	songMeta.duration = songJson.duration;
-	songMeta.optimizeOption = songJson.optimizeOption;
-	songMeta.oVars = {}
+	songMeta.duration = songJSON.duration;
+	songMeta.optimizeOption = songJSON.optimizeOption;
+	songMeta.oVars = {} // Stores JSON key names based on optimizeOption
 
 	if(songMeta.optimizeOption == 'sO') {
+		// If Super Optimized
+
 		songMeta.oVars.instrumentFamily = 'iF';
 		songMeta.oVars.trackNotes = 'ns';
 
@@ -95,6 +93,8 @@ function loadJson(fileName, fromFile = false) {
 		songMeta.oVars.noteDuration = 'd';
 		songMeta.oVars.noteVelocity = 'v';
 	} else {
+		// If Normal or Optimized
+
 		songMeta.oVars.instrumentFamily = 'instrumentFamily';
 		songMeta.oVars.trackNotes = 'notes';
 
@@ -105,53 +105,58 @@ function loadJson(fileName, fromFile = false) {
 	}
 
 	songMeta.instrumentFamilies = [];
-	songMeta.tracks = songJson.tracks;
+	songMeta.tracks = songJSON.tracks;
 
-	console.log('Detected ' + songJson.tracks.length + ' tracks')
+	console.log('Detected ' + songJSON.tracks.length + ' tracks')
 
-	$.each(songMeta.tracks, function(i, track) {
-		var trackInstrumentFamily = track[songMeta.oVars.instrumentFamily];
+	$.each(songMeta.tracks, function(trackId, track) {
+		var instrumentFamily = track[songMeta.oVars.instrumentFamily];
 
-		if(trackInstrumentFamily == null) {
-			trackInstrumentFamily = 'piano';
-		} else if(trackInstrumentFamily.includes('synth')) {
-			trackInstrumentFamily = 'synth';
-		} else if(!samplesInsts.hasOwnProperty(trackInstrumentFamily)) {
-			trackInstrumentFamily = 'piano'
+		if(instrumentFamily == null) {
+			// If no instrument family set, auto to Piano
+
+			instrumentFamily = 'piano';
+		} else if(instrumentFamily.includes('synth')) {
+			// If instrument family contains the word synth, set to Synth
+
+			instrumentFamily = 'synth';
+		} else if(!masterInsts.hasOwnProperty(instrumentFamily)) {
+			// If instrument family is unsupported, set to Piano
+
+			instrumentFamily = 'piano'
 		}
 
-		var instMeta = getInstrumentMetaFromInstrumentFamily(trackInstrumentFamily)
+		var newInstAndMeter = createNewInstAndMeter(instrumentFamily)
 
-		var newMeter = instMeta.meter;
-		var newInstr = instMeta.inst;
+		var newInst = newInstAndMeter.inst;
+		var newMeter = newInstAndMeter.meter;
 
-		parts.push(assignNotesToInst(i, newInstr, track[songMeta.oVars.trackNotes]));
-
+		insts.push(newInst);
 		meters.push(newMeter);
-		insts.push(newInstr);
+		parts.push(assignNotesToInst(trackId, newInst, track[songMeta.oVars.trackNotes]));
 
-		songMeta.instrumentFamilies.push(trackInstrumentFamily)
+		songMeta.instrumentFamilies.push(instrumentFamily)
 	});
+
 	drawVisualizer();
 }
 
-function getInstrumentMetaFromInstrumentFamily(instFamily) {
+function createNewInstAndMeter(instrumentFamily) {
 	var newMeter = new Tone.Meter();
-	var newInstr = samplesInsts[instFamily].preloaded;
+	var newInst = masterInsts[instrumentFamily].preloaded;
 
-	newInstr.connect(newMeter).toMaster();
+	newInst.connect(newMeter).toMaster();
 
-	return { inst : newInstr, meter : newMeter }
+	return { inst : newInst, meter : newMeter }
 }
 
-function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
+function assignNotesToInst(trackId, inst, trackNotes) {
 
-	$.each(notes, function(n, note) {
+	$.each(trackNotes, function(noteId, note) {
 		note.time = note[songMeta.oVars.noteTime];
 	});
 
-
-	var tonePart = new Tone.Part(function(time, note) {
+	var part = new Tone.Part(function(time, note) {
 		var noteCSS = '#track' + trackId + 'note' + note[songMeta.oVars.noteName].replace('#', 's');
 
 		inst.triggerAttackRelease(note[songMeta.oVars.noteName], note[songMeta.oVars.noteDuration], time, note[songMeta.oVars.noteVelocity]);
@@ -159,55 +164,56 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 		Tone.Draw.schedule(function() {
 			var level = Tone.dbToGain(meters[trackId].getLevel());
 			var hslMeta = getHueAndTextColor(level);
+
 			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('color', hslMeta.textColor);
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 		}, time);
-	}, notes);
+	}, trackNotes);
 
-	tonePart.start(0);
+	part.start(0);
 
-	return tonePart;
+	return part;
 }
 
 //==============================================================================
 // Visualizer
 //==============================================================================
 
-	var notes = ['A0', 'A#0', 'B0', 'C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1', 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5', 'C6', 'C#6', 'D6', 'D#6', 'E6', 'F6', 'F#6', 'G6', 'G#6', 'A6', 'A#6', 'B6', 'C7', 'C#7', 'D7', 'D#7', 'E7', 'F7', 'F#7', 'G7', 'G#7', 'A7', 'A#7', 'B7', 'C8'];;
+	var visualizerNotes = ['A0', 'A#0', 'B0', 'C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1', 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5', 'C6', 'C#6', 'D6', 'D#6', 'E6', 'F6', 'F#6', 'G6', 'G#6', 'A6', 'A#6', 'B6', 'C7', 'C#7', 'D7', 'D#7', 'E7', 'F7', 'F#7', 'G7', 'G#7', 'A7', 'A#7', 'B7', 'C8'];;
 
 	function drawVisualizer() {
 		$visualizer.html(''); // Clear visualizer
 
-		$.each(insts, function(i, inst) {
-			var selectBoxHtml = '<select id="track' + i + '" class="instSelector">';
+		$.each(insts, function(instId, inst) {
+			var selectBoxHtml = '<select data-trackid="' + instId + '" class="instSelector">';
 
 			selectBoxHtml += '<option value="none">None</option>'
+			$.each(masterInsts, function(instrumentFamily, instrumentFamilyMeta) {
+				selectBoxHtml += '<option value="' + instrumentFamily  + '"';
 
-			$.each(samplesInsts, function(instFamily, instFamilyMeta) {
-				selectBoxHtml += '<option value="' + instFamily  + '"';
-
-				if(songMeta.instrumentFamilies[i] == instFamily) {
+				if(songMeta.instrumentFamilies[instId] == instrumentFamily) {
 					selectBoxHtml += ' selected="true"';
 				}
 
 				selectBoxHtml += '>'
 
-				selectBoxHtml += instFamilyMeta.name + '</option>';
+				selectBoxHtml += instrumentFamilyMeta.name + '</option>';
 			});
-
 			selectBoxHtml += '</select>';
 
 			$visualizer.append(selectBoxHtml);
 
-			$.each(notes, function(k, note) {
+			$.each(visualizerNotes, function(k, note) {
 				var className = 'note'
 				if(note.includes('#')) {
 					className += ' noteSharp'
 				}
-				$visualizer.append('<div id="track' + i + 'note' + note.replace('#', 's') + '" class="' + className + '">' + note + '</div>');
+				$visualizer.append('<div id="track' + instId + 'note' + note.replace('#', 's') + '" class="' + className + '">' + note + '</div>');
 			});
+
 		$visualizer.append('<hr>');
+
 		});
 	}
 
@@ -235,15 +241,15 @@ function assignNotesToInst(trackId, inst, notes, isChangingInstrument = false) {
 // Instrument Switcher
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
-	var trackId = $(this).attr('id').replace('track', '');
+	var trackId = $(this).data('trackid');
 	parts[trackId].removeAll();
 
-	var newInst = getInstrumentMetaFromInstrumentFamily($(this).val());
+	var newInstAndMeter = createNewInstAndMeter($(this).val());
 
-	meters[trackId] = newInst.meter;
-	insts[trackId] = newInst.inst;
+	insts[trackId] = newInstAndMeter.inst;
+	meters[trackId] = newInstAndMeter.meter;
 
-	parts[trackId] = assignNotesToInst(trackId, newInst.inst, songMeta.tracks[trackId][songMeta.oVars.trackNotes], true);
+	parts[trackId] = assignNotesToInst(trackId, insts[trackId], songMeta.tracks[trackId][songMeta.oVars.trackNotes]);
 });
 
 //==============================================================================
@@ -251,13 +257,12 @@ $visualizer.on('change', '.instSelector' , function() {
 //==============================================================================
 
 	// # Srubber
-	$timelineSlider.on('input change', function() {
+	$timelineSlider.on('change', function() {
 		startedPlaying = true; // Or it'll reset to 0
+
 		var newProgress = songMeta.duration * $(this).val() / 100;
 		Tone.Transport.seconds = newProgress;
 	});
-
-	var ramped = false;
 
 	// # Updater
 	setInterval(function() {
@@ -270,35 +275,35 @@ $visualizer.on('change', '.instSelector' , function() {
 			// pause();
 		}
 
-		if(Tone.Transport.seconds >= 540 && !ramped) {
-			ramped = true;
-			Tone.Transport.bpm.rampTo(130, 5);
-		}
-
 		$timelineSlider.val(percent);
 		$timelineText.val(Tone.Transport.seconds);
 	}, 500);
 
 //==============================================================================
+// Activate Player Buttons 
+//==============================================================================
+	function activatePlayerButtons() {
+//==============================================================================
 // Rewind Button
 //==============================================================================
-	$rewindTimeline.on('click', function() {
-		Tone.Transport.seconds = 0;
-	});
+		$rewindTimeline.on('click', function() {
+			Tone.Transport.seconds = 0;
+		});
 
 //==============================================================================
 // Toggle Button
 //==============================================================================
-	$playToggle.on('click', function() {
-		togglePlay()
-	});
-
-	$(document).on("keydown", function(e){
-    if(e.keyCode == 32){
+		$playToggle.on('click', function() {
 			togglePlay()
-      return false;
-    }
-	});
+		});
+
+		$(document).on("keydown", function(e){
+	    if(e.keyCode == 32){
+				togglePlay()
+	      return false;
+	    }
+		});
+	}
 
 	function togglePlay() {
 		if(!isPlaying) {
@@ -335,7 +340,7 @@ $visualizer.on('change', '.instSelector' , function() {
 		Tone.Transport.seconds = 0;
 
 		var newSong = $(this).data('jsonfilename');
-		loadJson('songs/' + newSong + '.json');
+		loadSong('songs/' + newSong + '.json');
 	});
 
 //==============================================================================
@@ -350,6 +355,6 @@ $visualizer.on('change', '.instSelector' , function() {
 		Tone.Transport.seconds = 0;
 
 		var newSong = $(this).val();
-		loadJson($adjustedJson.val(), true);
+		loadSong($adjustedJson.val(), true);
 	});
 });

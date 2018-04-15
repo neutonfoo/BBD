@@ -1,36 +1,27 @@
-// Not in $(document).ready(); to allow for early loading during page render.
-
 //==============================================================================
 // Variables
 //==============================================================================
 	var instsFolder = './insts/';
 
-	var sampleInstsLoadChecker;
-	var sampleInstsLoaded = false;
+	// Contains all master insts metadata and preloaded master insts
+	var masterInsts = {}
 
-	var samplesInsts = {}
-	var instsPreloaded = [];
+	// masterInstsLoadChecker will be assigned to a setInterval which will check if all master insts have been loaded
+	var masterInstsLoadChecker;
 
-//==============================================================================
-// Voice Sampling for lulz
-//==============================================================================
-	// samplesInsts.ken = { name: 'Ken', baseUrl: './customSamples/ken/', volume: 10 }
-	// samplesInsts.ken.notes = {
-	// 	'C3' : 'C3.mp3',
-	// 	'C4' : 'C4.mp3',
-	// 	'G4' : 'G4.mp3'
-	// }
+	// masterInstsHavePreloaded is a global boolean used by player.js to check if master insts have been preloaded
+	var masterInstsHavePreloaded = false;
 
 //==============================================================================
 // Synth
 //==============================================================================
-	samplesInsts.synth = { name: 'Synth', volume: -5 }
+	masterInsts.synth = { name: 'Synth', volume: -5 }
 
 //==============================================================================
 // Piano
 //==============================================================================
-	samplesInsts.piano = { name: 'Piano', baseUrl: instsFolder + 'piano/', volume: -10 }
-	samplesInsts.piano.notes = {
+	masterInsts.piano = { name: 'Piano', baseUrl: instsFolder + 'piano/', volume: -10 }
+	masterInsts.piano.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
 		'C5' : 'C4.mp3',
@@ -42,8 +33,8 @@
 //==============================================================================
 // Guitar
 //==============================================================================
-	samplesInsts.guitar = { name: 'Electric Guitar', baseUrl: instsFolder + 'electricGuitar/', volume: -15 }
-	samplesInsts.guitar.notes = {
+	masterInsts.guitar = { name: 'Electric Guitar', baseUrl: instsFolder + 'electricGuitar/', volume: -15 }
+	masterInsts.guitar.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
 		'C5' : 'C4.mp3',
@@ -54,8 +45,8 @@
 //==============================================================================
 // Strings
 //==============================================================================
-	samplesInsts.strings = { name: 'Violin', baseUrl: instsFolder + 'violin/', volume: -3 }
-	samplesInsts.strings.notes = {
+	masterInsts.strings = { name: 'Violin', baseUrl: instsFolder + 'violin/', volume: -3 }
+	masterInsts.strings.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
 		'C5' : 'C4.mp3',
@@ -67,8 +58,8 @@
 //==============================================================================
 // Bass
 //==============================================================================
-	samplesInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doubleBass/', volume: -3 }
-	samplesInsts.bass.notes = {
+	masterInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'doubleBass/', volume: -3 }
+	masterInsts.bass.notes = {
 		'A1' : 'A1.mp3',
 		'C2' : 'C2.mp3',
 		'A2' : 'A2.mp3',
@@ -83,8 +74,8 @@
 //==============================================================================
 // Drums
 //==============================================================================
-	samplesInsts.drums = { name: 'Drums', baseUrl: instsFolder + 'drums/', volume: -15 }
-	samplesInsts.drums.notes = {
+	masterInsts.drums = { name: 'Drums', baseUrl: instsFolder + 'drums/', volume: -15 }
+	masterInsts.drums.notes = {
 		'G#2' : 'Gs2.mp3',
 		'B1' : 'B1.mp3',
 		'G2' : 'G2.mp3',
@@ -97,8 +88,8 @@
 //==============================================================================
 // Brass
 //==============================================================================
-	samplesInsts.brass = { name: 'Trumpet', baseUrl: instsFolder + 'trumpet/', volume: -4 }
-	samplesInsts.brass.notes = {
+	masterInsts.brass = { name: 'Trumpet', baseUrl: instsFolder + 'trumpet/', volume: -4 }
+	masterInsts.brass.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
 		'C5' : 'C4.mp3',
@@ -107,31 +98,30 @@
 	}
 
 //==============================================================================
-// Load Buffers
+// Preload Samples / Buffers on page load
 //==============================================================================
 	function loadBuffers() {
 
-		$.each(samplesInsts, function(samplesInst, samplesInstMeta) {
-			if(samplesInst != 'none') {
-				samplesInstMeta.buffer = new Tone.Buffers(samplesInstMeta.notes, {
-					'baseUrl': samplesInstMeta.baseUrl,
-						'onload': function() {
-							console.log('Loaded ' + samplesInstMeta.name + ' samples');
-						}
-				});
-			}
-		})
+		$.each(masterInsts, function(masterInst, masterInstMeta) {
+			masterInstMeta.buffer = new Tone.Buffers(masterInstMeta.notes, {
+				'baseUrl': masterInstMeta.baseUrl,
+				'onload': function() {
+					console.log('Loading ' + masterInstMeta.name + ' samples');
+				}
+			});
+		});
 
-		sampleInstsLoadChecker = setInterval(function() {
+		// Assign setInterval() on masterInstsLoadChecker to check status and update masterInstsHavePreloaded
+		masterInstsLoadChecker = setInterval(function() {
 			instsLoadCheck();
 		}, 3000);
 	}
 
 //==============================================================================
-// Preload Instruments to Array (removes need for re-sampling)
+// Preload Instruments to Array (removes need for re-sampling on instrument change)
 //==============================================================================
 	function preLoadAllInstruments() {
-		$.each(samplesInsts, function(instFamily, instFamilyMeta) {
+		$.each(masterInsts, function(instFamily, instFamilyMeta) {
 			var newInstr = new Tone.Sampler({}, {
 				'release' : 1,
 				'volume' : instFamilyMeta.volume
@@ -140,6 +130,7 @@
 			$.each(instFamilyMeta.notes, function(sampleNote) {
 				newInstr.add(sampleNote, instFamilyMeta.buffer.get(sampleNote));
 			});
+
 			instFamilyMeta.preloaded = newInstr;
 		});
 	}
@@ -148,20 +139,20 @@
 // Check Buffers
 //==============================================================================
 	function instsLoadCheck() {
-		sampleInstsLoaded = true;
+		masterInstsHavePreloaded = true;
 
-		$.each(samplesInsts, function(inst) {
-			if(!samplesInsts[inst].buffer.loaded) {
-				sampleInstsLoaded = false;
+		$.each(masterInsts, function(inst) {
+			if(!masterInsts[inst].buffer.loaded) {
+				masterInstsHavePreloaded = false;
 				return false;
 			}
 		});
 
-		preLoadAllInstruments();
-
-		console.log('All sample instruments preloaded');
-
-		clearInterval(sampleInstsLoadChecker);
+		if(masterInstsHavePreloaded) {
+			preLoadAllInstruments();
+			console.log('All sample instruments preloaded');
+			clearInterval(masterInstsLoadChecker);
+		}
 	}
 
 	loadBuffers();
