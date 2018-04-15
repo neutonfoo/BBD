@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var isPlaying = false;
 
 	var $body = $('body');
+	var $songName = $('#songName');
 	var $songList = $('#songList');
 	var $playToggle = $('#playToggle');
 	var $clearPlayer = $('.clearPlayer');
@@ -32,11 +33,12 @@ $(document).ready(function() {
 
 	var masterInstsLoadCheckerForPlayer = setInterval(function() {
 		if(masterInstsHavePreloaded) {
+
 			// Will immediately be replaced on browsers, on mobile, text will remain because Audio Context needs to be started by user.
 			$visualizer.html('<p id="completedLoadingMessage">Tap to Start</p>')
 
 			StartAudioContext(Tone.context, '#completedLoadingMessage').then(function() {
-				loadSong('songs/hc.json');
+				loadSong('ACruelAngelsThesis');
 				activatePlayerButtons();
 			});
 
@@ -62,24 +64,30 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	if(fromJSONTextarea) {
 		console.log('Loading from textarea');
 		songJSON = JSON.parse(JSONOrFileName);
+		songMeta.name = songJSON.name;
+
 	} else {
 		$.ajax({
 			dataType: 'json',
-			url: JSONOrFileName,
+			url: 'songs/' + JSONOrFileName + '.json',
 			async: false // Need to fix
 		})
 		.done(function(data) {
 			songJSON = data;
+
+			var songMetaFromSongList = songList.filter(song => song.jsonFilename == JSONOrFileName)[0];
+			songMeta.name = songMetaFromSongList.name + ' by ' + songMetaFromSongList.artist;
 		})
 		.fail(function(error) {
 			console.log(error)
 		});
 	}
 
+	$songName.html(songMeta.name);
+
 	Tone.Transport.bpm.value = songJSON.bpm;
 	// Tone.context.latencyHint = 'balanced'
 
-	songMeta.name = songJSON.name;
 	songMeta.duration = songJSON.duration;
 	songMeta.optimizeOption = songJSON.optimizeOption;
 	songMeta.oVars = {} // Stores JSON key names based on optimizeOption
@@ -347,7 +355,7 @@ $visualizer.on('change', '.instSelector' , function() {
 		Tone.Transport.seconds = 0;
 
 		var newSong = $(this).data('jsonfilename');
-		loadSong('songs/' + newSong + '.json');
+		loadSong(newSong);
 	});
 
 //==============================================================================

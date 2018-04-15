@@ -8,25 +8,19 @@ var songList = [];
 songList.push({
 	'name': 'Comforting Sounds',
 	'artist': 'Mew',
-	'jsonFilename': 'csSuOp'
+	'jsonFilename': 'ComfortingSounds'
 });
 
 songList.push({
 	'name': '残酷な天使のテーゼ',
 	'artist': '高橋 洋子',
-	'jsonFilename': 'hc'
+	'jsonFilename': 'ACruelAngelsThesis'
 });
 
 songList.push({
 	'name': 'You outside my window',
 	'artist': 'きのこ帝国',
-	'jsonFilename': 'yomw'
-});
-
-songList.push({
-	'name': 'Shooting Stars',
-	'artist': 'Bag Raiders',
-	'jsonFilename': 'shst'
+	'jsonFilename': 'YouOutsideMyWindow'
 });
 
 //==============================================================================

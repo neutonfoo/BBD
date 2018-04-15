@@ -52,7 +52,13 @@ $(document).ready(function() {
 				var song = {};
 				var optimizeOption = $('.optimizeRadio:checked').val();
 
-				song.name = songJson.header.name;
+				if(songJson.header.name) {
+					song.name = songJson.header.name;
+				} else {
+					console.log(uploadedFile)
+					song.name = uploadedFile.name;
+				}
+
 				song.bpm = songJson.header.bpm.toFixed(0);
 				song.duration = songJson.duration;
 				song.tracks = [];
