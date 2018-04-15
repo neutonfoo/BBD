@@ -221,10 +221,13 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 	function getHueAndTextColor(p) {
 		var hslMeta = {};
 
+		// Purple from 260 to 300
+
 		if(p == 0) {
 			hslMeta.hue = 0;
 		} else {
 			hslMeta.hue = 360 * p;
+			// hslMeta.hue = 260 + 40 * p;
 		}
 
 		if(hslMeta.hue >= 0 && hslMeta.hue <= 27.5) {
@@ -284,20 +287,18 @@ $visualizer.on('change', '.instSelector' , function() {
 // Activate Player Buttons
 //==============================================================================
 	function activatePlayerButtons() {
-//==============================================================================
-// Rewind Button
-//==============================================================================
+
+		// Rewind Button
 		$rewindTimeline.on('click', function() {
 			Tone.Transport.seconds = 0;
 		});
 
-//==============================================================================
-// Toggle Button
-//==============================================================================
+		// Play Toggle Button
 		$playToggle.on('click', function() {
 			togglePlay()
 		});
 
+		// Spacebar
 		$(document).on("keydown", function(e){
 	    if(e.keyCode == 32){
 				togglePlay()
@@ -305,6 +306,10 @@ $visualizer.on('change', '.instSelector' , function() {
 	    }
 		});
 	}
+
+//==============================================================================
+// Player Functions
+//==============================================================================
 
 	function togglePlay() {
 		if(!isPlaying) {

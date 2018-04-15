@@ -31,10 +31,24 @@
 	}
 
 //==============================================================================
-// Guitar
+// Acoustic Guitar
 //==============================================================================
-	masterInsts.guitar = { name: 'Electric Guitar', baseUrl: instsFolder + 'electricGuitar/', volume: -15 }
+	masterInsts.guitar = { name: 'Acoustic Guitar', baseUrl: instsFolder + 'acousticGuitar/', volume: -5 }
 	masterInsts.guitar.notes = {
+		'C1' : 'C0.mp3',
+		'C2' : 'C1.mp3',
+		'C3' : 'C2.mp3',
+		'C4' : 'C3.mp3',
+		'C5' : 'C4.mp3',
+		'C6' : 'C5.mp3',
+		'C7' : 'C6.mp3'
+	}
+
+//==============================================================================
+// Electric Guitar
+//==============================================================================
+	masterInsts.electricGuitar = { name: 'Electric Guitar', baseUrl: instsFolder + 'electricGuitar/', volume: -15 }
+	masterInsts.electricGuitar.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
 		'C5' : 'C4.mp3',
@@ -74,7 +88,7 @@
 //==============================================================================
 // Drums
 //==============================================================================
-	masterInsts.drums = { name: 'Drums', baseUrl: instsFolder + 'drums/', volume: -15 }
+	masterInsts.drums = { name: 'Drums', baseUrl: instsFolder + 'drums/', volume: -10 }
 	masterInsts.drums.notes = {
 		'G#2' : 'Gs2.mp3',
 		'B1' : 'B1.mp3',
