@@ -1,7 +1,7 @@
 //==============================================================================
 // Variables
 //==============================================================================
-	var instsFolder = './insts/';
+	var instsFolder = 'insts/';
 
 	// Contains all master insts metadata and preloaded master insts
 	var masterInsts = {}
