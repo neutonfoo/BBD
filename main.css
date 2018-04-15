@@ -12,6 +12,12 @@ body {
 	margin-bottom: 100px;
 }
 
+#appTitle {
+	background-color:#000;
+	color:#FFF;
+	padding:2px;
+}
+
 p#loadingMessage, p#completedLoadingMessage {
 	padding:5px;
 	background-color: #000;
