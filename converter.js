@@ -52,12 +52,13 @@ $(document).ready(function() {
 				var song = {};
 				var optimizeOption = $('.optimizeRadio:checked').val();
 
+				song.name = songJson.header.name;
 				song.bpm = songJson.header.bpm.toFixed(0);
 				song.duration = songJson.duration;
 				song.tracks = [];
 
-				if(optimizeOption == 'original') {
-					song.optimizeOption = 'o'; // sO for Original
+				if(optimizeOption == 'normal') {
+					song.optimizeOption = 'n'; // n for Normal
 
 					$.each(songJson.tracks, function(i, track) {
 						if(track.notes != 0) {
@@ -81,31 +82,7 @@ $(document).ready(function() {
 						}
 					});
 				} else if(optimizeOption == 'optimize') {
-					song.optimizeOption = 'op'; // op for Optimize
-
-					$.each(songJson.tracks, function(i, track) {
-						if(track.notes != 0) {
-							var trackMeta = {}
-							trackMeta.instrumentFamily = track.instrumentFamily;
-							trackMeta.notes = [];
-
-							$.each(track.notes, function(j, trackNote) {
-
-								var note = {}
-
-								note.name = trackNote.name;
-								note.duration = parseFloat(trackNote.duration.toFixed(4));
-								note.time = parseFloat(trackNote.time.toFixed(3));
-								note.velocity = parseFloat(trackNote.velocity.toFixed(3));
-
-								trackMeta.notes.push(note)
-							});
-
-							song.tracks.push(trackMeta);
-						}
-					});
-				} else if(optimizeOption == 'superOptimize') {
-					song.optimizeOption = 'sO'; // sO for Super Optimized
+					song.optimizeOption = 'o'; // o for Optimized
 
 					$.each(songJson.tracks, function(i, track) {
 						if(track.notes != 0) {

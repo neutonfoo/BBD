@@ -33,7 +33,7 @@ $(document).ready(function() {
 	var masterInstsLoadCheckerForPlayer = setInterval(function() {
 		if(masterInstsHavePreloaded) {
 			// Will immediately be replaced on browsers, on mobile, text will remain because Audio Context needs to be started by user.
-			$visualizer.html('<p id="completedLoadingMessage">Start</p>')
+			$visualizer.html('<p id="completedLoadingMessage">Tap to Start</p>')
 
 			StartAudioContext(Tone.context, '#completedLoadingMessage').then(function() {
 				loadSong('songs/hc.json');
@@ -79,12 +79,13 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	Tone.Transport.bpm.value = songJSON.bpm;
 	// Tone.context.latencyHint = 'balanced'
 
+	songMeta.name = songJSON.name;
 	songMeta.duration = songJSON.duration;
 	songMeta.optimizeOption = songJSON.optimizeOption;
 	songMeta.oVars = {} // Stores JSON key names based on optimizeOption
 
-	if(songMeta.optimizeOption == 'sO') {
-		// If Super Optimized
+	if(songMeta.optimizeOption == 'o') {
+		// If Optimized
 
 		songMeta.oVars.instrumentFamily = 'iF';
 		songMeta.oVars.trackNotes = 'ns';
@@ -94,7 +95,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 		songMeta.oVars.noteDuration = 'd';
 		songMeta.oVars.noteVelocity = 'v';
 	} else {
-		// If Normal or Optimized
+		// If Normal or other
 
 		songMeta.oVars.instrumentFamily = 'instrumentFamily';
 		songMeta.oVars.trackNotes = 'notes';
