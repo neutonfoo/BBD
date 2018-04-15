@@ -96,7 +96,7 @@
 //==============================================================================
 // Bass
 //==============================================================================
-	masterInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'bass/', volume: -3 }
+	masterInsts.bass = { name: 'Double Bass', baseUrl: instsFolder + 'bass/', volume: -5 }
 	masterInsts.bass.notes = {
 		'A1' : 'A1.mp3',
 		'C2' : 'C2.mp3',
