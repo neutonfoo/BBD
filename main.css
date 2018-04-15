@@ -198,6 +198,14 @@ textarea.converterTextarea {
 	margin:5px;
 }
 
+.modalBody a {
+	color:#888;
+}
+
+.modalBody a:hover {
+	color:#333;
+}
+
 .modalBody ol, ul {
 	padding-left: 0;
 	list-style-position: inside;
