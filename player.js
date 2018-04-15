@@ -32,8 +32,6 @@ $(document).ready(function() {
 
 	var masterInstsLoadCheckerForPlayer = setInterval(function() {
 		if(masterInstsHavePreloaded) {
-			clearInterval(masterInstsLoadCheckerForPlayer)
-
 			// Will immediately be replaced on browsers, on mobile, text will remain because Audio Context needs to be started by user.
 			$visualizer.html('<input id="completedLoading" type="button" value="Start">')
 
@@ -41,6 +39,9 @@ $(document).ready(function() {
 				loadSong('songs/hc.json');
 				activatePlayerButtons();
 			});
+
+			clearInterval(masterInstsLoadCheckerForPlayer)
+
 		}
 	}, 1000)
 
@@ -280,7 +281,7 @@ $visualizer.on('change', '.instSelector' , function() {
 	}, 500);
 
 //==============================================================================
-// Activate Player Buttons 
+// Activate Player Buttons
 //==============================================================================
 	function activatePlayerButtons() {
 //==============================================================================
