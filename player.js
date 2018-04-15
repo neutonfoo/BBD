@@ -114,7 +114,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 		songMeta.oVars.noteVelocity = 'velocity';
 	}
 
-	songMeta.instrumentFamilies = [];
+	songMeta.instCodes = [];
 	songMeta.tracks = songJSON.tracks;
 
 	console.log('Detected ' + songJSON.tracks.length + ' tracks')
@@ -140,24 +140,35 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 
 		var newInst = newInstAndMeter.inst;
 		var newMeter = newInstAndMeter.meter;
+		var newInstCode = newInstAndMeter.instCode;
 
 		insts.push(newInst);
 		meters.push(newMeter);
 		parts.push(assignNotesToInst(trackId, newInst, track[songMeta.oVars.trackNotes]));
 
-		songMeta.instrumentFamilies.push(instrumentFamily)
+		songMeta.instCodes.push(newInstCode)
 	});
 
 	drawVisualizer();
 }
 
-function createNewInstAndMeter(instrumentFamily) {
+function createNewInstAndMeter(instrumentFamily, instCode = false) {
+	var inst;
+
+	if(instCode) {
+		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
+	} else {
+		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
+	}
+
+	var newInst = inst.preloaded;
+	var newInstCode = inst.instCode;
+
 	var newMeter = new Tone.Meter();
-	var newInst = masterInsts[instrumentFamily].preloaded;
 
 	newInst.connect(newMeter).toMaster();
 
-	return { inst : newInst, meter : newMeter }
+	return { instCode: newInstCode, inst : newInst, meter : newMeter }
 }
 
 function assignNotesToInst(trackId, inst, trackNotes) {
@@ -195,31 +206,40 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 	function drawVisualizer() {
 		$visualizer.html(''); // Clear visualizer
 
-		$.each(insts, function(instId, inst) {
-			var selectBoxHtml = '<select data-trackid="' + instId + '" class="instSelector">';
+		$.each(insts, function(trackId, track) {
+			var selectBoxHtml = '<select data-trackid="' + trackId + '" class="instSelector">';
 
-			selectBoxHtml += '<option value="none">None</option>'
-			$.each(masterInsts, function(instrumentFamily, instrumentFamilyMeta) {
-				selectBoxHtml += '<option value="' + instrumentFamily  + '"';
+			selectBoxHtml += '<option data-instfamily="none">None</option>'
 
-				if(songMeta.instrumentFamilies[instId] == instrumentFamily) {
-					selectBoxHtml += ' selected="true"';
-				}
+			$.each(masterInsts, function(instFamily, instFamilyMeta) {
 
-				selectBoxHtml += '>'
+				selectBoxHtml += '<optgroup label="' + instFamilyMeta.name + '">';
 
-				selectBoxHtml += instrumentFamilyMeta.name + '</option>';
+				$.each(instFamilyMeta.insts, function(instId, instMeta) {
+					selectBoxHtml += '<option data-instfamily="' + instFamily  + '" data-instcode="' + instMeta.instCode  + '"';
+
+					if(songMeta.instCodes[trackId] == instMeta.instCode) {
+						selectBoxHtml += ' selected="true"';
+					}
+
+					selectBoxHtml += '>'
+
+					selectBoxHtml += instMeta.name + '</option>';
+				});
+
+				selectBoxHtml += '</optgroup>';
+
 			});
+
 			selectBoxHtml += '</select>';
 
 			$visualizer.append(selectBoxHtml);
-
 			$.each(visualizerNotes, function(k, note) {
 				var className = 'note'
 				if(note.includes('#')) {
 					className += ' noteSharp'
 				}
-				$visualizer.append('<div id="track' + instId + 'note' + note.replace('#', 's') + '" class="' + className + '">' + note + '</div>');
+				$visualizer.append('<div id="track' + trackId + 'note' + note.replace('#', 's') + '" class="' + className + '">' + note + '</div>');
 			});
 
 		$visualizer.append('<hr>');
@@ -255,14 +275,32 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 //==============================================================================
 $visualizer.on('change', '.instSelector' , function() {
 	var trackId = $(this).data('trackid');
-	parts[trackId].removeAll();
 
-	var newInstAndMeter = createNewInstAndMeter($(this).val());
+	if(parts[trackId]) {
+		parts[trackId].removeAll();
+	}
 
-	insts[trackId] = newInstAndMeter.inst;
-	meters[trackId] = newInstAndMeter.meter;
+	var selectedInst = $(this).find(':selected');
 
-	parts[trackId] = assignNotesToInst(trackId, insts[trackId], songMeta.tracks[trackId][songMeta.oVars.trackNotes]);
+	var newInstFamily = selectedInst.data('instfamily');
+
+	if(newInstFamily == 'none') {
+		delete insts[trackId];
+		delete  meters[trackId];
+		songMeta.instCodes[trackId] = 'none';
+
+		delete parts[trackId];
+	} else {
+		var newInstCode = selectedInst.data('instcode');
+
+		var newInstAndMeter = createNewInstAndMeter(newInstFamily, newInstCode);
+
+		insts[trackId] = newInstAndMeter.inst;
+		meters[trackId] = newInstAndMeter.meter;
+		songMeta.instCodes[trackId] = newInstAndMeter.instCode;
+
+		parts[trackId] = assignNotesToInst(trackId, insts[trackId], songMeta.tracks[trackId][songMeta.oVars.trackNotes]);
+	}
 });
 
 //==============================================================================
