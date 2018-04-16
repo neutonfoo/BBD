@@ -268,7 +268,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		// 	hslMeta.textColor = '#000'
 		// }
 
-		hslMeta.textColor = '#000'
+		hslMeta.textColor = '#FFF'
 
 	  return hslMeta;
 	}
