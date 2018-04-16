@@ -256,17 +256,19 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		if(p == 0) {
 			hslMeta.hue = 0;
 		} else {
-			hslMeta.hue = 360 * p;
-			// hslMeta.hue = 260 + 40 * p;
+			// hslMeta.hue = 360 * p;
+			hslMeta.hue = 260 + 40 * p;
 		}
 
-		if(hslMeta.hue >= 0 && hslMeta.hue <= 27.5) {
-			hslMeta.textColor = '#FFF'
-		} else if(hslMeta.hue >= 225 && hslMeta.hue <= 360) {
-			hslMeta.textColor = '#FFF'
-		} else {
-			hslMeta.textColor = '#000'
-		}
+		// if(hslMeta.hue >= 0 && hslMeta.hue <= 27.5) {
+		// 	hslMeta.textColor = '#FFF'
+		// } else if(hslMeta.hue >= 225 && hslMeta.hue <= 360) {
+		// 	hslMeta.textColor = '#FFF'
+		// } else {
+		// 	hslMeta.textColor = '#000'
+		// }
+
+		hslMeta.textColor = '#000'
 
 	  return hslMeta;
 	}
