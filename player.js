@@ -38,7 +38,7 @@ $(document).ready(function() {
 			$visualizer.html('<p id="completedLoadingMessage">Tap to Start</p>')
 
 			StartAudioContext(Tone.context, '#completedLoadingMessage').then(function() {
-				loadSong('OneSummersDay');
+				loadSong('KissTheRain');
 				activatePlayerButtons();
 			});
 
@@ -234,7 +234,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 			selectBoxHTML += '</select>';
 
 			$visualizer.append(selectBoxHTML);
-			
+
 			$.each(visualizerNotes, function(k, note) {
 				var className = 'note'
 				if(note.includes('#')) {

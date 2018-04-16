@@ -6,6 +6,12 @@
 var songList = [];
 
 songList.push({
+	'name': 'Kiss The Rain',
+	'artist': 'Yiruma',
+	'jsonFilename': 'KissTheRain'
+});
+
+songList.push({
 	'name': 'Comforting Sounds',
 	'artist': 'Mew',
 	'jsonFilename': 'ComfortingSounds'
@@ -41,7 +47,7 @@ songList.push({
 $(document).ready(function() {
 	$songList = $('#songList');
 
-	var songListHTML = '<table>'
+	var songListHTML = '<table id="songListTable">'
 	songListHTML += '<thead>'
 	songListHTML += '<tr>'
 	songListHTML += '<th>Title</th>'
@@ -59,7 +65,7 @@ $(document).ready(function() {
 		songListHTML += '<td><input type="button" class="changeSong" value="Play"  data-jsonfilename="' + song.jsonFilename + '"></td>'
 		songListHTML += '</tr>'
 	});
-	
+
 	songListHTML += '</tbody>'
 	songListHTML += '</table>'
 

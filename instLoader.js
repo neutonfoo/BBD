@@ -150,7 +150,7 @@
 	masterInsts.chineseInsts.insts.push(chineseInstsPipa)
 
 	// Chinese Instruments / Erhu
-	var chineseInstsErhu = { instCode: 'chineseInstsErhu',  name: 'Erhu (二胡)', volume: -12 }
+	var chineseInstsErhu = { instCode: 'chineseInstsErhu',  name: 'Erhu (二胡)', volume: -15 }
 	chineseInstsErhu.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
