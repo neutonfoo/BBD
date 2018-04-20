@@ -164,17 +164,22 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 	var inst;
 
 	if(instCode) {
-		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
+		// inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
+		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode).slice(0)[0];
 	} else {
-		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
+		// inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
+		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true).slice(0)[0];
 	}
+
+	console.log(inst)
 
 	var newInst = inst.preloaded;
 	var newInstCode = inst.instCode;
 
 	var newMeter = new Tone.Meter();
 
-	newInst.connect(newMeter).toMaster();
+	newInst.connect(newMeter);
+	newInst.toMaster();
 
 	return { instCode: newInstCode, inst : newInst, meter : newMeter }
 }
@@ -191,23 +196,19 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		inst.triggerAttackRelease(note[songMeta.oVars.noteName], note[songMeta.oVars.noteDuration], time, note[songMeta.oVars.noteVelocity]);
 
 		Tone.Draw.schedule(function() {
-			var level = Tone.dbToGain(meters[trackId].getLevel());			
+			var level = Tone.dbToGain(meters[trackId].getLevel());
 			var hslMeta = getHueAndTextColor(level);
 			//
-			// $(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-			$(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 			//
 			if(!fireWorks && trackId == 5) {
 				fireWorks = true;
 
 				$('hr').replaceWith('<br>');
-				// $body.animate({'backgroundColor' : 'rgb(0,0,0)'}, 100);
-				// $("#fireworksContainer").fireworks();
-				$("#fireworksContainer").sakura('start', {
-					maxSize: 100,
-        minSize: 50
-				});
+				$body.css('backgroundColor', 'rgb(0,0,0)');
+				$("#fireworksContainer").fireworks();
 			}
 
 		}, delay + time);

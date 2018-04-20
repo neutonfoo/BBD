@@ -33,8 +33,8 @@
 //==============================================================================
 // iF - Guitar
 //==============================================================================
-	// masterInsts.guitar = { name: 'Guitar' }
-	// masterInsts.guitar.insts = []
+	masterInsts.guitar = { name: 'Guitar' }
+	masterInsts.guitar.insts = []
 
 	// Guitar / Acoustic Guitar
 	var guitarAcousticGuitar = { instCode: 'guitarAcousticGuitar', name: 'Acoustic Guitar', default: true, volume: -5 }
@@ -47,7 +47,7 @@
 		'C6' : 'C5.mp3',
 		'C7' : 'C6.mp3'
 	}
-	// masterInsts.guitar.insts.push(guitarAcousticGuitar)
+	masterInsts.guitar.insts.push(guitarAcousticGuitar)
 
 	// Guitar / Electric Guitar
 	var guitarElectricGuitar = { instCode: 'guitarElectricGuitar', name: 'Electric Guitar', volume: -15 }
@@ -57,13 +57,13 @@
 		'C5' : 'C4.mp3',
 		'C6' : 'C5.mp3'
 	}
-	// masterInsts.guitar.insts.push(guitarElectricGuitar)
+	masterInsts.guitar.insts.push(guitarElectricGuitar)
 
 //==============================================================================
 // iF - Bass
 //==============================================================================
-	// masterInsts.bass = { name: 'Bass' }
-	// masterInsts.bass.insts = []
+	masterInsts.bass = { name: 'Bass' }
+	masterInsts.bass.insts = []
 
 	// Bass / Double Bass
 	var bassDoubleBass = { instCode: 'bassDoubleBass', name: 'Double Bass', default: true, volume: -5 }
@@ -78,13 +78,13 @@
 		'F5' : 'F5.mp3',
 		'A5' : 'A5.mp3'
 	}
-	// masterInsts.bass.insts.push(bassDoubleBass)
+	masterInsts.bass.insts.push(bassDoubleBass)
 
 //==============================================================================
 // iF - Strings
 //==============================================================================
-	// masterInsts.strings = { name: 'Strings' }
-	// masterInsts.strings.insts = []
+	masterInsts.strings = { name: 'Strings' }
+	masterInsts.strings.insts = []
 
 	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -4 }
 	stringsViolin.notes = {
@@ -95,13 +95,13 @@
 		'C7' : 'C6.mp3',
 		'C8' : 'C7.mp3'
 	}
-	// masterInsts.strings.insts.push(stringsViolin);
+	masterInsts.strings.insts.push(stringsViolin);
 
 //==============================================================================
 // Brass
 //==============================================================================
-	// masterInsts.brass = { name: 'Brass' }
-	// masterInsts.brass.insts = []
+	masterInsts.brass = { name: 'Brass' }
+	masterInsts.brass.insts = []
 
 	var brassTrumpet= { instCode: 'brassTrumpet',  name: 'Trumpet', default: true, volume: -7 }
 	brassTrumpet.notes = {
@@ -111,13 +111,13 @@
 		'C6' : 'C5.mp3',
 		'C7' : 'C6.mp3'
 	}
-	// masterInsts.brass.insts.push(brassTrumpet)
+	masterInsts.brass.insts.push(brassTrumpet)
 
 //==============================================================================
 // iF - Synth
 //==============================================================================
-	// masterInsts.synth = { name: 'Synth'};
-	// masterInsts.synth.insts = []
+	masterInsts.synth = { name: 'Synth'};
+	masterInsts.synth.insts = []
 
 	// Piano / Grand Piano
 	var synthDreamDancer = { instCode: 'synthDreamDancer', name: 'Dream Dancer', default: true, volume: -10 }
@@ -129,14 +129,13 @@
 		'C7' : 'C6.mp3',
 		'C8' : 'C7.mp3'
 	}
-	// masterInsts.synth.insts.push(synthDreamDancer)
-
+	masterInsts.synth.insts.push(synthDreamDancer)
 
 //==============================================================================
 // iF - Chinese Instruments
 //==============================================================================
-	// masterInsts.chineseInsts = { name: 'Chinese Instruments' }
-	// masterInsts.chineseInsts.insts = []
+	masterInsts.chineseInsts = { name: 'Chinese Instruments' }
+	masterInsts.chineseInsts.insts = []
 
 	// Chinese Instruments / Pipa
 	var chineseInstsPipa = { instCode: 'chineseInstsPipa', name: 'Pipa (琵琶)', default: true, volume: -10 }
@@ -147,7 +146,7 @@
 		'C6' : 'C5.mp3',
 		'C7' : 'C6.mp3'
 	}
-	// masterInsts.chineseInsts.insts.push(chineseInstsPipa)
+	masterInsts.chineseInsts.insts.push(chineseInstsPipa)
 
 	// Chinese Instruments / Erhu
 	var chineseInstsErhu = { instCode: 'chineseInstsErhu',  name: 'Erhu (二胡)', volume: -15 }
@@ -158,7 +157,7 @@
 		'C6' : 'C5.mp3',
 		'C7' : 'C6.mp3'
 	}
-	// masterInsts.chineseInsts.insts.push(chineseInstsErhu)
+	masterInsts.chineseInsts.insts.push(chineseInstsErhu)
 
 
 //==============================================================================
@@ -178,7 +177,7 @@
 		'C#3' : 'Cs2.mp3',
 		'D#3' : 'Ds2.mp3'
 	}
-	// masterInsts.drums.insts.push(drumsBluebird)
+	masterInsts.drums.insts.push(drumsBluebird)
 
 	// Drums / SoCal
 	var drumsSoCal = { instCode: 'drumsSoCal', name: 'SoCal Drum Kit', default: true, volume: -5 }
@@ -222,7 +221,7 @@
 	function preLoadAllInstruments() {
 		$.each(masterInsts, function(instFamily, instFamilyMeta) {
 			$.each(instFamilyMeta.insts, function(inst, instMeta) {
-					var newInstr = new Tone.Sampler({}, {
+					var newInstr = new Tone.Sampler({ }, {
 						'release' : 1,
 						'volume' : instMeta.volume
 					});
