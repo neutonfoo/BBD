@@ -4,6 +4,8 @@ $(document).ready(function() {
 //==============================================================================
 	var startedPlaying = false;
 	var isPlaying = false;
+	var fireWorks = false;
+	var delay;
 
 	var $body = $('body');
 	var $songName = $('#songName');
@@ -51,6 +53,10 @@ $(document).ready(function() {
 // Song Decoding Functions
 //==============================================================================
 function loadSong(JSONOrFileName, fromJSONTextarea = false) {
+	delete insts;
+	delete meters;
+	delete parts;
+
 	// Reset if new file is loaded
 	songMeta = {}
 
@@ -86,7 +92,9 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	$songName.html(songMeta.name);
 
 	Tone.Transport.bpm.value = songJSON.bpm;
-	// Tone.context.latencyHint = 'balanced'
+	Tone.context.latencyHint = 'playback';
+
+	delay =  Tone.context.lookAhead;
 
 	songMeta.duration = songJSON.duration;
 	songMeta.optimizeOption = songJSON.optimizeOption;
@@ -185,11 +193,21 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		Tone.Draw.schedule(function() {
 			var level = Tone.dbToGain(meters[trackId].getLevel());
 			var hslMeta = getHueAndTextColor(level);
-
-			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-			$(noteCSS).css('color', hslMeta.textColor);
+			//
+			// $(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			$(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
-		}, time);
+			//
+			// if(!fireWorks && trackId == 5) {
+			// 	fireWorks = true;
+			//
+			// 	$('hr').replaceWith('<br>');
+			// 	$body.animate({'backgroundColor' : 'rgb(0,0,0)'}, 100);
+			// 	$("#fireworksContainer").fireworks();
+			// }
+
+		}, delay + time);
+
 	}, trackNotes);
 
 	part.start(0);
@@ -253,12 +271,16 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 
 		// Purple from 260 to 300
 
-		if(p == 0) {
-			hslMeta.hue = 0;
-		} else {
-			// hslMeta.hue = 360 * p;
+		if(!fireWorks) {
 			hslMeta.hue = 260 + 40 * p;
+		} else {
+			hslMeta.hue = 360 * p;
 		}
+
+		// if(p == 0) {
+		// 	hslMeta.hue = 0;
+		// } else {
+		// }
 
 		// if(hslMeta.hue >= 0 && hslMeta.hue <= 27.5) {
 		// 	hslMeta.textColor = '#FFF'
@@ -392,6 +414,7 @@ $visualizer.on('change', '.instSelector' , function() {
 //==============================================================================
 	$songList.on('click', '.changeSong' , function() {
 		pause();
+
 		Tone.Transport.cancel(0);
 		Tone.Transport.seconds = 0;
 
@@ -407,6 +430,7 @@ $visualizer.on('change', '.instSelector' , function() {
 
 	$loadAdjustedJson.on('click', function() {
 		pause();
+
 		Tone.Transport.cancel(0);
 		Tone.Transport.seconds = 0;
 
