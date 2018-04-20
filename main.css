@@ -75,7 +75,8 @@ textarea {
 }
 
 #songListTable {
-
+	width:100%;
+	font-size: 10pt;
 }
 
 #songListTable th {
@@ -83,7 +84,8 @@ textarea {
 }
 
 #songListTable th, td {
-    border-bottom: 1px solid #ddd;
+	height:20pt;
+  border-bottom: 1px solid #ddd;
 }
 
 
@@ -223,4 +225,16 @@ textarea.converterTextarea {
 	padding-left: 0;
 	list-style-position: inside;
 	list-style-type: square;
+}
+
+
+#fireworksContainer {
+	height:100%;
+	width:100%;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	z-index: -1;
 }

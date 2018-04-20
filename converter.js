@@ -55,7 +55,6 @@ $(document).ready(function() {
 				if(songJson.header.name) {
 					song.name = songJson.header.name;
 				} else {
-					console.log(uploadedFile)
 					song.name = uploadedFile.name;
 				}
 
