@@ -222,16 +222,16 @@
 	function preLoadAllInstruments() {
 		$.each(masterInsts, function(instFamily, instFamilyMeta) {
 			$.each(instFamilyMeta.insts, function(inst, instMeta) {
-				var newInstr = new Tone.Sampler({}, {
-					'release' : 1,
-					'volume' : instMeta.volume
-				});
+					var newInstr = new Tone.Sampler({}, {
+						'release' : 1,
+						'volume' : instMeta.volume
+					});
 
-				$.each(instMeta.notes, function(sampleNote) {
-					newInstr.add(sampleNote, instMeta.buffer.get(sampleNote));
-				});
+					$.each(instMeta.notes, function(sampleNote) {
+						newInstr.add(sampleNote, instMeta.buffer.get(sampleNote));
+					});
 
-				instMeta.preloaded = newInstr;
+					instMeta.preloaded = newInstr;
 			});
 		});
 	}
