@@ -165,15 +165,13 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 
 	if(instCode) {
 		// inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
-		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode).slice(0)[0];
+		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
 	} else {
 		// inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
-		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true).slice(0)[0];
+		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
 	}
 
-	console.log(inst)
-
-	var newInst = inst.preloaded;
+	var newInst = $.extend(true, {}, inst.preloaded);
 	var newInstCode = inst.instCode;
 
 	var newMeter = new Tone.Meter();
@@ -214,6 +212,8 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		}, delay + time);
 
 	}, trackNotes);
+
+	console.log(part)
 
 	part.start(0);
 
