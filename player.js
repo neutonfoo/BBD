@@ -191,20 +191,24 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		inst.triggerAttackRelease(note[songMeta.oVars.noteName], note[songMeta.oVars.noteDuration], time, note[songMeta.oVars.noteVelocity]);
 
 		Tone.Draw.schedule(function() {
-			var level = Tone.dbToGain(meters[trackId].getLevel());
+			var level = Tone.dbToGain(meters[trackId].getLevel());			
 			var hslMeta = getHueAndTextColor(level);
 			//
 			// $(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 			//
-			// if(!fireWorks && trackId == 5) {
-			// 	fireWorks = true;
-			//
-			// 	$('hr').replaceWith('<br>');
-			// 	$body.animate({'backgroundColor' : 'rgb(0,0,0)'}, 100);
-			// 	$("#fireworksContainer").fireworks();
-			// }
+			if(!fireWorks && trackId == 5) {
+				fireWorks = true;
+
+				$('hr').replaceWith('<br>');
+				// $body.animate({'backgroundColor' : 'rgb(0,0,0)'}, 100);
+				// $("#fireworksContainer").fireworks();
+				$("#fireworksContainer").sakura('start', {
+					maxSize: 100,
+        minSize: 50
+				});
+			}
 
 		}, delay + time);
 
@@ -271,11 +275,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 
 		// Purple from 260 to 300
 
-		if(!fireWorks) {
-			hslMeta.hue = 260 + 40 * p;
-		} else {
-			hslMeta.hue = 360 * p;
-		}
+		hslMeta.hue = 360 * p;
 
 		// if(p == 0) {
 		// 	hslMeta.hue = 0;
