@@ -6,6 +6,12 @@
 var songList = [];
 
 songList.push({
+	'name': 'When You\'re Gone',
+	'artist': 'Avril Lavigne',
+	'jsonFilename': 'WhenYoureGone'
+});
+
+songList.push({
 	'name': 'Kiss The Rain',
 	'artist': 'Yiruma',
 	'jsonFilename': 'KissTheRain'
@@ -41,6 +47,10 @@ songList.push({
 	'jsonFilename': 'OneSummersDay'
 });
 
+songList.sort(function(a, b) {
+	return b - a;
+});
+
 //==============================================================================
 // Song List Modal Loader
 //==============================================================================
@@ -62,7 +72,7 @@ $(document).ready(function() {
 		songListHTML += '<tr>'
 		songListHTML += '<td>' + song.name + '</td>'
 		songListHTML += '<td>' + song.artist + '</td>'
-		songListHTML += '<td><input type="button" class="changeSong" value="Play"  data-jsonfilename="' + song.jsonFilename + '"></td>'
+		songListHTML += '<td><input type="button" class="changeSong" value="Load"  data-jsonfilename="' + song.jsonFilename + '"></td>'
 		songListHTML += '</tr>'
 	});
 
