@@ -36,6 +36,16 @@ $(document).ready(function() {
 	var masterInstsLoadCheckerForPlayer = setInterval(function() {
 		if(masterInstsHavePreloaded) {
 
+			$.each(masterInsts, function(instFamily, instFamilyMeta) {
+				$.each(instFamilyMeta.insts, function(inst, instMeta) {
+					delete instMeta.buffer;
+					delete instMeta.notes;
+					delete instMeta.volume;
+				});
+			});
+
+			console.log(masterInsts)
+
 			// Will immediately be replaced on browsers, on mobile, text will remain because Audio Context needs to be started by user.
 			$visualizer.html('<p id="completedLoadingMessage">Tap to Start</p>')
 
@@ -94,7 +104,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	Tone.Transport.bpm.value = songJSON.bpm;
 	Tone.context.latencyHint = 'playback';
 
-	delay =  Tone.context.lookAhead;
+	delay = Tone.context.lookAhead;
 
 	songMeta.duration = songJSON.duration;
 	songMeta.optimizeOption = songJSON.optimizeOption;
@@ -170,6 +180,7 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 	}
 
 	var newInst = $.extend(true, { }, inst.preloaded);
+	// var newInst = $.extend(true, { }, inst.preloaded);
 	// var newInst = inst.preloaded;
 	var newInstCode = inst.instCode;
 
@@ -211,8 +222,6 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		}, delay + time);
 
 	}, trackNotes);
-
-	console.log(part)
 
 	part.start(0);
 
@@ -306,7 +315,6 @@ $visualizer.on('change', '.instSelector' , function() {
 	}
 
 	var selectedInst = $(this).find(':selected');
-
 	var newInstFamily = selectedInst.data('instfamily');
 
 	if(newInstFamily == 'none') {
