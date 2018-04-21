@@ -169,8 +169,8 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
 	}
 
-	// var newInst = $.extend(true, {}, inst.preloaded);
-	var newInst = inst.preloaded;
+	var newInst = $.extend(true, { }, inst.preloaded);
+	// var newInst = inst.preloaded;
 	var newInstCode = inst.instCode;
 
 	var newMeter = new Tone.Meter();
