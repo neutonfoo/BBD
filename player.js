@@ -164,14 +164,13 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 	var inst;
 
 	if(instCode) {
-		// inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
 		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.instCode == instCode)[0];
 	} else {
-		// inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
 		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
 	}
 
-	var newInst = $.extend(true, {}, inst.preloaded);
+	// var newInst = $.extend(true, {}, inst.preloaded);
+	var newInst = inst.preloaded;
 	var newInstCode = inst.instCode;
 
 	var newMeter = new Tone.Meter();
@@ -179,7 +178,7 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 	newInst.connect(newMeter);
 	newInst.toMaster();
 
-	return { instCode: newInstCode, inst : newInst, meter : newMeter }
+	return { instCode: newInstCode, inst: newInst, meter: newMeter }
 }
 
 function assignNotesToInst(trackId, inst, trackNotes) {
@@ -201,13 +200,13 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 			//
-			if(!fireWorks && trackId == 5) {
-				fireWorks = true;
-
-				$('hr').replaceWith('<br>');
-				$body.css('backgroundColor', 'rgb(0,0,0)');
-				$("#fireworksContainer").fireworks();
-			}
+			// if(!fireWorks && trackId == 5) {
+			// 	fireWorks = true;
+			//
+			// 	$('hr').replaceWith('<br>');
+			// 	$body.css('backgroundColor', 'rgb(0,0,0)');
+			// 	$("#fireworksContainer").fireworks();
+			// }
 
 		}, delay + time);
 
@@ -311,11 +310,7 @@ $visualizer.on('change', '.instSelector' , function() {
 	var newInstFamily = selectedInst.data('instfamily');
 
 	if(newInstFamily == 'none') {
-		delete insts[trackId];
-		delete  meters[trackId];
 		songMeta.instCodes[trackId] = 'none';
-
-		delete parts[trackId];
 	} else {
 		var newInstCode = selectedInst.data('instcode');
 
