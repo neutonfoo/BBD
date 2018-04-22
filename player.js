@@ -31,11 +31,10 @@ $(document).ready(function() {
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
-	$visualizer.html('<p id="loadingMessage">Loading...</p>')
+	$visualizer.html('<p id="loadingMessage">Loading</p>')
 
 	var masterInstsLoadCheckerForPlayer = setInterval(function() {
 		if(masterInstsHavePreloaded) {
-
 			$.each(masterInsts, function(instFamily, instFamilyMeta) {
 				$.each(instFamilyMeta.insts, function(inst, instMeta) {
 					delete instMeta.buffer;
@@ -63,6 +62,8 @@ $(document).ready(function() {
 // Song Decoding Functions
 //==============================================================================
 function loadSong(JSONOrFileName, fromJSONTextarea = false) {
+	startedPlaying = false;
+
 	delete insts;
 	delete meters;
 	delete parts;
@@ -81,6 +82,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 		console.log('Loading from textarea');
 		songJSON = JSON.parse(JSONOrFileName);
 		songMeta.name = songJSON.name;
+		songMeta.artist = '';
 
 	} else {
 		$.ajax({
@@ -92,14 +94,19 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 			songJSON = data;
 
 			var songMetaFromSongList = songList.filter(song => song.jsonFilename == JSONOrFileName)[0];
-			songMeta.name = songMetaFromSongList.artist + '&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;' + songMetaFromSongList.name;
+			songMeta.artist = songMetaFromSongList.artist;
+			songMeta.name = songMetaFromSongList.name;
 		})
 		.fail(function(error) {
 			console.log(error)
 		});
 	}
 
-	$songName.html(songMeta.name);
+	if(songMeta.artist == '') {
+		$songName.html(songMeta.name);
+	} else {
+		$songName.html(songMeta.artist + '&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;' + songMeta.name);
+	}
 
 	Tone.Transport.bpm.value = songJSON.bpm;
 	Tone.context.latencyHint = 'playback';
@@ -179,8 +186,8 @@ function createNewInstAndMeter(instrumentFamily, instCode = false) {
 		inst = masterInsts[instrumentFamily].insts.filter(inst => inst.default == true)[0];
 	}
 
-	var newInst = $.extend(true, { }, inst.preloaded);
 	// var newInst = $.extend(true, { }, inst.preloaded);
+	var newInst = $.extend({ }, inst.preloaded);
 	// var newInst = inst.preloaded;
 	var newInstCode = inst.instCode;
 
@@ -211,7 +218,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 			//
-			// if(!fireWorks && trackId == 5) {
+			// if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
 			// 	fireWorks = true;
 			//
 			// 	$('hr').replaceWith('<br>');
@@ -401,7 +408,7 @@ $visualizer.on('change', '.instSelector' , function() {
 
 		if(!startedPlaying) {
 			startedPlaying = true;
-			Tone.Transport.start('+0.1', 0);
+			Tone.Transport.start('+5', 0);
 		} else {
 			Tone.Transport.start();
 		}
