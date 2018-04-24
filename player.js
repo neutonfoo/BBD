@@ -146,18 +146,18 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 
 	$.each(songMeta.tracks, function(trackId, track) {
 		var instrumentFamily = track[songMeta.oVars.instrumentFamily];
+		console.log(instrumentFamily)
 
 		if(instrumentFamily == null) {
 			// If no instrument family set, auto to Piano
-
 			instrumentFamily = 'piano';
+		} else if(instrumentFamily.includes('ensemble')) {
+			instrumentFamily = 'strings';
 		} else if(instrumentFamily.includes('synth')) {
 			// If instrument family contains the word synth, set to Synth
-
 			instrumentFamily = 'synth';
 		} else if(!masterInsts.hasOwnProperty(instrumentFamily)) {
 			// If instrument family is unsupported, set to Piano
-
 			instrumentFamily = 'piano'
 		}
 
