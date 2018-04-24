@@ -47,6 +47,12 @@ songList.push({
 	'jsonFilename': 'OneSummersDay'
 });
 
+songList.push({
+	'name': 'Shooting Stars',
+	'artist': 'The Bag Raiders',
+	'jsonFilename': 'ShootingStars'
+});
+
 songList.sort(function(a, b) {
 	return b - a;
 });
