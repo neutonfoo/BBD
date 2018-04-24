@@ -146,7 +146,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 
 	$.each(songMeta.tracks, function(trackId, track) {
 		var instrumentFamily = track[songMeta.oVars.instrumentFamily];
-		console.log(instrumentFamily)
+		console.log('Track ' + trackId + ': ' + instrumentFamily)
 
 		if(instrumentFamily == null) {
 			// If no instrument family set, auto to Piano
@@ -218,13 +218,13 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 			//
-			// if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
-			// 	fireWorks = true;
-			//
-			// 	$('hr').replaceWith('<br>');
-			// 	$body.css('backgroundColor', 'rgb(0,0,0)');
-			// 	$("#fireworksContainer").fireworks();
-			// }
+			if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
+				fireWorks = true;
+
+				$('hr').replaceWith('<br>');
+				$body.css('backgroundColor', 'rgb(0,0,0)');
+				$("#fireworksContainer").fireworks();
+			}
 
 		}, delay + time);
 
@@ -292,20 +292,6 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		// Purple from 260 to 300
 
 		hslMeta.hue = 360 * p;
-
-		// if(p == 0) {
-		// 	hslMeta.hue = 0;
-		// } else {
-		// }
-
-		// if(hslMeta.hue >= 0 && hslMeta.hue <= 27.5) {
-		// 	hslMeta.textColor = '#FFF'
-		// } else if(hslMeta.hue >= 225 && hslMeta.hue <= 360) {
-		// 	hslMeta.textColor = '#FFF'
-		// } else {
-		// 	hslMeta.textColor = '#000'
-		// }
-
 		hslMeta.textColor = '#FFF'
 
 	  return hslMeta;
@@ -408,7 +394,7 @@ $visualizer.on('change', '.instSelector' , function() {
 
 		if(!startedPlaying) {
 			startedPlaying = true;
-			Tone.Transport.start('+5', 0);
+			Tone.Transport.start('+0.5', 0);
 		} else {
 			Tone.Transport.start();
 		}
@@ -424,10 +410,11 @@ $visualizer.on('change', '.instSelector' , function() {
 // Change Song
 //==============================================================================
 	$songList.on('click', '.changeSong' , function() {
-		pause();
-
+		Tone.Draw.cancel(0);
 		Tone.Transport.cancel(0);
 		Tone.Transport.seconds = 0;
+
+		pause();
 
 		var newSong = $(this).data('jsonfilename');
 		loadSong(newSong);
