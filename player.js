@@ -210,23 +210,23 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 
 		inst.triggerAttackRelease(note[songMeta.oVars.noteName], note[songMeta.oVars.noteDuration], time, note[songMeta.oVars.noteVelocity]);
 
-		// Tone.Draw.schedule(function() {
-		// 	var level = Tone.dbToGain(meters[trackId].getLevel());
-		// 	var hslMeta = getHueAndTextColor(level);
-		// 	//
-		// 	$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-		// 	// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-		// 	$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
-		// 	//
-		// 	// if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
-		// 	// 	fireWorks = true;
-		// 	//
-		// 	// 	$('hr').replaceWith('<br>');
-		// 	// 	$body.css('backgroundColor', 'rgb(0,0,0)');
-		// 	// 	$("#fireworksContainer").fireworks();
-		// 	// }
-		//
-		// }, delay + time);
+		Tone.Draw.schedule(function() {
+			var level = Tone.dbToGain(meters[trackId].getLevel());
+			var hslMeta = getHueAndTextColor(level);
+			//
+			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
+			//
+			// if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
+			// 	fireWorks = true;
+			//
+			// 	$('hr').replaceWith('<br>');
+			// 	$body.css('backgroundColor', 'rgb(0,0,0)');
+			// 	$("#fireworksContainer").fireworks();
+			// }
+
+		}, delay + time);
 
 	}, trackNotes);
 
@@ -352,19 +352,19 @@ $visualizer.on('change', '.instSelector' , function() {
 	});
 
 	// # Updater
-	// setInterval(function() {
-	// 	var percent = 100 * Tone.Transport.seconds / songMeta.duration;
-	//
-	// 	if(percent >= 100) {
-	// 		Tone.Transport.seconds = 0;
-	// 		// percent = 100;
-	// 		// startedPlaying = false;
-	// 		// pause();
-	// 	}
-	//
-	// 	$timelineSlider.val(percent);
-	// 	$timelineText.val(Tone.Transport.seconds);
-	// }, 500);
+	setInterval(function() {
+		var percent = 100 * Tone.Transport.seconds / songMeta.duration;
+
+		if(percent >= 100) {
+			Tone.Transport.seconds = 0;
+			// percent = 100;
+			// startedPlaying = false;
+			// pause();
+		}
+
+		$timelineSlider.val(percent);
+		$timelineText.val(Tone.Transport.seconds);
+	}, 500);
 
 //==============================================================================
 // Activate Player Buttons
