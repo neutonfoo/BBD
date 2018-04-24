@@ -200,7 +200,7 @@
 	masterInsts.strings = { name: 'Strings' }
 	masterInsts.strings.insts = []
 
-	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -4 }
+	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -13 }
 	stringsViolin.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
