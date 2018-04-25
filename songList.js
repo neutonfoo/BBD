@@ -53,6 +53,12 @@ songList.push({
 	'jsonFilename': 'ShootingStars'
 });
 
+songList.push({
+	'name': 'Hotel California',
+	'artist': 'The Eagles',
+	'jsonFilename': 'HotelCalifornia'
+});
+
 songList.sort(function(a, b) {
 	return b - a;
 });
