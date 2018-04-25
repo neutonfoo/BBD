@@ -96,7 +96,7 @@ textarea {
 	font-size: 16pt;
 	opacity: 0;
 
-	/* width:50px; */
+	width:50px;
 
 	border-radius: 10px;
   -moz-border-radius: 10px;
