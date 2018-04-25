@@ -19,6 +19,8 @@ $(document).ready(function() {
 	var $timelineSlider = $('#timelineSlider');
 	var $timelineText = $('#timelineText');
 
+	var $fireworksContainer = $('#fireworksContainer');
+
 //==============================================================================
 // Instruments and Meters
 //==============================================================================
@@ -221,9 +223,9 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 			if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
 				fireWorks = true;
 
-				$('hr').replaceWith('<br>');
-				$body.css('backgroundColor', 'rgb(0,0,0)');
-				$("#fireworksContainer").fireworks();
+				$('hr').replaceWith('<br class="instrumentBreaks">');
+				$body.css('backgroundColor', 'rgb(0, 0, 0)');
+				$fireworksContainer.fireworks();
 			}
 
 		}, delay + time);
@@ -342,10 +344,11 @@ $visualizer.on('change', '.instSelector' , function() {
 		var percent = 100 * Tone.Transport.seconds / songMeta.duration;
 
 		if(percent >= 100) {
+			$('br.instrumentBreaks').replaceWith('<hr>');
+			$body.css('backgroundColor', 'rgb(255, 255, 255)');
+
+			$fireworksContainer.fireworks('destroy');
 			Tone.Transport.seconds = 0;
-			// percent = 100;
-			// startedPlaying = false;
-			// pause();
 		}
 
 		$timelineSlider.val(percent);
@@ -394,7 +397,7 @@ $visualizer.on('change', '.instSelector' , function() {
 
 		if(!startedPlaying) {
 			startedPlaying = true;
-			Tone.Transport.start('+0.5', 0);
+			Tone.Transport.start('+1', 0);
 		} else {
 			Tone.Transport.start();
 		}
