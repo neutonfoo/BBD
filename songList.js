@@ -59,8 +59,10 @@ songList.push({
 	'jsonFilename': 'HotelCalifornia'
 });
 
-songList.sort(function(a, b) {
-	return b - a;
+songList.sort(function SortByName(a, b){
+  var aName = a.artist.toLowerCase();
+  var bName = b.artist.toLowerCase();
+  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
 });
 
 //==============================================================================
