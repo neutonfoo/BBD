@@ -64,6 +64,10 @@ $(document).ready(function() {
 // Song Decoding Functions
 //==============================================================================
 function loadSong(JSONOrFileName, fromJSONTextarea = false) {
+	Tone.Draw.cancel(0);
+	Tone.Transport.cancel(0);
+	Tone.Transport.seconds = 0;
+
 	startedPlaying = false;
 
 	delete insts;
@@ -413,10 +417,6 @@ $visualizer.on('change', '.instSelector' , function() {
 // Change Song
 //==============================================================================
 	$songList.on('click', '.changeSong' , function() {
-		Tone.Draw.cancel(0);
-		Tone.Transport.cancel(0);
-		Tone.Transport.seconds = 0;
-
 		pause();
 
 		var newSong = $(this).data('jsonfilename');
