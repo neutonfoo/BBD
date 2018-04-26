@@ -6,12 +6,6 @@
 var songList = [];
 
 songList.push({
-	'name': 'When You\'re Gone',
-	'artist': 'Avril Lavigne',
-	'jsonFilename': 'WhenYoureGone'
-});
-
-songList.push({
 	'name': 'Kiss The Rain',
 	'artist': 'Yiruma',
 	'jsonFilename': 'KissTheRain'
@@ -21,18 +15,6 @@ songList.push({
 	'name': 'Comforting Sounds',
 	'artist': 'Mew',
 	'jsonFilename': 'ComfortingSounds'
-});
-
-songList.push({
-	'name': '鳥の詩',
-	'artist': 'Lia',
-	'jsonFilename': 'ToriNoUta'
-});
-
-songList.push({
-	'name': '残酷な天使のテーゼ',
-	'artist': '高橋 洋子',
-	'jsonFilename': 'ACruelAngelsThesis'
 });
 
 songList.push({
@@ -51,12 +33,6 @@ songList.push({
 	'name': 'Shooting Stars',
 	'artist': 'The Bag Raiders',
 	'jsonFilename': 'ShootingStars'
-});
-
-songList.push({
-	'name': 'Hotel California',
-	'artist': 'The Eagles',
-	'jsonFilename': 'HotelCalifornia'
 });
 
 songList.sort(function SortByName(a, b){
