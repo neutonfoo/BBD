@@ -228,7 +228,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 				$fireworksContainer.fireworks();
 			}
 
-		}, delay + time);
+		}, time);
 
 	}, trackNotes);
 
