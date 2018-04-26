@@ -18,6 +18,10 @@ body {
 	padding:2px;
 }
 
+.visualizerSizeChanges {
+	font-size: 14pt;
+}
+
 #songBy {
 	background-color:#000;
 	color:#FFF;
@@ -93,16 +97,14 @@ textarea {
 	margin:1px;
 
 	display: inline-block;
-	font-size: 16pt;
+	font-size: 14pt;
 	opacity: 0;
-
-	width:50px;
 
 	border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
 
-	padding-top: 1px;
+	padding: 2px;
 
 	text-align: center;
 }

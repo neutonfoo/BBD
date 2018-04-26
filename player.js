@@ -226,7 +226,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 			//
-			if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds') {
+			if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds [AT]') {
 				fireWorks = true;
 
 				$('hr').replaceWith('<br class="instrumentBreaks">');
@@ -277,7 +277,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 
 			});
 
-			selectBoxHTML += '</select>';
+			selectBoxHTML += '</select><br>';
 
 			$visualizer.append(selectBoxHTML);
 
@@ -384,6 +384,18 @@ $visualizer.on('change', '.instSelector' , function() {
 	    }
 		});
 	}
+
+//==============================================================================
+// Visualizer Size Change
+//==============================================================================
+$('.visualizerSizeChange').on('click', function() {
+	var sizeChange = $(this).data('sizechange');
+	if(sizeChange == 'minus') {
+		$('.note').css('font-size', '-=1')
+	} else if(sizeChange == 'plus') {
+		$('.note').css('font-size', '+=1')
+	}
+});
 
 //==============================================================================
 // Player Functions

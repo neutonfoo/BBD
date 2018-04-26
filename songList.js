@@ -35,6 +35,12 @@ songList.push({
 	'jsonFilename': 'ShootingStars'
 });
 
+songList.push({
+	'name': 'Comforting Sounds [AT]',
+	'artist': 'Mew',
+	'jsonFilename': 'AT'
+});
+
 songList.sort(function SortByName(a, b){
   var aName = a.artist.toLowerCase();
   var bName = b.artist.toLowerCase();

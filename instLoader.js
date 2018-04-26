@@ -51,7 +51,7 @@
 	masterInsts.guitar.insts.push(guitarAcousticGuitar)
 
 	// Guitar / Electric Guitar
-	var guitarElectricGuitar = { instCode: 'guitarElectricGuitar', name: 'Electric Guitar', volume: 0 }
+	var guitarElectricGuitar = { instCode: 'guitarElectricGuitar', name: 'Electric Guitar', volume: -7 }
 	guitarElectricGuitar.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
@@ -260,7 +260,7 @@
 		$.each(masterInsts, function(instFamily, instFamilyMeta) {
 			$.each(instFamilyMeta.insts, function(inst, instMeta) {
 					var newInstr = new Tone.Sampler({ }, {
-						'release' : 1,
+						'release' : 5,
 						'volume' : instMeta.volume
 					});
 

@@ -18,7 +18,8 @@
 	<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
 	<script type="text/javascript" src="modal.js"></script>
 	<!-- Instrument Buffers and Song List -->
-	<script type="text/javascript" src="instLoader.js"></script>
+	<script type="text/javascript" src="instLoader.full.js"></script>
+	<!-- <script type="text/javascript" src="instLoader.js"></script> -->
 	<script type="text/javascript" src="songList.js"></script>
 	<!-- Player and Converter -->
 	<script type="text/javascript" src="player.js"></script>
@@ -30,6 +31,12 @@
 	<div id="fireworksContainer"></div>
 	<div id="mainContainer">
 		<h1><span id="appTitle">BBD Player</span> <small id="songName"></small></h1>
+		<div class="visualizerSizeChanges">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="visualizerSizeChange" data-sizechange="minus">-</span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="visualizerSizeChange" data-sizechange="plus">+</span>
+		</div>
 		<div id="visualizer"></div>
 		<div id="footerContainer">
 			<a href="#"><span id="rewindTimeline" class="footerItem"><img src="open-iconic/media-step-backward.svg"></span></a>

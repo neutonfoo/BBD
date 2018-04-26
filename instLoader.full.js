@@ -527,7 +527,7 @@
 		$.each(masterInsts, function(instFamily, instFamilyMeta) {
 			$.each(instFamilyMeta.insts, function(inst, instMeta) {
 					var newInstr = new Tone.Sampler({ }, {
-						'release' : 1,
+						'release' : 10,
 						'volume' : instMeta.volume
 					});
 
