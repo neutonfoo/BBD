@@ -19,7 +19,7 @@
 	masterInsts.piano.insts = []
 
 	// Piano / Grand Piano
-	var pianoGrandPiano = { instCode: 'pianoGrandPiano', name: 'Grand Piano', default: true, volume: 0 }
+	var pianoGrandPiano = { instCode: 'pianoGrandPiano', name: 'Grand Piano', default: true, volume: -5 }
 	pianoGrandPiano.notes = {
 		'C1' : 'C1.mp3',
 		'C#1' : 'Cs1.mp3',
@@ -267,7 +267,7 @@
 	masterInsts.strings.insts = []
 
 // Strings / Violin
-	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -5 }
+	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: 0 }
 	stringsViolin.notes = {
 		'C3' : 'C3.mp3',
 		'C#3' : 'Cs3.mp3',
