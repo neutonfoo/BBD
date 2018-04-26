@@ -64,6 +64,8 @@ $(document).ready(function() {
 // Song Decoding Functions
 //==============================================================================
 function loadSong(JSONOrFileName, fromJSONTextarea = false) {
+	pause();
+
 	Tone.Draw.cancel(0);
 	Tone.Transport.cancel(0);
 	Tone.Transport.seconds = 0;
@@ -232,7 +234,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 				$fireworksContainer.fireworks();
 			}
 
-		}, time);
+		}, delay + time);
 
 	}, trackNotes);
 
@@ -417,8 +419,6 @@ $visualizer.on('change', '.instSelector' , function() {
 // Change Song
 //==============================================================================
 	$songList.on('click', '.changeSong' , function() {
-		pause();
-
 		var newSong = $(this).data('jsonfilename');
 		loadSong(newSong);
 	});
