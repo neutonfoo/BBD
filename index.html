@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="js/jquery.color-2.1.2.min.js"></script>
 	<!-- Tonejs -->
 	<script type="text/javascript" src="js/Tone.min.js"></script>
+	<!-- <script type="text/javascript" src="js/Tone.back.min.js"></script> -->
 	<script type="text/javascript" src="js/StartAudioContext.js"></script>
 	<!-- MidiConvert -->
 	<script type="text/javascript" src="js/MidiConvert.js"></script>
@@ -18,8 +19,8 @@
 	<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
 	<script type="text/javascript" src="modal.js"></script>
 	<!-- Instrument Buffers and Song List -->
-	<script type="text/javascript" src="instLoader.full.js"></script>
-	<!-- <script type="text/javascript" src="instLoader.js"></script> -->
+	<!-- <script type="text/javascript" src="instLoader.full.js"></script> -->
+	<script type="text/javascript" src="instLoader.js"></script>
 	<script type="text/javascript" src="songList.js"></script>
 	<!-- Player and Converter -->
 	<script type="text/javascript" src="player.js"></script>
@@ -32,10 +33,10 @@
 	<div id="mainContainer">
 		<h1><span id="appTitle">BBD Player</span> <small id="songName"></small></h1>
 		<div class="visualizerSizeChanges">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="visualizerSizeChange" data-sizechange="minus"><img src="open-iconic/minus.svg"></span>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="visualizerSizeChange" data-sizechange="minus">-</span>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="visualizerSizeChange" data-sizechange="plus">+</span>
+			<span class="visualizerSizeChange" data-sizechange="plus"><img src="open-iconic/plus.svg"></span>
 		</div>
 		<div id="visualizer"></div>
 		<div id="footerContainer">
