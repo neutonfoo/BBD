@@ -41,6 +41,12 @@ songList.push({
 	'jsonFilename': 'AT'
 });
 
+songList.push({
+	'name': '鳥の詩',
+	'artist': 'Lia',
+	'jsonFilename': 'ToriNoUta'
+});
+
 songList.sort(function SortByName(a, b){
   var aName = a.artist.toLowerCase();
   var bName = b.artist.toLowerCase();
