@@ -34,7 +34,7 @@
 	masterInsts.piano.insts = []
 
 	// Piano / Grand Piano
-	var pianoGrandPiano = { instCode: 'pianoGrandPiano', name: 'Grand Piano', default: true, volume: -5 }
+	var pianoGrandPiano = { instCode: 'pianoGrandPiano', name: 'Grand Piano', default: true, volume: 0 }
 	pianoGrandPiano.notes = {
 		'C1' : 'C1.mp3',
 		'C#1' : 'Cs1.mp3',
@@ -282,7 +282,7 @@
 	masterInsts.strings.insts = []
 
 // Strings / Violin
-	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: 0 }
+	var stringsViolin = { instCode: 'stringsViolin', name: 'Violin', default: true, volume: -1 }
 	stringsViolin.notes = {
 		'C3' : 'C3.mp3',
 		'C#3' : 'Cs3.mp3',
@@ -414,7 +414,7 @@
 
 // Brass / Trumpet
 
-	var brassTrumpet= { instCode: 'brassTrumpet',  name: 'Trumpet', default: true, volume: -5 }
+	var brassTrumpet= { instCode: 'brassTrumpet',  name: 'Trumpet', default: true, volume: 0 }
 	brassTrumpet.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
@@ -431,7 +431,7 @@
 	masterInsts.synth.insts = []
 
 // Synth / Dream Dancer
-	var synthDreamDancer = { instCode: 'synthDreamDancer', name: 'Dream Dancer', default: true, volume: 0 }
+	var synthDreamDancer = { instCode: 'synthDreamDancer', name: 'Dream Dancer', default: true, volume: -5 }
 	synthDreamDancer.notes = {
 		'C3' : 'C2.mp3',
 		'C4' : 'C3.mp3',
