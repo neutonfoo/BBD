@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<title>BBD Player</title>
+	<link rel="stylesheet" href="main.css">
+	<!-- jQuery -->
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.color-2.1.2.min.js"></script>
+	<!-- Tonejs -->
+	<script type="text/javascript" src="js/Tone.min.js"></script>
+	<script type="text/javascript" src="js/StartAudioContext.js"></script>
+	<!-- leanModal -->
+	<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+	<script type="text/javascript" src="modal.js"></script>
+	<!-- Instrument Buffers and Song List -->
+	<script type="text/javascript" src="instLoaderOp.js"></script>
+	<script type="text/javascript" src="songList.js"></script>
+	<!-- Player and Converter -->
+	<script type="text/javascript" src="player.b18.js"></script>
+	<!-- Fireworks -->
+	<script type="text/javascript" src="js/jquery.fireworks.js"></script>
+</head>
+<body>
+	<div id="fireworksContainer"></div>
+	<div id="mainContainer">
+		<h1><span id="appTitle">BBD Player</span> <small id="songName"></small></h1>
+		<div class="visualizerSizeChanges">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="visualizerSizeChange" data-sizechange="minus"><img src="open-iconic/minus.svg"></span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="visualizerSizeChange" data-sizechange="plus"><img src="open-iconic/plus.svg"></span>
+		</div>
+		<div id="visualizer"></div>
+		<div id="footerContainer">
+			<a href="#"><span id="rewindTimeline" class="footerItem"><img src="open-iconic/media-step-backward.svg"></span></a>
+			<a href="#"><span id="playToggle" class="footerItem"><img src="open-iconic/media-play.svg"></span></a>
+			<span id="timeline" class="footerItem timeline">
+				<div class="slidecontainer">
+				  <input id="timelineSlider" type="range" min="0" max="100" value="0" class="slider">
+				</div>
+			</span>
+			<!-- <input id="timelineText" type="text" value="0"> -->
+			<a id="aboutListener" href="#aboutModal"><span id="about" class="footerItem"><img src="open-iconic/info.svg"></span></a>
+			<!-- <a id="extraListener" href="#extraModal"><span id="extra" class="footerItem"><img src="open-iconic/moon.svg"></span></a> -->
+			<a id="thanksListener" href="#thanksModal"><span id="thanks" class="footerItem"><img src="open-iconic/heart.svg"></span></a>
+			<a href="https://github.com/neutonfoo/BBD" target="_blank"><span id="github" class="footerItem"><img src="open-iconic/code.svg"></span></a>
+		</div>
+		<!-- Modals -->
+		<div id="songSelectorModal" class="modal">
+			<div class="modalBody">
+				<h1>Songs</h1>
+				<div id="songList"></div>
+			</div>
+		</div>
+		<div id="converterModal" class="modal">
+			<div class="modalBody">
+				<h1>Converter</h1>
+				<div id="midiDropZone">*.midi drop zone</div>
+				<p>
+					<input type="radio" class="optimizeRadio" name="optimize" value="normal"> Normal
+					&nbsp;
+					<input type="radio" class="optimizeRadio" name="optimize" value="optimize" checked="checked"> Optimize
+				</p>
+				<h2>Adjusted JSON</h2>
+				<textarea id="adjustedJson" class="converterTextarea" rows="10"></textarea>
+				<p>
+					<input type="button" id="loadAdjustedJson" value="Load into Player">
+				</p>
+			</div>
+		</div>
+	</div>
+	<div id="aboutModal" class="modal">
+		<div class="modalBody">
+			<h1>To do</h1>
+			<ul>
+				<li>Update UI for Song Selector</li>
+				<li>Complete transcription of You Outside My Window</li>
+			</ul>
+			<h1>Libraries</h1>
+			<ul>
+				<li>Powered by <a href="https://tonejs.github.io/">tonejs</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">Web Audio API</a>.</li>
+				<li>Icons by <a href="https://useiconic.com/open">Open Iconic</a>.</li>
+				<li>Modal by <a href="http://leanmodal.finelysliced.com.au/">Lean Modal</a>.</li>
+			</ul>
+		</div>
+	</div>
+	<div id="thanksModal" class="modal">
+		<div class="modalBody">
+			<!-- <h1>For</h1>
+			<img src="3-quinuclidinyl-benzilate.png" alt=""> -->
+			<h1>Special Thanks</h1>
+			<!-- <ul>
+				<li><b>Ken Murakami</b> -  for help with <i>きのこ帝国 - You outside my window</i> transcription.</li>
+				<li><b>Kengo Miyakoshi</b> -  for suffering through <i>Mew - Comforting Sounds</i> at least 100 times with me.</li>
+				<li>Everyone else I annoyed to help test this.</li>
+			</ul> -->
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
