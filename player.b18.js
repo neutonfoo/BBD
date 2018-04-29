@@ -236,6 +236,9 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 				$('hr').replaceWith('<br class="instrumentBreaks">');
 				$body.css('backgroundColor', 'rgb(0, 0, 0)');
 				$fireworksContainer.fireworks();
+
+				$visualizer.prepend('<center><h1 style="color:#FF00FF">Happy Birthday Brenda!</h1></center>')
+
 			}
 
 			var level = Tone.dbToGain(meters[trackId].getLevel());
