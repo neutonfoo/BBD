@@ -222,10 +222,6 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 				$trackVisualizer.css('display', 'block')
 			}
 
-			if(!fireWorks) {
-				$songName.css('color', 'rgb(0, 0, 0)')
-			}
-
 			if(Tone.Transport.seconds < 9.10) {
 				$songName.html('Test Song');
 			} else if(Tone.Transport.seconds > 9.10 && Tone.Transport.seconds < 40.2) {
