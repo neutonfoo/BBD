@@ -112,11 +112,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 		});
 	}
 
-	if(songMeta.artist == '') {
-		$songName.html(songMeta.name);
-	} else {
-		$songName.html(songMeta.artist + '&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;' + songMeta.name);
-	}
+	$songName.html('Test Song');
 
 	Tone.Transport.bpm.value = songJSON.bpm;
 	delay = Tone.context.lookAhead;
@@ -220,27 +216,32 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		inst.triggerAttackRelease(note[songMeta.oVars.noteName], note[songMeta.oVars.noteDuration], time, note[songMeta.oVars.noteVelocity]);
 
 		Tone.Draw.schedule(function() {
-
 			if(instsHidden[trackId] == true) {
 				instsHidden[trackId] = false;
 				var $trackVisualizer = $('#track' + trackId + 'v');
 				$trackVisualizer.css('display', 'block')
 			}
 
-			var level = Tone.dbToGain(meters[trackId].getLevel());
-			var hslMeta = getHueAndTextColor(level);
-			//
-			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
-			//
-			if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds [AT]') {
-				fireWorks = true;
+			if(Tone.Transport.seconds < 9.10) {
+				$songName.html('Test Song');
+			} else if(Tone.Transport.seconds > 9.10 && Tone.Transport.seconds < 40.2) {
+				$songName.html('Happy Birthday');
+			} else if(Tone.Transport.seconds >= 40.2) {
+				$songName.html('Mew&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;Comforting Sounds');
+			}
 
+			if(!fireWorks && trackId == 5) {
+				fireWorks = true;
+				$songName.css('color', 'rgb(255, 255, 255)')
 				$('hr').replaceWith('<br class="instrumentBreaks">');
 				$body.css('backgroundColor', 'rgb(0, 0, 0)');
 				$fireworksContainer.fireworks();
 			}
+
+			var level = Tone.dbToGain(meters[trackId].getLevel());
+			var hslMeta = getHueAndTextColor(level);
+			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
+			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
 
 		}, delay + time);
 

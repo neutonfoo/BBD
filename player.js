@@ -4,7 +4,6 @@ $(document).ready(function() {
 //==============================================================================
 	var startedPlaying = false;
 	var isPlaying = false;
-	var fireWorks = false;
 	var delay;
 
 	var $body = $('body');
@@ -18,8 +17,6 @@ $(document).ready(function() {
 	var $visualizer = $('#visualizer');
 	var $timelineSlider = $('#timelineSlider');
 	var $timelineText = $('#timelineText');
-
-	var $fireworksContainer = $('#fireworksContainer');
 
 //==============================================================================
 // Instruments and Meters
@@ -221,19 +218,9 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 		Tone.Draw.schedule(function() {
 			var level = Tone.dbToGain(meters[trackId].getLevel());
 			var hslMeta = getHueAndTextColor(level);
-			//
+
 			$(noteCSS).css('background-color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
-			// $(noteCSS).css('color', 'hsl(' + hslMeta.hue + ', 100%, 50%)');
 			$(noteCSS).css('opacity', 1).animate({'opacity' : 0}, note[songMeta.oVars.noteDuration] * 1000);
-			//
-			if(!fireWorks && trackId == 5 && songMeta.name == 'Comforting Sounds [AT]') {
-				fireWorks = true;
-
-				$('hr').replaceWith('<br class="instrumentBreaks">');
-				$body.css('backgroundColor', 'rgb(0, 0, 0)');
-				$fireworksContainer.fireworks();
-			}
-
 		}, delay + time);
 
 	}, trackNotes);
@@ -353,7 +340,6 @@ $visualizer.on('change', '.instSelector' , function() {
 			$('br.instrumentBreaks').replaceWith('<hr>');
 			$body.css('backgroundColor', 'rgb(255, 255, 255)');
 
-			$fireworksContainer.fireworks('destroy');
 			Tone.Transport.seconds = 0;
 		}
 
