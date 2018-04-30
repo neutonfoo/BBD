@@ -15,6 +15,20 @@
 //==============================================================================
 // iF - Piano
 //==============================================================================
+	masterInsts.voice = { name: 'Voice'};
+	masterInsts.voice.insts = []
+
+	// Piano / Grand Piano
+	var voiceKen = { instCode: 'voiceKen', name: 'Ken Murakami', default: true, volume: 0 }
+	voiceKen.notes = {
+		'C3' : 'C3.mp3',
+		'C4' : 'C4.mp3'
+	}
+	masterInsts.voice.insts.push(voiceKen)
+
+//==============================================================================
+// iF - Piano
+//==============================================================================
 	masterInsts.piano = { name: 'Piano'};
 	masterInsts.piano.insts = []
 
