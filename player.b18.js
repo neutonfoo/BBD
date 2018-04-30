@@ -32,6 +32,8 @@ $(document).ready(function() {
 
 	var instsHidden = [];
 
+	var songQ = 0;
+
 //==============================================================================
 // Tone Transport Settings
 //==============================================================================
@@ -77,6 +79,7 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	delete insts;
 	delete meters;
 	delete parts;
+	delete instsHidden;
 
 	// Reset if new file is loaded
 	songMeta = {}
@@ -84,6 +87,8 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 	insts = [];
 	meters = [];
 	parts = [];
+
+	instsHidden = []
 
 	// Will hold song JSON data
 	var songJSON = {};
@@ -112,7 +117,11 @@ function loadSong(JSONOrFileName, fromJSONTextarea = false) {
 		});
 	}
 
-	$songName.html('Test Song');
+	if(songQ == 0) {
+		$songName.html('Test Song');
+	} else if(songQ == 1) {
+		$songName.html('Your Favorite Meme Song');
+	}
 
 	Tone.Transport.bpm.value = songJSON.bpm;
 	delay = Tone.context.lookAhead;
@@ -222,22 +231,25 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 				$trackVisualizer.css('display', 'block')
 			}
 
-			if(Tone.Transport.seconds < 9.10) {
-				$songName.html('Test Song');
-			} else if(Tone.Transport.seconds > 9.10 && Tone.Transport.seconds < 40.2) {
-				$songName.html('Happy Birthday');
-			} else if(Tone.Transport.seconds >= 40.2) {
-				$songName.html('Mew&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;Comforting Sounds');
-			}
+			if(songQ == 0) {
+				if(Tone.Transport.seconds < 9.10) {
+					$songName.html('Test Song');
+				} else if(Tone.Transport.seconds > 9.10 && Tone.Transport.seconds < 40.2) {
+					$songName.html('Happy Birthday');
+				} else if(Tone.Transport.seconds >= 40.2) {
+					$songName.html('Mew&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;Comforting Sounds');
+				}
 
-			if(!fireWorks && trackId == 5) {
-				fireWorks = true;
-				$songName.css('color', 'rgb(255, 255, 255)')
-				$('hr').replaceWith('<br class="instrumentBreaks">');
-				$body.css('backgroundColor', 'rgb(0, 0, 0)');
-				$fireworksContainer.fireworks();
+				if(!fireWorks && trackId == 5) {
+					fireWorks = true;
+					$songName.css('color', 'rgb(255, 255, 255)')
+					$('hr').replaceWith('<br class="instrumentBreaks">');
+					$body.css('backgroundColor', 'rgb(0, 0, 0)');
+					$fireworksContainer.fireworks();
 
-				$visualizer.prepend('<center><h1 style="color:#FF00FF">Happy Birthday Brenda!</h1></center>')
+					$visualizer.prepend('<center><h1 style="color:#FF00FF">🍰 Happy Birthday Brenda! 🍰</h1></center>')
+				}
+			} else if(songQ == 1) {
 
 			}
 
@@ -374,11 +386,18 @@ $visualizer.on('change', '.instSelector' , function() {
 		var percent = 100 * Tone.Transport.seconds / songMeta.duration;
 
 		if(percent >= 100) {
-			$('br.instrumentBreaks').replaceWith('<hr>');
-			$body.css('backgroundColor', 'rgb(255, 255, 255)');
+			if(songQ == 0) {
+				songQ++;
+				loadSong('ShootingStars');
 
-			$fireworksContainer.fireworks('destroy');
-			Tone.Transport.seconds = 0;
+				resume();
+			} else if(songQ == 1) {
+				percent = 100;
+				$('br.instrumentBreaks').replaceWith('<hr>');
+
+				Tone.Transport.seconds = 0;
+				pause();
+			}
 		}
 
 		$timelineSlider.val(percent);
