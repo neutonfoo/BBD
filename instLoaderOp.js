@@ -19,7 +19,7 @@
 	masterInsts.voice.insts = []
 
 	// Piano / Grand Piano
-	var voiceKen = { instCode: 'voiceKen', name: 'Ken Murakami', default: true, volume: 0 }
+	var voiceKen = { instCode: 'voiceKen', name: 'Ken Murakami', default: true, volume: -10 }
 	voiceKen.notes = {
 		'C3' : 'C3.mp3',
 		'C4' : 'C4.mp3'
