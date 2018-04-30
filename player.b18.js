@@ -236,7 +236,7 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 					$songName.html('Test Song');
 				} else if(Tone.Transport.seconds > 9.10 && Tone.Transport.seconds < 40.2) {
 					$songName.html('Happy Birthday');
-				} else if(Tone.Transport.seconds >= 40.2) {
+				} else if(Tone.Transport.seconds >= 54) {
 					$songName.html('Mew&nbsp;<span id="songBy">&nbsp;:&nbsp;</span>&nbsp;Comforting Sounds');
 				}
 
