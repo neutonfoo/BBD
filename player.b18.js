@@ -249,8 +249,6 @@ function assignNotesToInst(trackId, inst, trackNotes) {
 
 					$visualizer.prepend('<center><h1 style="color:#FF00FF">🍰 Happy Birthday Brenda! 🍰</h1></center>')
 				}
-			} else if(songQ == 1) {
-
 			}
 
 			var level = Tone.dbToGain(meters[trackId].getLevel());
@@ -390,6 +388,7 @@ $visualizer.on('change', '.instSelector' , function() {
 				songQ++;
 				loadSong('ShootingStars');
 
+				$visualizer.prepend('<center><h1 style="color:#FF00FF">🍰 Happy Birthday Brenda! 🍰</h1></center>')
 				resume();
 			} else if(songQ == 1) {
 				percent = 100;
