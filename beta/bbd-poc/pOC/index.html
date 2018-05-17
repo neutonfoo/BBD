@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript" src="../jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../Tone.min.js"></script>
+</head>
+<body>
+	<input type="button" id="tonePlay" value="Play">
+	<script type="text/javascript">
+	// https://codepen.io/gregh/post/recreating-legendary-8-bit-games-music-with-web-audio-api
+
+		$(document).ready(function() {
+
+			var started = false;
+			var delay = '8n'
+
+			var leadInst = new Tone.Synth().toMaster();
+			var backingInst = new Tone.Synth().toMaster();
+
+			var music = {};
+			music.tracks = {};
+
+			var tracksJson = {};
+
+			$.ajax({
+			  dataType: 'json',
+			  url: 'comfortingsounds1.json',
+				async: false,
+				success: function(data) {
+					music.tracks.lead = []
+					tracksJson.lead = data
+				}
+			});
+
+			$.ajax({
+			  dataType: 'json',
+			  url: 'comfortingsounds2.json',
+				async: false,
+				success: function(data) {
+					music.tracks.backing = []
+					tracksJson.backing = data
+				}
+			});
+
+			// Format Main Track
+			$.each(tracksJson.lead.notes, function(i, note) {
+				var noteTime = delay;
+				if(i != 0) {
+					noteTime = music.tracks.lead[i - 1].time + '+' + music.tracks.lead[i - 1].duration;
+				}
+				music.tracks.lead.push(
+					{ 'note': note.note,
+						'duration': note.duration,
+						'time': noteTime,
+						'velocity': 0.5
+					}
+				)
+			});
+
+			// Format Main2 Track
+			$.each(tracksJson.backing.notes, function(i, note) {
+				var noteTime = delay;
+				if(i != 0) {
+					noteTime = music.tracks.backing[i - 1].time + '+' + music.tracks.backing[i - 1].duration;
+				}
+				music.tracks.backing.push(
+					{ 'note': note.note,
+						'duration': note.duration,
+						'time': noteTime,
+						'velocity': 0.3
+					}
+				)
+			});
+
+			var leadTrack = new Tone.Part(function(time, note) {
+				leadInst.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+			}, music.tracks.lead);
+
+			var backingTrack = new Tone.Part(function(time, note) {
+				backingInst.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+			}, music.tracks.backing);
+
+			leadTrack.start(0)
+			backingTrack.start(0)
+
+			Tone.Transport.bpm.value = 80;
+
+			Tone.Transport.start();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	background-color:#87CEFA;
+}
+
+#mainContainer {
+	border:1px solid #000;
+}
+
+#footerContainer {
+	padding:5px;
+	position: absolute;
+	bottom: 0;
+	height: 50px;
+	line-height: 50px;
+}
+
+#toggleButton {
+	background-color: #FFF;
+	width: 50px;
+	vertical-align: middle;
+	text-align: center;
+	display: inline-block;
+}
+
+#timeline {
+	background-color: #FFF;
+	width:350px;
+	vertical-align: middle;
+	text-align: center;
+	display: inline-block;
+}
+
+#myRange {
+	width:300px;
+}
+
+.singleIcon {
+	background-color: #FFF;
+	width:50px;
+	vertical-align: middle;
+	text-align: center;
+	display: inline-block;
+}
+
+/* Lean Overlay */
+
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}
+
+.modal {
+	padding:10px;
+	width:300px;
+	display: none;
+	background-color:#FFF;
+}
+
+.modalBody {
+	padding:20px;
+}

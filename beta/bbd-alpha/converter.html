@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="octicons.css">
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/Tone.min.js"></script>
+	<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+	<script type="text/javascript" src="modal.js"></script>
+	<script type="text/javascript" src="converter.js"></script>
+</head>
+<body>
+	<div id="mainContainer">
+
+	</div>
+	<div id="footerContainer">
+		<a href="#"><span id="playToggle" class="singleIcon"><img src="octicons/unmute.svg" class="octicon"></span></a>
+		<span id="timeline">
+			<div class="slidecontainer">
+			  <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
+			</div>
+		</span>
+		<a href="converter.html"><span id="converter" class="singleIcon"><img src="octicons/sync.svg" class="octicon"></span></a>
+		<a id="aboutListener" href="#aboutModal"><span id="about" class="singleIcon"><img src="octicons/note.svg" class="octicon"></span></a>
+		<a id="thanksListener" href="#thanksModal"><span id="thanks" class="singleIcon"><img src="octicons/heart.svg" class="octicon"></span></a>
+		<a href="#"><span id="github" class="singleIcon"><img src="octicons/octoface.svg" class="octicon"></span></a>
+	</div>
+	<div id="aboutModal" class="modal">
+		<h1>To do</h1>
+		<div class="modalBody">
+			<ul>
+				<li>Powered by <a href="https://tonejs.github.io/">tonejs</a>.</li>
+			</ul>
+			<ul>
+				<li>Support infinite tracks</li>
+				<li>Write midi to json to tonejs array converter</li>
+				<li>Timeline lol (if using time based json, will be easier, look at last time + duration for final)</li>
+				<li>Fix loadJsonIntoInst (NoiseSynth / percussionInst has no note)</li>
+				<li>Come up with a better visualizer</li>
+			</ul>
+		</div>
+	</div>
+	<div id="thanksModal" class="modal">
+		<h1>For</h1>
+		<div class="modalBody">
+			<img src="3-quinuclidinyl-benzilate.png" alt="">
+		</div>
+		<h1>Special Thanks</h1>
+		<div class="modalBody">
+			<img src="3-quinuclidinyl-benzilate.png" alt="">
+		</div>
+	</div>
+</body>
+</html>

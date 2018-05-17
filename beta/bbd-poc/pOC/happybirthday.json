@@ -1,0 +1,32 @@
+{
+	"notes": [
+		{ "note": "D4", "duration": "8n" },
+		{ "note": "D4", "duration": "8n" },
+		{ "note": "E4", "duration": "4n" },
+		{ "note": "D4", "duration": "4n" },
+		{ "note": "G4", "duration": "4n" },
+		{ "note": "F#4", "duration": "2n" },
+
+		{ "note": "D4", "duration": "8n" },
+		{ "note": "D4", "duration": "8n" },
+		{ "note": "E4", "duration": "4n" },
+		{ "note": "D4", "duration": "4n" },
+		{ "note": "A4", "duration": "4n" },
+		{ "note": "G4", "duration": "2n" },
+
+		{ "note": "D4", "duration": "8n" },
+		{ "note": "D4", "duration": "8n" },
+		{ "note": "D5", "duration": "4n" },
+		{ "note": "B4", "duration": "4n" },
+		{ "note": "G4", "duration": "4n" },
+		{ "note": "F#4", "duration": "4n" },
+		{ "note": "E4", "duration": "4n" },
+
+		{ "note": "C5", "duration": "8n" },
+		{ "note": "C5", "duration": "8n" },
+		{ "note": "B4", "duration": "4n" },
+		{ "note": "G4", "duration": "4n" },
+		{ "note": "A4", "duration": "4n" },
+		{ "note": "G4", "duration": "2n" },
+	]
+}

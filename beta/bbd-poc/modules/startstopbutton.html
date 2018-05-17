@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script type="text/javascript" src="../Tone.min.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+
+		time = "4n";
+
+    var synth = new Tone.Synth();
+		synth.toMaster();
+
+		synth.triggerAttackRelease('B1', '8n + 16n')
+		synth.triggerAttackRelease('B2', '16n', '8n + 16n')
+		synth.triggerAttackRelease('B1', '8n + 16n', '4n')
+		synth.triggerAttackRelease('B2', '16n', '4n + 8n + 16n')
+
+		synth.triggerAttackRelease('C2', '8n + 16n', '2n')
+		synth.triggerAttackRelease('C3', '16n', '2n + 8n + 16n')
+		synth.triggerAttackRelease('C2', '8n + 16n', '2n + 4n')
+		synth.triggerAttackRelease('C3', '16n', '2n + 4n + 8n + 16n')
+
+		synth.triggerAttackRelease('B1', '8n + 16n', '1m')
+		synth.triggerAttackRelease('B2', '16n', '1m + 8n + 16n')
+		synth.triggerAttackRelease('B1', '8n + 16n', '1m + 4n')
+		synth.triggerAttackRelease('B2', '16n', '1m + 4n + 8n + 16n')
+
+		synth.triggerAttackRelease('F#2', '8n', '1m + 2n')
+		synth.triggerAttackRelease('G#2', '8n', '1m + 2n + 8n')
+		synth.triggerAttackRelease('A#2', '8n', '1m + 2n + 4n')
+		synth.triggerAttackRelease('B2', '8n', '1m + 2n + 4n + 8n')
+
+  </script>
+</body>
+</html>

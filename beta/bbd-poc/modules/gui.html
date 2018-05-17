@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript" src="../jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../Tone.min.js"></script>
+	<style media="screen">
+		* {
+			margin:0px;
+			padding:0px;
+		}
+
+		body {
+			/* background-color: #551A8B; */
+			background-color: #000080;
+		}
+
+		.footer {
+			padding:5px;
+			position: absolute;
+			bottom: 0;
+			height: 50px;
+			line-height: 50px;
+		}
+
+		.toggleButton {
+			background-color: #FFF;
+			width: 50px;
+			vertical-align: middle;
+			text-align: center;
+			display: inline-block;
+		}
+
+		.timeline {
+			background-color: #FFF;
+			width:350px;
+			vertical-align: middle;
+			text-align: center;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<div class="footer">
+		<span class="toggleButton">&#x25b6;</span>
+		<span class="timeline">Timeline</span>
+
+	</div>
+	<script type="text/javascript">
+	// https://codepen.io/gregh/post/recreating-legendary-8-bit-games-music-with-web-audio-api
+
+		$(document).ready(function() {
+			var startedPlaying = false;
+			var isPlaying = false;
+
+			$('.toggleButton').on('click', function() {
+				if(!isPlaying) {
+					isPlaying = true;
+					$(this).html('&#10073;&#10073;')
+					play()
+				} else {
+					isPlaying = false
+					$(this).html('&#x25b6;')
+					pause();
+				}
+			})
+
+			function play() {
+				if(!startedPlaying) {
+					startedPlaying = true;
+					var leadInst = new Tone.Synth().toMaster();
+
+					var part = new Tone.Part(function(time, note) {
+						leadInst.triggerAttackRelease(note.note, note.duration, time, 1);
+					}, [
+						{ 'note': 'D4', 'duration': '8n', 'time': '8n' },
+						{ 'note': 'D4', 'duration': '8n', 'time': '8n + 8n' },
+						{ 'note': 'E4', 'duration': '4n', 'time': '8n + 8n + 8n' },
+						{ 'note': 'D4', 'duration': '4n', 'time': '8n + 8n + 8n + 4n' },
+						{ 'note': 'G4', 'duration': '4n', 'time': '8n + 8n + 8n + 4n + 4n' },
+						{ 'note': 'F#4', 'duration':  '2n', 'time': '8n + 8n + 8n + 4n + 4n + 4n' }
+					]);
+					part.start(0);
+					Tone.Transport.start('+0.1', 0);
+				} else {
+					Tone.Transport.start();
+				}
+			}
+
+			function pause() {
+				Tone.Transport.pause();
+			}
+		});
+	</script>
+</body>
+</html>
