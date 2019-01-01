@@ -525,7 +525,6 @@
 						console.log('Loading ' + instMeta.name + ' samples');
 					}
 				});
-
 			});
 		});
 
