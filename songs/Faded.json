@@ -14392,7 +14392,7 @@
 			]
 		},
 		{
-			"instrumentFamily": "bass1",
+			"instrumentFamily": "bass",
 			"notes": [
 				{
 					"name": "D#3",
@@ -14781,7 +14781,7 @@
 			]
 		},
 		{
-			"instrumentFamily": "bass1",
+			"instrumentFamily": "bass",
 			"notes": [
 				{
 					"name": "F#4",
@@ -15391,7 +15391,7 @@
 			]
 		},
 		{
-			"instrumentFamily": "bass1",
+			"instrumentFamily": "bass",
 			"notes": [
 				{
 					"name": "D#2",
