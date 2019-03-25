@@ -47,6 +47,12 @@ songList.push({
 	'jsonFilename': 'ToriNoUta'
 });
 
+songList.push({
+	'name': 'Faded',
+	'artist': 'Alan Walker',
+	'jsonFilename': 'Faded'
+});
+
 songList.sort(function SortByName(a, b){
   var aName = a.artist.toLowerCase();
   var bName = b.artist.toLowerCase();
